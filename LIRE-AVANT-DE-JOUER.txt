@@ -1,0 +1,64 @@
+ESTRAN
+Les Veilleurs du Large
+
+Lancer le jeu
+Extrais l’archive dans un dossier de ton choix et double-clique sur ESTRAN.exe.
+Le jeu fonctionne hors ligne sur Windows 64 bits. Il contient son moteur.
+Choisis « Prendre le quart ». « Reprendre le quart » rouvre ta sauvegarde.
+
+Premier quart
+Ramasse un tas de bois flotté et quelques silex autour du sentier.
+Ouvre le chantier avec B. Choisis le feu, cherche un emplacement vert et pose-le
+avec E. Le feu te réchauffe et te donne la braise nécessaire au phare.
+
+Ouvre la carte avec M. Clique sur une destination pour la suivre à la boussole.
+À marée basse, cherche les bancs de sable. En eau profonde, surveille ton souffle.
+Pour réparer le phare, rapporte trois pièces. Chaque site a son propre mécanisme.
+La carte indique les matériaux utiles pour chacune des réparations.
+
+Commandes
+ZQSD, WASD ou flèches     Marcher ou barrer la yole
+Maj                       Courir
+Clic droit maintenu       Regarder autour de soi
+Molette                   Rapprocher ou éloigner la caméra
+J et L                    Pivoter la caméra au clavier
+C                         Recentrer la caméra
+E                         Récolter, embarquer, débarquer ou utiliser
+Espace                    Faire sonner la cloche
+R                         Manger une ration
+B                         Ouvrir les plans de construction
+1 à 9                     Sélectionner un plan directement
+E ou clic gauche          Construire à portée
+R avec un plan en main    Faire pivoter la pièce
+X                         Démonter une construction et récupérer ses matériaux
+M ou Tab                  Consulter la carte et le journal
+H                         Relire le carnet des commandes
+Échap                     Ranger le plan, revenir ou mettre en pause
+F2                        Masquer ou afficher l’interface pour filmer
+F11                       Basculer entre fenêtre et plein écran
+
+Construire une cabane
+Dans le chantier, ouvre « Cabane modulaire ». Le plancher s’aligne sur une grille.
+Vise un plancher avec un mur ou un encadrement. R sélectionne le bord à équiper.
+Un toit rend la travée habitable. Une ration suffit pour y dormir jusqu’à l’aube.
+Pour démonter un plancher, retire d’abord les pièces qui s’y appuient.
+
+Vivre sur l’archipel
+Le casier se remplit sous l’eau. Relève-le pour récupérer trois rations.
+La yole se place à la lisière de l’eau. À bord, avance pour prendre de la vitesse,
+vire à gauche ou à droite, puis freine avec la touche de recul.
+Les boîtes des anciens veilleurs, marquées d’un losange sur la carte,
+renferment trois améliorations facultatives.
+
+Sauvegarde et projet
+La partie se sauvegarde automatiquement et à la fermeture du jeu.
+Le dossier de sauvegarde est %APPDATA%\Estran_Keravel.
+Après le sauvetage, tu peux continuer à vivre et construire sur les îles.
+
+Le dossier Projet-Godot contient le projet modifiable et ses ressources.
+Ouvre project.godot dans Godot 4.7.2 pour l’éditer.
+Décors, modèles, musique et bruitages ont été créés pour ESTRAN.
+Les notices du moteur sont incluses dans Licences-moteur.txt.
+
+Extension Trois-Vannes
+Au sud-est, au-delà de l’île de la Veuve, lis le registre à l’entrée ouest du marais avec E. Les trois points rouges de la carte indiquent les vannes.
