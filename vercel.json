@@ -2,6 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "installCommand": "",
-  "buildCommand": "bash build-web.sh",
+  "buildCommand": "NIN_VERIFY=world bash build-web.sh",
   "outputDirectory": "dist"
 }

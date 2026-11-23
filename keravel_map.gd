@@ -28,7 +28,7 @@ const POINTS={
 	"tv-port":Vector2(39,221), "tv-chantier":Vector2(66,220),
 	"tv-moulin":Vector2(95,220), "tv-manoir":Vector2(96,150),
 	"ea-plage-naufrages":Vector2(-193,61), "ea-sentier-embruns":Vector2(-215,75),
-	"ea-camp-base":Vector2(-239,58), "ea-embouchure":Vector2(-216,40),
+	"ea-camp-base":Vector2(-239,58), "ea-embouchure":Vector2(-218,46),
 	"ea-gue-lavandieres":Vector2(-258,28), "ea-pont-de-corde":Vector2(-299,15),
 	"ea-cascade-voile":Vector2(-341,7), "ea-grotte-voile":Vector2(-348,14),
 	"ea-lac-miroir":Vector2(-378,-1), "ea-foret-coat-du":Vector2(-252,58),
@@ -45,6 +45,10 @@ const POINTS={
 const COAST=[Vector2(8,40),Vector2(9,62),Vector2(14,91),Vector2(23,112),Vector2(30,130),START]
 const RIVER=[Vector2(-378,-1),Vector2(-357,3),Vector2(-341,7),Vector2(-318,10),
 	Vector2(-299,15),Vector2(-277,16),Vector2(-258,28),Vector2(-234,33),Vector2(-216,40),Vector2(-195,45)]
+const OUTER_COAST_ROUTES=[
+	[Vector2(-193,61),Vector2(-202,68),Vector2(-215,75),Vector2(-226,68),Vector2(-239,58)],
+	[Vector2(-239,58),Vector2(-229,51),Vector2(-218,46)],
+]
 const WATER_LEVELS=[16.5,15.8,7.4,6.8,6.2,5.3,4.2,3.2,1.8,.68]
 const STONE=Color("#a7a299")
 const COBBLE=Color("#9e9783")
@@ -106,8 +110,11 @@ func coastal_height(p:Vector2)->float:
 	var d=line_distance(p,COAST)
 	return 3.5-pow(d/5.4,2)*1.4
 
-func river_info(p:Vector2)->Vector2:
-	var result=Vector2(INF,0)
+func river_width_at(segment:float)->float:
+	return lerpf(12.,4.65,clampf(segment*.55,0.,1.))
+
+func river_info(p:Vector2)->Vector3:
+	var result=Vector3(INF,0,0)
 	for i in range(RIVER.size()-1):
 		var a:Vector2=RIVER[i]
 		var b:Vector2=RIVER[i+1]
@@ -115,9 +122,10 @@ func river_info(p:Vector2)->Vector2:
 		var d=p.distance_squared_to(close)
 		if d<result.x:
 			var t=a.distance_to(close)/a.distance_to(b)
+			var width=river_width_at(i+t)
 			if i==1: t=smoothstep(.84,.99,t)
-			result=Vector2(d,lerpf(WATER_LEVELS[i],WATER_LEVELS[i+1],t))
-	return Vector2(sqrt(result.x),result.y)
+			result=Vector3(d,lerpf(WATER_LEVELS[i],WATER_LEVELS[i+1],t),width)
+	return Vector3(sqrt(result.x),result.y,result.z)
 
 func height(p:Vector2)->float:
 	var top=town_height(p) if TOWN.has_point(p) else -8.
@@ -149,10 +157,15 @@ func island_height(p:Vector2)->float:
 	if p.x> -222 and p.y>25: top=lerpf(top,2.55,smoothstep(-222.,-190.,p.x))
 	if p.distance_to(POINTS["ea-marais-stank"])<26: top=lerpf(top,3.1+n*.66,1.-smoothstep(16.,27.,p.distance_to(POINTS["ea-marais-stank"])))
 	var r=river_info(p)
-	var river_width=12. if p.x< -367 else 5.1
+	var river_width=r.z
 	var at_ford=p.distance_to(POINTS["ea-gue-lavandieres"])<7.
 	var bed=r.y-(.29 if at_ford else 1.35)
 	top=lerpf(bed,top,smoothstep(river_width*.68,river_width+7.,r.x))
+	if p.x> -245. and p.y>40.:
+		for route in OUTER_COAST_ROUTES:
+			var verge=1.-smoothstep(2.3,7.,line_distance(p,route))
+			var bank=smoothstep(river_width,river_width+1.4,r.x)
+			top=lerpf(top,maxf(top,3.35),verge*bank)
 	return top
 
 func tint(p:Vector2,h:float)->Color:
@@ -366,6 +379,8 @@ func build_town():
 
 func build_island():
 	var m=Ink.new()
+	for route in OUTER_COAST_ROUTES:
+		for i in range(route.size()-1): road(m,route[i],route[i+1],2.5,Color("#a89270"))
 	for pair in paths:
 		if pair[0].distance_to(pair[1])<74 and line_distance(pair[0].lerp(pair[1],.5),RIVER)>6:
 			road(m,pair[0],pair[1],2.3,Color("#a38e73"))
@@ -382,19 +397,21 @@ func build_island():
 			if i==1: t=smoothstep(.84,.99,t);u=smoothstep(.84,.99,u)
 			var y=lerpf(WATER_LEVELS[i],WATER_LEVELS[i+1],t)
 			var yy=lerpf(WATER_LEVELS[i],WATER_LEVELS[i+1],u)
-			var width=lerpf(12.,4.65,clampf((i+j/12.)*.55,0,1))
+			var width=river_width_at(i+j/12.)
+			var next_width=river_width_at(i+(j+1)/12.)
 			var v=Vector3(p.x,y,p.y)
 			var w=Vector3(q.x,yy,q.y)
 			var o=Vector3(side.x,0,side.y)*width
-			water.quad(v-o,v+o,w+o,w-o,Color("#467f72"),Vector3.UP)
+			var end_offset=Vector3(side.x,0,side.y)*next_width
+			water.quad(v-o,v+o,w+end_offset,w-end_offset,Color("#467f72"),Vector3.UP)
 			if j%3==0: water.rod(v+Vector3.UP*.06,w+Vector3.UP*.06,.082,.027,Color("#b6d6bc"),4)
 	var river_material=ShaderMaterial.new()
 	river_material.shader=preload("res://ster_glas.gdshader")
 	outer.add_child(water.node(river_material))
 	var bridge:Vector2=POINTS["ea-pont-de-corde"]
 	for i in 18:
-		var z=bridge.y-9.+i
-		m.box(Vector3(bridge.x,7.05,z),Vector3(3.2,.21,.96),Art.LWOOD)
+		var z=bridge.y-8.5+i
+		m.box(Vector3(bridge.x,7.05,z),Vector3(3.2,.21,1.),Art.LWOOD)
 		for dx in [-1.52,1.52]:
 			m.rod(Vector3(bridge.x+dx,8.1,z-.5),Vector3(bridge.x+dx,8.1,z+.5),.06,.06,Art.WOOD,4)
 			if i%4==0: m.box(Vector3(bridge.x+dx,7.57,z),Vector3(.13,1.12,.13),Art.WOOD)
@@ -459,7 +476,7 @@ func build_island():
 func deck_height(p:Vector2,ground:float)->float:
 	var river_point=world_to_outer(p)
 	var bridge:Vector2=POINTS["ea-pont-de-corde"]
-	if absf(river_point.x-bridge.x)<1.62 and absf(river_point.y-bridge.y)<9.1: return maxf(ground,7.16)
+	if absf(river_point.x-bridge.x)<=1.6 and absf(river_point.y-bridge.y)<=9.: return maxf(ground,7.155)
 	var ford:Vector2=POINTS["ea-gue-lavandieres"]
 	if absf(river_point.x-ford.x)<1.7 and absf(river_point.y-ford.y)<6.5: return maxf(ground,4.26)
 	if p.y>=216. and p.y<232.8:
@@ -471,8 +488,7 @@ func water_at(p:Vector2,sea_level:float)->float:
 	var local=world_to_outer(p)
 	if not ISLAND_SOURCE.has_point(local): return sea_level
 	var river=river_info(local)
-	var width=12. if local.x< -367 else 5.1
-	return maxf(sea_level,river.y) if river.x<width else sea_level
+	return maxf(sea_level,river.y) if river.x<river.z else sea_level
 
 func chapter_for(id:String)->Dictionary:
 	for chapter in chapters:

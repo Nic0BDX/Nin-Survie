@@ -23,9 +23,11 @@ Aventure de survie en français dans un archipel breton fantastique. Le joueur p
 ## Prochaines étapes
 
 1. P1 — Relier les étapes suivantes du récit aux dialogues et événements du monde.
-2. P2 — Construire et contrôler les intérieurs de l’auberge, de la forge et de la chapelle.
+2. P2 — Construire les intérieurs de l’auberge et de la forge. Contrôler visuellement la nef et les Caves aux Fresques.
 3. P2 — Donner plus de personnalité aux quartiers, placer des habitants et varier les parcours.
 4. P1 — Intégrer le combat d’Aerouant et les trois fins jouables.
 5. P4 — Établir des références de temps de chargement, rendu et mémoire sur plusieurs profils.
 
 La file active, les dossiers attribués et leurs critères de contrôle sont dans `studio/tasks.json`.
+
+La progression de Sainte-Azenor est sauvegardée avec la pièce active. Le sentier de débarquement et le point de vue de l’embouchure rejoignent le réseau terrestre à marée haute.

@@ -9,6 +9,7 @@ Un jeu 3D d’aventure et de survie dans un archipel breton fantastique. La rel�
 - Départ à **Trois-Vannes**. Le registre de la place de la Cloche ouvre le prologue, du port jusqu’au premier quart au phare.
 - Survie avec Vie, Chaleur, Faim, récolte, construction, marées et cycle jour/nuit. Exploration à pied et en bateau.
 - Atlas illustré de 53 repères et vue du relief. La Stêr-Glas relie le lac, la cascade, le pont de corde et le gué.
+- La chapelle Sainte-Azenor et les Caves aux Fresques sont visitables. Leur quête relie Trois-Vannes au départ pour Enez-Aerouant.
 - Bâtiments procéduraux avec pans de bois, toits, tours, arches de pierre et façades civiques.
 - Commandes clavier et souris, commandes tactiles en paysage et sauvegarde automatique.
 
@@ -49,8 +50,12 @@ npm run validate
 
 ## Avancement
 
-Le prologue couvre l’ordre de relève, la traversée, la cloche, les récoltes, la première nuit près du feu et le journal d’Erwan. L’expédition guide ensuite le joueur jusqu’au Kalon-Glas. Les 30 chapitres et les trois fins sont présents dans les données du récit. Les intérieurs, les dialogues et objectifs des chapitres suivants, les combats avancés et les trois fins jouables restent en développement.
+Le prologue couvre l’ordre de relève, la traversée, la cloche, les récoltes, la première nuit près du feu et le journal d’Erwan. L’expédition guide ensuite le joueur jusqu’au Kalon-Glas. Les 30 chapitres et les trois fins sont présents dans les données du récit. Les autres intérieurs, les dialogues et objectifs des chapitres suivants, les combats avancés et les trois fins jouables restent en développement.
 
-Le contrôle Godot a exécuté 66 vérifications sans échec. La préproduction a aussi produit deux captures WebGL. [Trois-Vannes](https://nin-survie-qcsemqkq7-nrx5.vercel.app/studio-trois-vannes.jpg) · [Atlas](https://nin-survie-qcsemqkq7-nrx5.vercel.app/studio-atlas.jpg)
+Le build Vercel lance les tests Godot du prologue, des chemins de Keravel et de la progression dans la chapelle avant chaque publication. La préproduction a aussi produit deux captures WebGL. [Trois-Vannes](https://nin-survie-qcsemqkq7-nrx5.vercel.app/studio-trois-vannes.jpg) · [Atlas](https://nin-survie-qcsemqkq7-nrx5.vercel.app/studio-atlas.jpg)
 
 [Guide du studio autonome](AUTONOMOUS_SYSTEM.md) · [Mémoire du projet](PROJECT_MEMORY.md)
+
+## Publication
+
+Vercel suit la branche `main` du dépôt GitHub. La production est disponible sur [Nin Survie](https://nin-survie.vercel.app).

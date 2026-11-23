@@ -8,6 +8,7 @@ const Ink=preload("res://meshwork.gd")
 const Art=preload("res://art.gd")
 const KeravelMap=preload("res://keravel_map.gd")
 const StoryOpening=preload("res://keravel_prologue.gd")
+const Chapel=preload("res://keravel_chapel.gd")
 const EXPEDITION=[
 	"ea-sentier-embruns","ea-camp-base","ea-embouchure","ea-gue-lavandieres",
 	"ea-pont-de-corde","ea-cascade-voile","ea-grotte-voile","ea-lac-miroir",
@@ -103,6 +104,7 @@ var campaign_phase=-1
 var expedition_index=0
 var campaign_track=""
 var opening=StoryOpening.new()
+var chapel=Chapel.new()
 var qa_save_path=""
 var save_timer_msg=0.
 var compass_targets=[]
@@ -127,6 +129,7 @@ var marsh=preload("res://marais.gd").new()
 
 func _ready():
 	opening.game=self
+	chapel.game=self
 	touch_mode=DisplayServer.is_touchscreen_available()
 	if OS.has_feature("web"):
 		touch_mode=touch_mode or bool(JavaScriptBridge.eval("matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0"))
@@ -209,6 +212,7 @@ func notify(message:String,d:float=2.8):
 	toast_time=d
 
 func new_run():
+	chapel.reset()
 	marsh.reset({})
 	sailing={}
 	sail_speed=0.
@@ -274,6 +278,7 @@ func begin_or_confirm():
 
 func go_menu():
 	if state not in ["menu","confirm_new"]: save_run()
+	chapel.close_visual()
 	state="menu"
 	actor.visible=false
 	camp.cancel()
@@ -337,6 +342,7 @@ func save_run():
 	data["marais"]=marsh.pack()
 	data["campaign"]=[campaign_phase,expedition_index,campaign_track]
 	data["opening"]=opening.pack()
+	data["chapel"]=chapel.pack()
 	data["map_revision"]=2
 	var path=get_save_path()
 	var f=FileAccess.open(path+".tmp",FileAccess.WRITE)
@@ -362,6 +368,7 @@ func save_run():
 func resume_run():
 	var d=read_saved()
 	if d.is_empty(): new_run(); return
+	chapel.reset()
 	camp.clear_world(); clear_foes()
 	age=float(d.age)
 	var map_revision=int(d.get("map_revision",1))
@@ -394,6 +401,7 @@ func resume_run():
 		r.node.visible=r.ready<=age and not r.covered
 	was_new=false
 	start_play()
+	if hp>0: chapel.restore(d.get("chapel",{}))
 	if hp<=0: state="dead"
 	else: notify("Journal ouvert • quart repris.")
 
@@ -401,6 +409,7 @@ func restore_map_point(p:Vector2,revision:int)->Vector2:
 	return KeravelMap.outer_to_world(p) if revision<2 and KeravelMap.ISLAND_SOURCE.has_point(p) else p
 
 func respawn():
+	chapel.close_visual()
 	sailing={};sail_speed=0.
 	xy=home
 	if world.ground(xy)<2.25: xy=World.SPAWN
@@ -470,6 +479,7 @@ func set_actor_height(snap:bool=false,dt:float=.016):
 	actor.position=Vector3(xy.x,target if snap else lerpf(actor.position.y,target,1-exp(-dt*16.0)),xy.y)
 
 func open_panel(s:String):
+	if chapel.room!="" and s in ["craft","remove"]: return
 	reset_touch()
 	mouselook=false
 	Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
@@ -584,6 +594,13 @@ func _input(event):
 				command("make_"+Camp.KINDS[event.physical_keycode-KEY_1]); return
 		if state!="play":
 			hud.key_nav(k)
+			return
+		if chapel.room!="":
+			match k:
+				KEY_E: interact()
+				KEY_R: eat()
+				KEY_M,KEY_TAB: open_panel("map")
+				KEY_C: yaw=actor.facing
 			return
 		if k in [KEY_M,KEY_TAB]: open_panel("map"); return
 		if k==KEY_B and sailing.is_empty(): open_panel("craft"); return
@@ -725,9 +742,16 @@ func move_player(dt:float):
 func find_nearest():
 	var best=INF
 	nearest={}
+	if chapel.room!="":
+		nearest=chapel.action()
+		return
 	if camp.kind!="": return
 	if not sailing.is_empty():
 		nearest={"kind":"disembark","at":xy,"label":"Quitter la yole"}
+		return
+	var chapel_door:Vector2=world.campaign.points["tv-chapelle"]
+	if xy.distance_to(chapel_door)<3.25:
+		nearest={"kind":"chapel","label":"Entrer dans la chapelle","at":chapel_door}
 		return
 	var story_target=campaign_action()
 	if not story_target.is_empty():
@@ -772,6 +796,10 @@ func interact():
 	if nearest.is_empty(): return
 	gather_cd=.39
 	match nearest.kind:
+		"chapel":
+			chapel.enter("chapel",Chapel.Nave.ENTRY)
+			save_run()
+		"interior": chapel.interact(nearest.id)
 		"campaign": advance_campaign(nearest.id)
 		"marsh": marsh.use(nearest.index)
 		"disembark": disembark()
@@ -878,7 +906,7 @@ func campaign_destination()->String:
 				if not pieces[i]: return ["le-courlis","corne-de-brume","ateliers-salines"][i]
 			return "phare-keravel" if has_ember else "prairie-phare"
 		2: return "tv-place-cloche"
-		3: return "tv-port"
+		3: return "tv-chapelle" if chapel.progress<3 else "tv-port"
 		4:
 			if expedition_index<EXPEDITION.size(): return EXPEDITION[expedition_index]
 		5: return "phare-keravel"
@@ -887,7 +915,7 @@ func campaign_destination()->String:
 func campaign_action()->Dictionary:
 	if campaign_phase in [0,1] and opening.step<StoryOpening.COMPLETE: return opening.action()
 	var id=campaign_destination()
-	if id=="" or id=="phare-keravel" or campaign_phase==1: return {}
+	if id=="" or id in ["phare-keravel","tv-chapelle"] or campaign_phase==1: return {}
 	var p:Vector2=world.campaign.points[id]
 	if xy.distance_to(p)>4.4: return {}
 	var label="Lire le repère"
@@ -920,7 +948,7 @@ func advance_campaign(id:String):
 	match campaign_phase:
 		2:
 			campaign_phase=3
-			notify("Les registres du Baron désignent Kastell-Glas. La Veilleuse attend au port.",6)
+			notify("Les registres désignent Kastell-Glas. Avant d’embarquer, apprends la légende à Sainte-Azenor.",6)
 		3:
 			campaign_phase=4
 			campaign_landing("ea-plage-naufrages")
@@ -1121,6 +1149,8 @@ func _process(delta):
 		menu_camera(menu_t)
 		world.atmosphere(visual_time,-.48+.12*sin(menu_t*.16),.02,0,false)
 		audio.mix(.61,0,0)
+	elif state=="play" and chapel.room!="":
+		chapel.tick(dt)
 	elif state=="play":
 		age+=dt
 		update_sea()

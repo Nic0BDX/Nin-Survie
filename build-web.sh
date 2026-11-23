@@ -16,9 +16,10 @@ export XDG_DATA_HOME="$tools/data"
 templates="$XDG_DATA_HOME/godot/export_templates/${version}.stable"
 mkdir -p "$templates" dist
 unzip -j -q "$tools/templates.zip" templates/web_nothreads_debug.zip templates/web_nothreads_release.zip -d "$templates"
-"$editor" --headless --path . --import
+"$editor" --headless --path . --import 2>&1 | tee "$tools/import.log"
+if grep -E 'SCRIPT ERROR|Parse Error|SHADER ERROR' "$tools/import.log"; then exit 1; fi
 if [[ "${NIN_VERIFY:-0}" == world || "${NIN_VERIFY:-0}" == art ]]; then
-  "$editor" --headless --path . --script studio/check_world.gd -- --qa 2>&1 | tee "$tools/world.log"
+  timeout 120 "$editor" --headless --path . --script studio/check_world.gd -- --qa 2>&1 | tee "$tools/world.log"
   if grep -E 'SCRIPT ERROR|Parse Error|SHADER ERROR' "$tools/world.log"; then exit 1; fi
 fi
 "$editor" --headless --path . --export-release Web dist/index.html

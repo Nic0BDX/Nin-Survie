@@ -402,7 +402,8 @@ func play_hud():
 		var w=serif.get_string_size(msg,HORIZONTAL_ALIGNMENT_LEFT,-1,23).x
 		caption(msg,Vector2((v.x-w)/2,58),23,PAPER,serif)
 	var note=""
-	if game.signal_active:note="Appel du canot · Espace" if game.age>=game.next_signal else "Prochain appel dans %d s"%ceili(game.next_signal-game.age)
+	if game.chapel.room!="": note=game.chapel.objective()
+	elif game.signal_active:note="Appel du canot · Espace" if game.age>=game.next_signal else "Prochain appel dans %d s"%ceili(game.next_signal-game.age)
 	elif game.marsh.extent(game.xy)<1.35:
 		note=game.marsh.hint()
 		if game.marsh.stage==2:note="Roi des Vannes   "+str(game.marsh.boss_hp)+"/5  ·  "+note
@@ -556,7 +557,7 @@ func campaign_atlas():
 		0: goal="Rejoins le port de Trois-Vannes. Le bateau de relève part pour le ponton du phare."
 		1: goal="Retrouve les trois pièces du phare en empruntant les passes. Prépare un feu pour obtenir une braise de fortune."
 		2: goal="Retourne à Trois-Vannes par la route côtière et consulte les annonces de la place de la Cloche."
-		3: goal="Prends la Veilleuse au port pour traverser la Mer d’Iroise."
+		3: goal="Consulte Sœur Azenor et les fresques de la chapelle." if game.chapel.progress<3 else "Prends la Veilleuse au port pour traverser la Mer d’Iroise."
 		4: goal="Suis les repères sur Enez-Aerouant. L’enquête mène de la Stêr-Glas à la citadelle de Kastell-Glas."
 		5: goal="Ramène le Kalon-Glas au phare par la route côtière."
 		6: goal="Le Kalon-Glas éclaire Keravel. L’archipel reste ouvert à l’exploration."

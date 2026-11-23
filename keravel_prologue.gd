@@ -5,7 +5,7 @@ enum { REGISTER, BOARD, BELL, PRAIRIE, GATHER, FIRE, JOURNAL, COMPLETE }
 const NEEDS={"wood":5,"food":3,"stone":2}
 const SPEAKERS={"narrateur":"Journal de relève","releve":"La relève","ewen":"Ewen Kerdreux",
 	"soizic":"Soizic Penhoat","erwan":"Erwan Le Bris","goulven":"Goulven Mével",
-	"maelle":"Maëlle Quéré","tangi":"Tangi Le Roux"}
+	"maelle":"Maëlle Quéré","tangi":"Tangi Le Roux","azenor":"Sœur Azenor"}
 
 var game
 var step=REGISTER
