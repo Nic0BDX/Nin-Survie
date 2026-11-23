@@ -2,7 +2,7 @@
 config_version=5
 
 [application]
-config/name="ESTRAN — Les Veilleurs du Large"
+config/name="Nin Survie"
 config/description="Un jeu de survie et de construction sur les îles de Keravel."
 run/main_scene="res://main.tscn"
 config/icon="res://icon.svg"

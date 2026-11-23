@@ -1,8 +1,7 @@
-ESTRAN
-Les Veilleurs du Large
+Nin Survie
 
 Lancer le jeu
-Extrais l’archive dans un dossier de ton choix et double-clique sur ESTRAN.exe.
+Extrais l’archive dans un dossier de ton choix et double-clique sur Nin Survie.exe.
 Le jeu fonctionne hors ligne sur Windows 64 bits. Il contient son moteur.
 Choisis « Prendre le quart ». « Reprendre le quart » rouvre ta sauvegarde.
 
@@ -55,9 +54,8 @@ La partie se sauvegarde automatiquement et à la fermeture du jeu.
 Le dossier de sauvegarde est %APPDATA%\Estran_Keravel.
 Après le sauvetage, tu peux continuer à vivre et construire sur les îles.
 
-Le dossier Projet-Godot contient le projet modifiable et ses ressources.
+Le dépôt Nin-Survie contient le projet modifiable et ses ressources.
 Ouvre project.godot dans Godot 4.7.2 pour l’éditer.
-Décors, modèles, musique et bruitages ont été créés pour ESTRAN.
 Les notices du moteur sont incluses dans Licences-moteur.txt.
 
 Extension Trois-Vannes

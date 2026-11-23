@@ -38,6 +38,7 @@ var light_base:Vector3
 var spots=[]
 var resources=[]
 var blocks=[]
+var building_footprints:Array[Rect2]=[]
 var noise=FastNoiseLite.new()
 var rng=RandomNumberGenerator.new()
 var relief:ImageTexture
@@ -256,14 +257,14 @@ func landmarks():
 	blocks.append([LIGHT,2.50])
 	var cottage=LIGHT+Vector2(-5.2,-2.1)
 	Art.hut(m,pos(cottage),.83,true)
-	blocks.append([cottage,1.95])
+	building_footprints.append(Rect2(cottage-Vector2(2.25,2.8)*.83,Vector2(4.5,5.6)*.83))
 	Art.signpost(m,pos(Vector2(.6,26.7)),.35)
 	flag_at(light_base+Vector3(2.6,0,1.45),1.35,Art.RED)
 	Art.wreck(m,pos(SITES[0]))
 	Art.ruin(m,pos(SITES[1]))
 	var hutp=SITES[2]+Vector2(0,-2.9)
 	Art.hut(m,pos(hutp),1.12,true)
-	blocks.append([hutp,2.42])
+	building_footprints.append(Rect2(hutp-Vector2(2.25,2.8)*1.12,Vector2(4.5,5.6)*1.12))
 	for i in 4:
 		var q=SITES[2]+Vector2(3.9+i*.75,1.15+.32*sin(i))
 		Art.marine(m,pos(q))
@@ -328,6 +329,8 @@ func landmarks():
 	beam.visible=false
 
 func blocked(p:Vector2,extra:float=0.0)->bool:
+	for footprint in building_footprints:
+		if footprint.grow(extra).has_point(p): return true
 	for b in blocks:
 		if p.distance_to(b[0])<b[1]+extra: return true
 	return false

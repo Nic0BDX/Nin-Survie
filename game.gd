@@ -569,7 +569,7 @@ func input_move()->Vector2:
 func can_walk(p:Vector2)->bool:
 	if abs(p.x)>113 or abs(p.y)>93: return false
 	if world.blocked(p,.19) and not world.blocked(xy,.19): return false
-	if camp.wall_blocked(p) and not camp.wall_blocked(xy): return false
+	if camp.building_blocks_move(xy,p,actor.position.y): return false
 	return true
 
 func move_player(dt:float):
@@ -969,9 +969,12 @@ func disembark():
 	if sailing.is_empty(): return
 	var forward=Vector2(-sin(sailing.heading),-cos(sailing.heading))
 	var options=[xy+forward.orthogonal()*1.7,xy-forward.orthogonal()*1.7,xy-forward*2.2]
-	var landing=options[0]
+	var landing=xy
 	for p in options:
-		if camp.deck_height(p)>camp.deck_height(landing) and can_walk(p): landing=p
+		if can_walk(p) and (landing==xy or camp.deck_height(p)>camp.deck_height(landing)): landing=p
+	if landing==xy:
+		notify("Il n’y a pas assez de place pour débarquer.")
+		return
 	xy=landing
 	sailing={};sail_speed=0.;velocity=Vector2.ZERO
 	set_actor_height(true)
@@ -994,7 +997,7 @@ func sail(dt:float):
 	var candidate=sailing.at+front*sail_speed*dt
 	if world.ground(candidate)>water+.45 and world.ground(candidate)>world.ground(sailing.at):
 		sail_speed=0.
-	elif abs(candidate.x)<112 and abs(candidate.y)<92 and not world.on_pier(candidate) and not world.blocked(candidate,.65):
+	elif abs(candidate.x)<112 and abs(candidate.y)<92 and not world.on_pier(candidate) and not world.blocked(candidate,.65) and not camp.building_blocks_move(sailing.at,candidate,sailing.y+.44):
 		sailing.at=candidate
 	else: sail_speed=0.
 	xy=sailing.at

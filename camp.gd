@@ -205,11 +205,43 @@ func update_preview():
 
 func wall_at(anchor:Vector2,quarter:int,k:String,p:Vector2)->bool:
 	var local=(p-anchor).rotated(quarter*PI*.5)
-	return absf(local.y)<.28 and absf(local.x)<1.94 and (k=="wall" or absf(local.x)>.59)
+	for rect in building_bounds(k):
+		if rect.has_point(local): return true
+	return false
 
-func wall_blocked(p:Vector2)->bool:
+func building_bounds(k:String)->Array[Rect2]:
+	match k:
+		"wall": return [Rect2(-2.02,-.34,4.04,.68)]
+		"door": return [Rect2(-2.02,-.34,1.53,.68),Rect2(.49,-.34,1.53,.68)]
+		"shelter": return [Rect2(-1.91,-1.9,.96,3.8),Rect2(.95,-1.9,.96,3.8)]
+	return []
+
+func crosses_bounds(start:Vector2,finish:Vector2,rect:Rect2)->bool:
+	# Old saves may start inside a wall. Allow the player to leave it.
+	if rect.has_point(start): return false
+	var motion=finish-start
+	var enter:=0.0
+	var leave:=1.0
+	for axis in 2:
+		if absf(motion[axis])<.000001:
+			if start[axis]<rect.position[axis] or start[axis]>rect.end[axis]: return false
+			continue
+		var first:float=(rect.position[axis]-start[axis])/motion[axis]
+		var last:float=(rect.end[axis]-start[axis])/motion[axis]
+		enter=maxf(enter,minf(first,last))
+		leave=minf(leave,maxf(first,last))
+		if enter>leave: return false
+	return true
+
+func building_blocks_move(from:Vector2,to:Vector2,feet:float)->bool:
 	for it in items:
-		if it.kind in ["wall","door"] and wall_at(it.at,it.rot,it.kind,p): return true
+		if it.kind not in ["wall","door","shelter"]: continue
+		if feet+.9<it.y or feet>it.y+2.65: continue
+		var angle:float=it.rot*PI*.5
+		var start:Vector2=(from-it.at).rotated(angle)
+		var finish:Vector2=(to-it.at).rotated(angle)
+		for rect in building_bounds(it.kind):
+			if crosses_bounds(start,finish,rect): return true
 	return false
 
 func nearby()->Array:

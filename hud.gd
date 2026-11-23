@@ -231,8 +231,7 @@ func title_screen(interactive:bool=true):
 	var y=v.y*.35
 	line(Vector2(x,62),Vector2(x+40,62),GOLD,2)
 	eyebrow("ARCHIVES DES VEILLEURS   /   N° 01",Vector2(x+52,67))
-	txt("ESTRAN",x-5,y+48,113,PAPER,serif)
-	txt("LES  VEILLEURS  DU  LARGE",x+4,y+92,25,GOLD,bold)
+	txt("NIN SURVIE",x-5,y+48,75,PAPER,serif)
 	line(Vector2(x+4,y+116),Vector2(x+386,y+116),WASH)
 	ptext("La mer efface les chemins. Trois pièces manquent à la lanterne de Keravel. À toi de reprendre le quart.",Vector2(x+4,y+153),389,21,PAPER,sans,1.38)
 	var by=y+239
