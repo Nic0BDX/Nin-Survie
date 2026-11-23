@@ -88,6 +88,7 @@ var touch_mode=false
 var move_finger=-1
 var look_finger=-1
 var touch_move=Vector2.ZERO
+var browser_qa
 var qa_save_path=""
 var save_timer_msg=0.
 var compass_targets=[]
@@ -116,8 +117,10 @@ func _ready():
 		touch_mode=touch_mode or bool(JavaScriptBridge.eval("matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0"))
 	qa=OS.get_cmdline_user_args().has("--qa")
 	if qa: qa_save_path="user://essai_"+str(OS.get_process_id())+".json"
+	if qa and OS.has_feature("web"): browser_qa=JavaScriptBridge.get_interface("ninTest")
 	rng.randomize()
 	world=World.new()
+	world.mobile_detail=touch_mode
 	add_child(world)
 	camp=Camp.new()
 	add_child(camp)
@@ -161,12 +164,13 @@ func make_rain():
 	var mm=MultiMesh.new()
 	mm.transform_format=MultiMesh.TRANSFORM_3D
 	mm.mesh=m.mesh(world.mat)
-	mm.instance_count=155
+	var count=72 if touch_mode else 155
+	mm.instance_count=count
 	rain=MultiMeshInstance3D.new()
 	rain.multimesh=mm
 	rain.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(rain)
-	for i in 155: drops.append(Vector3(rng.randf_range(-10,10),rng.randf_range(0,12),rng.randf_range(-9,9)))
+	for i in count: drops.append(Vector3(rng.randf_range(-10,10),rng.randf_range(0,12),rng.randf_range(-9,9)))
 
 func make_boat():
 	var m=Ink.new()
@@ -610,8 +614,9 @@ func handle_touch(event):
 			touch_move=hud.touch_stick_value(event.position)
 		elif event.index==look_finger:
 			heading_free=3.3
-			yaw-=event.relative.x*.006
-			pitch=clampf(pitch+event.relative.y*.004,.12,.92)
+			var delta:Vector2=event.relative/maxf(hud.ui_scale,.01)
+			yaw-=delta.x*.004
+			pitch=clampf(pitch+delta.y*.003,.12,.92)
 			camp.aim_from_mouse=false
 
 func input_move()->Vector2:
@@ -956,7 +961,7 @@ func tick_rain():
 	rain.visible=storm>.21
 	if not rain.visible: return
 	var mm=rain.multimesh
-	mm.visible_instance_count=clampi(int(155*storm),1,155)
+	mm.visible_instance_count=clampi(int(mm.instance_count*storm),1,mm.instance_count)
 	rain.position=actor.position
 	for i in mm.visible_instance_count:
 		var q=drops[i]
@@ -965,6 +970,8 @@ func tick_rain():
 
 func _process(delta):
 	if not hud: return
+	if browser_qa:
+		browser_qa.update(state,xy.x,xy.y,yaw,hud.ui_scale,hud.v.x,hud.v.y)
 	var dt=minf(delta,.065)
 	visual_time+=dt
 	if state=="menu" or state=="confirm_new" or (state=="help" and menu_return=="menu"):

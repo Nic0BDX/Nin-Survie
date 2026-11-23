@@ -38,6 +38,7 @@ var light_base:Vector3
 var spots=[]
 var resources=[]
 var blocks=[]
+var mobile_detail=false
 var building_footprints:Array[Rect2]=[]
 var noise=FastNoiseLite.new()
 var rng=RandomNumberGenerator.new()
@@ -218,8 +219,8 @@ func ocean():
 	sea=MeshInstance3D.new()
 	var plane=PlaneMesh.new()
 	plane.size=Vector2(1600,1600)
-	plane.subdivide_width=200
-	plane.subdivide_depth=200
+	plane.subdivide_width=96 if mobile_detail else 200
+	plane.subdivide_depth=plane.subdivide_width
 	sea.mesh=plane
 	water_mat=ShaderMaterial.new()
 	water_mat.shader=preload("res://sea.gdshader")
@@ -380,7 +381,7 @@ func nature():
 		elif h>2.05 and i%5==0 and grove<.08:
 			var patch_type=clampi(floori((noise.get_noise_2d(p.x*.22-29,p.y*.22+50)+.52)*4),0,3)
 			scatter("flower"+str(patch_type),p,Vector3.ONE*s*.78,angle)
-		elif h>1.6 and i%2==0:
+		elif h>1.6 and i%2==0 and (not mobile_detail or i%6==0):
 			scatter("grass"+str(variant),p,Vector3.ONE*s*.79,angle)
 	for key in vegetation:
 		var matrices=vegetation[key]

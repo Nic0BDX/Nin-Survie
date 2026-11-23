@@ -21,3 +21,8 @@ unzip -j -q "$tools/templates.zip" templates/web_nothreads_debug.zip templates/w
 node web-host.mjs
 test -s dist/index.wasm
 test -s dist/index.pck
+
+if [[ "${NIN_VERIFY:-0}" == 1 ]]; then
+  npm install --prefix "$tools/browser" --no-fund --no-audit @sparticuz/chromium@140.0.0 puppeteer-core@24.20.0
+  node verify-web.mjs "$tools/browser"
+fi

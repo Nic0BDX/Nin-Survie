@@ -9,9 +9,20 @@ if (!html.includes('</canvas>') || !html.includes('</head>')) {
 const head = `
 <style>
 html, body { height: 100%; background: #0b1820; overscroll-behavior: none; }
-#canvas {
-  position: absolute;
-  inset: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+#nin-viewport {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  box-sizing: border-box;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+           env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+}
+#canvas, #canvas:fullscreen {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
   touch-action: none;
 }
 #nin-rotate {
@@ -38,18 +49,17 @@ const body = `
   canvas.setAttribute('aria-label', 'Nin Survie');
   const touch = matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
   function resize() {
-    const style = getComputedStyle(canvas);
-    const width = Math.max(1, innerWidth - parseFloat(style.left) - parseFloat(style.right));
-    const height = Math.max(1, innerHeight - parseFloat(style.top) - parseFloat(style.bottom));
-    const scale = touch ? Math.min(1, 1000 / width, 600 / height) : Math.min(devicePixelRatio, 1.5);
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
+    const { width, height } = canvas.getBoundingClientRect();
+    if (width <= 0 || height <= 0) return;
+    const ratio = window.devicePixelRatio || 1;
+    const scale = touch ? Math.min(ratio, 1.75, Math.sqrt(1050000 / (width * height))) : Math.min(ratio, 1.5);
     const pixelsX = Math.round(width * scale);
     const pixelsY = Math.round(height * scale);
     if (canvas.width !== pixelsX) canvas.width = pixelsX;
     if (canvas.height !== pixelsY) canvas.height = pixelsY;
   }
-  addEventListener('resize', resize);
+  new ResizeObserver(resize).observe(canvas);
+  document.addEventListener('fullscreenchange', resize);
   resize();
 })();
 </script>
@@ -59,4 +69,5 @@ writeFileSync(output, html
   .replace('<html lang="en">', '<html lang="fr">')
   .replace('initial-scale=1.0', 'initial-scale=1.0, viewport-fit=cover')
   .replace('</head>', head + '</head>')
-  .replace('</canvas>', '</canvas>' + body));
+  .replace('<canvas id="canvas">', '<div id="nin-viewport"><canvas id="canvas">')
+  .replace('</canvas>', '</canvas></div>' + body));
