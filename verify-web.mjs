@@ -15,8 +15,10 @@ const server = createServer(async (request, response) => {
   try {
     let content = await readFile(resolve('dist', file));
     if (file === 'index.html') {
-      content = content.toString().replace('const engine = new Engine(GODOT_CONFIG);',
-        "GODOT_CONFIG.args = ['--', '--qa']; const engine = new Engine(GODOT_CONFIG);");
+      content = content.toString()
+        .replace('</head>', '<style>:root{--nin-safe-left:47px;--nin-safe-right:47px;--nin-safe-bottom:20px}</style></head>')
+        .replace('const engine = new Engine(GODOT_CONFIG);',
+          "GODOT_CONFIG.args = ['--', '--qa']; const engine = new Engine(GODOT_CONFIG);");
     }
     response.writeHead(200, { 'Content-Type': types[file.split('.').at(-1)] }).end(content);
   } catch {
@@ -44,13 +46,6 @@ try {
     }
   });
   await page.evaluateOnNewDocument(() => {
-    document.addEventListener('DOMContentLoaded', () => {
-      const screen = document.documentElement.style;
-      screen.setProperty('--nin-safe-left', '47px');
-      screen.setProperty('--nin-safe-right', '47px');
-      screen.setProperty('--nin-safe-bottom', '20px');
-      window.dispatchEvent(new Event('resize'));
-    });
     window.ninTest = { update: (state, x, y, yaw, width, height, left, top, right, bottom) => {
       window.ninState = { state, x, y, yaw, width, height, left, top, right, bottom };
     } };
@@ -83,12 +78,15 @@ try {
   }
   const state = () => page.evaluate(() => window.ninState);
   const screen = await dimensions();
+  console.log('Zones de sécurité', JSON.stringify(await page.evaluate(() => ({
+    browser: window.ninSafeArea, game: window.ninState,
+  }))));
   const coords = (game, x, y) => [
     screen.width * (game.left + x / game.width * (1 - game.left - game.right)),
     screen.height * (game.top + y / game.height * (1 - game.top - game.bottom)),
   ];
   await page.waitForFunction(() => Math.abs(window.ninState?.left * innerWidth - 47) < .5
-    && Math.abs(window.ninState?.bottom * innerHeight - 20) < .5);
+    && Math.abs(window.ninState?.bottom * innerHeight - 20) < .5, { timeout: 90000, polling: 250 });
   let game = await state();
   const startButton = coords(game, 200, game.height * .35 + 265);
   console.log('Menu Godot', JSON.stringify(game), 'toucher', startButton);
