@@ -1,6 +1,7 @@
 extends Control
 const W=preload("res://biome.gd")
 const C=preload("res://camp.gd")
+const KM=preload("res://keravel_map.gd")
 const PAPER=Color("#f7ecd1")
 const GOLD=Color("#edc782")
 const MINT=Color("#a6ccba")
@@ -232,6 +233,7 @@ func _draw():
 		"pause": pause_panel()
 		"help": help_panel()
 		"map": atlas()
+		"campaign_atlas": campaign_atlas()
 		"craft": workshop()
 		"salvage": salvage_panel()
 		"letter": letter_panel()
@@ -404,6 +406,12 @@ func play_hud():
 		var to=(W.LIGHT if i==3 else game.world.spots[i])-game.xy
 		var dirs=["N","NE","E","SE","S","SO","O","NO"]
 		note=("Keravel" if i==3 else W.TITLES[i])+"   "+dirs[posmod(roundi(atan2(to.x,-to.y)/(PI/4)),8)]+"   %d m"%roundi(to.length())
+	elif game.campaign_track!="" or game.campaign_destination()!="":
+		var zone:String=game.campaign_track if game.campaign_track!="" else game.campaign_destination()
+		var to:Vector2=KM.POINTS[zone]-game.xy
+		var dirs=["N","NE","E","SE","S","SO","O","NO"]
+		var direction:String=dirs[posmod(roundi(atan2(to.x,-to.y)/(PI/4)),8)]
+		note=game.world.campaign.zones[zone].name+"   "+direction+"   %d m"%roundi(to.length())
 	elif game.age<40:note="Du bois, du silex, puis un feu.   B pour construire."
 	if note!="":caption(note,Vector2(35,99),18,GOLD,bold)
 	if not game.touch_mode:
@@ -494,10 +502,74 @@ func workshop():
 func map_point(p:Vector2,r:Rect2)->Vector2:
 	return r.position+(p-W.ORIGIN)/Vector2(240,200)*r.size
 
+func campaign_point(p:Vector2,r:Rect2)->Vector2:
+	return r.position+(p-KM.BOUNDS.position)/KM.BOUNDS.size*r.size
+
+func campaign_atlas():
+	modal_shade()
+	var world=game.world.campaign
+	if not world.chart: world.make_chart()
+	var frame=middle(1270,730)
+	panel(frame,Color("#112c34"))
+	page_heading(frame,"JOURNAL DE RELÈVE","De Keravel à Enez-Aerouant","Choisis un repère pour le suivre à la boussole.")
+	button("local_atlas","Carte du phare",Rect2(frame.end.x-305,frame.position.y+67,177,48))
+	var mapr=Rect2(frame.position+Vector2(31,160),Vector2(838,510))
+	draw_texture_rect(world.chart,mapr,false)
+	for id in world.zones:
+		for next in world.zones[id].links:
+			if String(id)>=String(next): continue
+			var a=campaign_point(KM.POINTS[id],mapr)
+			var b=campaign_point(KM.POINTS[next],mapr)
+			var sea=id=="mer-iroise" or next=="mer-iroise"
+			draw_dashed_line(a,b,Color("#e2cfa3") if sea else Color("#405550"),1.5,5. if sea else 20.,true,true)
+	for i in range(KM.RIVER.size()-1):
+		line(campaign_point(KM.RIVER[i],mapr),campaign_point(KM.RIVER[i+1],mapr),MINT,2.6)
+	var destination:String=game.campaign_destination()
+	var selected:String=game.campaign_track if game.campaign_track!="" else destination
+	var hovered=""
+	for id in world.zones:
+		var p=campaign_point(KM.POINTS[id],mapr)
+		var hot=register("chart_"+id,Rect2(p-Vector2.ONE*6,Vector2.ONE*12))
+		if hot: hovered=id
+		draw_circle(p,5. if id==selected or hot else 2.8,GOLD if id==selected else (PAPER if hot else INK))
+	for landmark in [[Vector2(-355,-110),"ENEZ-AEROUANT"],[Vector2(-100,102),"MER D’IROISE"],[Vector2(73,253),"TROIS-VANNES"],[Vector2(10,-83),"KERAVEL"]]:
+		var label=campaign_point(landmark[0],mapr)
+		center(landmark[1],label.x,label.y,17,PAPER,bold)
+	var you=campaign_point(game.xy,mapr)
+	draw_circle(you,7.,INK)
+	draw_circle(you,4.,MINT)
+	var side=mapr.end.x+23
+	var top=mapr.position.y+24
+	eyebrow("MISSION EN COURS",Vector2(side,top))
+	var goal="Rends sa lumière au phare de Keravel."
+	match game.campaign_phase:
+		0: goal="Rejoins le port de Trois-Vannes. Le bateau de relève part pour le ponton du phare."
+		1: goal="Retrouve les trois pièces du phare en empruntant les passes. Prépare un feu pour obtenir une braise de fortune."
+		2: goal="Retourne à Trois-Vannes par la route côtière et consulte les annonces de la place de la Cloche."
+		3: goal="Prends la Veilleuse au port pour traverser la Mer d’Iroise."
+		4: goal="Suis les repères sur Enez-Aerouant. L’enquête mène de la Stêr-Glas à la citadelle de Kastell-Glas."
+		5: goal="Ramène le Kalon-Glas au phare par la route côtière."
+		6: goal="Le Kalon-Glas éclaire Keravel. L’archipel reste ouvert à l’exploration."
+	var y=ptext(goal,Vector2(side,top+38),321,19,PAPER,sans,1.4)+31.
+	var shown=hovered if hovered!="" else selected
+	if world.zones.has(shown):
+		var zone=world.zones[shown]
+		eyebrow("REPÈRE",Vector2(side,y))
+		y=ptext(zone.name,Vector2(side,y+32),320,23,PAPER,serif)+9
+		y=ptext(zone.description,Vector2(side,y+12),320,16,MUTED)+17
+		var access={"maree-basse":"Passage à marée basse","bateau":"Accès par la mer","pont":"Passage sur le pont","gue":"Passage à gué","cle":"Accès indiqué dans le récit"}
+		if access.has(zone.get("access","")):
+			caption(access[zone.access],Vector2(side,y),16,GOLD)
+			y+=30.
+		var chapter:Dictionary=world.chapter_for(shown)
+		if not chapter.is_empty(): ptext("Chapitre %d • %s"%[chapter.number,chapter.title],Vector2(side,y+16),310,15,MUTED)
+	caption("Point vert : ta position",Vector2(side,mapr.end.y-10),15,MINT)
+
 func atlas():
 	modal_shade()
 	var r=middle(1220,720);panel(r,Color("#112c34"))
 	page_heading(r,"SERVICE DES FEUX   /   CARTE HYDROGRAPHIQUE","L’archipel de Keravel","Repère les passes, choisis une destination et garde un œil sur la marée.")
+	button("campaign_atlas","Carte d’Iroise",Rect2(r.end.x-310,r.position.y+65,180,48))
 	var mapr=Rect2(r.position+Vector2(33,151),Vector2(653,525))
 	map_rect=mapr
 	draw_texture_rect(game.world.map_tex,mapr,false)

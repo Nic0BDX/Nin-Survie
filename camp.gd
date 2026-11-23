@@ -109,6 +109,7 @@ func rotate_piece():
 
 func deck_height(p:Vector2)->float:
 	var h=world.ground(p)
+	h=world.campaign.deck_height(p,h)
 	if world.on_pier(p): h=maxf(h,2.63)
 	for it in items:
 		if it.kind in ["bridge","floor"] and abs(it.at.x-p.x)<=CELL*.51 and abs(it.at.y-p.y)<=CELL*.51:

@@ -8,13 +8,16 @@ if (!html.includes('</canvas>') || !html.includes('</head>')) {
 
 const head = `
 <style>
-html, body { height: 100%; background: #0b1820; overscroll-behavior: none; }
-#nin-viewport {
+html, body { height: 100%; overflow: hidden; background: #0b1820; overscroll-behavior: none; }
+#canvas, #nin-rotate {
   position: fixed;
-  inset: 0;
+  top: var(--nin-visible-top, 0px);
+  left: var(--nin-visible-left, 0px);
   width: 100%;
   height: 100%;
   height: 100dvh;
+  width: var(--nin-visible-width, 100%);
+  height: var(--nin-visible-height, 100dvh);
 }
 #nin-safe-area {
   position: fixed;
@@ -26,14 +29,18 @@ html, body { height: 100%; background: #0b1820; overscroll-behavior: none; }
            var(--nin-safe-bottom, env(safe-area-inset-bottom, 0px))
            var(--nin-safe-left, env(safe-area-inset-left, 0px));
 }
-#canvas, #canvas:fullscreen {
+#canvas {
   display: block;
-  width: 100% !important;
-  height: 100% !important;
+  position: fixed !important;
+  top: var(--nin-visible-top, 0px) !important;
+  left: var(--nin-visible-left, 0px) !important;
+  width: var(--nin-visible-width, 100%) !important;
+  height: var(--nin-visible-height, 100%) !important;
   touch-action: none;
 }
+#canvas:fullscreen { inset: 0 !important; width: 100% !important; height: 100% !important; }
 #nin-rotate {
-  display: none; position: fixed; inset: 0; z-index: 2;
+  display: none; z-index: 2; box-sizing: border-box;
   place-content: center; gap: 12px; padding: 28px;
   text-align: center; background: #0b1820; color: #efe7ce;
   font: 18px/1.4 system-ui, sans-serif;
@@ -55,9 +62,29 @@ const body = `
 (() => {
   const canvas = document.getElementById('canvas');
   canvas.setAttribute('aria-label', 'Nin Survie');
+  canvas.style.setProperty('position', 'fixed', 'important');
   const probe = document.getElementById('nin-safe-area');
   const safe = window.ninSafeArea = { left: 0, top: 0, right: 0, bottom: 0 };
+  const viewport = window.visualViewport;
+  const style = document.documentElement.style;
+  let frame = 0;
   function resize() {
+    frame = 0;
+    if (viewport && viewport.width > 0 && viewport.height > 0) {
+      const zoomed = Math.abs(viewport.scale - 1) > .01;
+      if (!zoomed) {
+        const layout = { top: Math.max(0, viewport.offsetTop), left: Math.max(0, viewport.offsetLeft),
+          width: viewport.width, height: viewport.height };
+        for (const [property, value] of Object.entries(layout)) {
+          const pixels = value + 'px';
+          style.setProperty('--nin-visible-' + property, pixels);
+          if (document.fullscreenElement !== canvas) canvas.style.setProperty(property, pixels, 'important');
+        }
+      }
+    }
+    if (document.fullscreenElement === canvas) {
+      for (const key of ['top', 'left', 'width', 'height']) canvas.style.removeProperty(key);
+    }
     const { width, height } = canvas.getBoundingClientRect();
     if (width <= 0 || height <= 0) return;
     const ratio = window.devicePixelRatio || 1;
@@ -72,10 +99,16 @@ const body = `
     safe.bottom = (parseFloat(padding.paddingBottom) || 0) / height;
     window.dispatchEvent(new Event('nin-viewport-resize'));
   }
-  new ResizeObserver(resize).observe(canvas);
-  addEventListener('resize', resize);
-  window.visualViewport?.addEventListener('resize', resize);
-  document.addEventListener('fullscreenchange', resize);
+  function requestResize() {
+    if (!frame) frame = requestAnimationFrame(resize);
+  }
+  new ResizeObserver(requestResize).observe(canvas);
+  addEventListener('resize', requestResize);
+  addEventListener('pageshow', requestResize);
+  viewport?.addEventListener('resize', requestResize);
+  viewport?.addEventListener('scroll', requestResize);
+  screen.orientation?.addEventListener('change', requestResize);
+  document.addEventListener('fullscreenchange', requestResize);
   resize();
 })();
 </script>
@@ -85,5 +118,4 @@ writeFileSync(output, html
   .replace('<html lang="en">', '<html lang="fr">')
   .replace('initial-scale=1.0', 'initial-scale=1.0, viewport-fit=cover')
   .replace('</head>', head + '</head>')
-  .replace('<canvas id="canvas">', '<div id="nin-viewport"><canvas id="canvas">')
-  .replace('</canvas>', '</canvas></div>' + body));
+  .replace('</canvas>', '</canvas>' + body));

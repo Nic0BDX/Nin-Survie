@@ -1,0 +1,4550 @@
+{
+  "zones": [
+    {
+      "id": "ponton-arrivee",
+      "name": "Ponton de l'Arrivée",
+      "region": "archipel",
+      "biome": "côte",
+      "description": "Le ponton où la relève débarque. La cloche du phare résonne encore au loin.",
+      "links": [
+        "prairie-phare"
+      ]
+    },
+    {
+      "id": "prairie-phare",
+      "name": "Prairie du Phare",
+      "region": "archipel",
+      "biome": "prairie",
+      "description": "Herbes hautes, fleurs, arbres low-poly, barrière de bois et sentier de terre vers le phare.",
+      "links": [
+        "ponton-arrivee",
+        "phare-keravel",
+        "route-trois-vannes",
+        "crique-baies",
+        "passe-courlis",
+        "passe-nord",
+        "passe-salines"
+      ],
+      "points": [
+        "tas de bois",
+        "buisson de baies",
+        "silex",
+        "panneau directionnel"
+      ]
+    },
+    {
+      "id": "crique-baies",
+      "name": "Crique aux Baies",
+      "region": "archipel",
+      "biome": "plage",
+      "description": "Une crique de sable clair bordée de buissons de baies rouges.",
+      "links": [
+        "prairie-phare"
+      ]
+    },
+    {
+      "id": "phare-keravel",
+      "name": "Phare de Keravel",
+      "region": "archipel",
+      "biome": "phare",
+      "description": "Tour rouge et blanche. La lanterne est éteinte : il manque 3 pièces et une braise.",
+      "links": [
+        "prairie-phare"
+      ],
+      "points": [
+        "porte du phare",
+        "salle du journal",
+        "escalier",
+        "salle de la lanterne",
+        "balcon"
+      ]
+    },
+    {
+      "id": "passe-courlis",
+      "name": "Passe du Courlis",
+      "region": "archipel",
+      "biome": "passe de marée",
+      "description": "Bande de sable praticable uniquement à marée basse.",
+      "links": [
+        "prairie-phare",
+        "le-courlis"
+      ],
+      "access": "maree-basse"
+    },
+    {
+      "id": "le-courlis",
+      "name": "Le Courlis",
+      "region": "archipel",
+      "biome": "épave",
+      "description": "Un vieux caboteur échoué sur un îlot ouest. La lentille est dans la cale.",
+      "links": [
+        "passe-courlis"
+      ],
+      "points": [
+        "cale inondée",
+        "cabine du capitaine",
+        "mât brisé"
+      ]
+    },
+    {
+      "id": "passe-nord",
+      "name": "Passe du Chenal du Nord",
+      "region": "archipel",
+      "biome": "passe de marée",
+      "description": "Les récifs affleurent, la passe ne se découvre qu'un court instant.",
+      "links": [
+        "prairie-phare",
+        "corne-de-brume"
+      ],
+      "access": "maree-basse"
+    },
+    {
+      "id": "corne-de-brume",
+      "name": "La Corne de Brume",
+      "region": "archipel",
+      "biome": "îlot rocheux",
+      "description": "Îlot nord, station de la corne de brume. Le réflecteur est sous le treuil.",
+      "links": [
+        "passe-nord"
+      ],
+      "points": [
+        "treuil",
+        "cabane du sonneur",
+        "boîte des veilleurs n°1"
+      ]
+    },
+    {
+      "id": "passe-salines",
+      "name": "Passe des Salines",
+      "region": "archipel",
+      "biome": "passe de marée",
+      "description": "Chemin de sel et de vase vers l'île nord-est.",
+      "links": [
+        "prairie-phare",
+        "ateliers-salines"
+      ],
+      "access": "maree-basse"
+    },
+    {
+      "id": "ateliers-salines",
+      "name": "L'Atelier des Salines",
+      "region": "archipel",
+      "biome": "marais salants",
+      "description": "Marais salants et atelier à roue à eau. La dynamo est coincée sous les décombres.",
+      "links": [
+        "passe-salines"
+      ],
+      "points": [
+        "roue à eau",
+        "atelier",
+        "bassins de sel"
+      ]
+    },
+    {
+      "id": "basse-des-dents",
+      "name": "Basse des Dents",
+      "region": "archipel",
+      "biome": "récif",
+      "description": "Récif en dents de scie qui a brisé plus d'un navire. Zone de brume.",
+      "links": [
+        "mer-iroise"
+      ],
+      "access": "bateau"
+    },
+    {
+      "id": "mer-iroise",
+      "name": "Mer d'Iroise",
+      "region": "archipel",
+      "biome": "haute mer",
+      "description": "La mer ouverte entre Keravel et l'île du dragon. Courants, tempêtes, brume.",
+      "links": [
+        "basse-des-dents",
+        "tv-port",
+        "ea-plage-naufrages"
+      ],
+      "access": "bateau"
+    },
+    {
+      "id": "route-trois-vannes",
+      "name": "Route de Trois-Vannes",
+      "region": "trois-vannes",
+      "biome": "chemin côtier",
+      "description": "Chemin de terre qui longe la côte du phare jusqu'au village.",
+      "links": [
+        "prairie-phare",
+        "tv-remparts"
+      ]
+    },
+    {
+      "id": "tv-remparts",
+      "name": "Les Remparts",
+      "region": "trois-vannes",
+      "biome": "village",
+      "description": "Murs de pierre sèche et porte principale du village. Les gardes du Baron surveillent.",
+      "links": [
+        "route-trois-vannes",
+        "tv-place-cloche",
+        "tv-port"
+      ]
+    },
+    {
+      "id": "tv-place-cloche",
+      "name": "Place de la Cloche",
+      "region": "trois-vannes",
+      "biome": "village",
+      "description": "Cœur du village : fontaine, grande cloche de bronze, marché et panneau des annonces.",
+      "links": [
+        "tv-remparts",
+        "tv-auberge",
+        "tv-forge",
+        "tv-apothicaire",
+        "tv-chapelle",
+        "tv-halle",
+        "tv-manoir",
+        "tv-criee"
+      ]
+    },
+    {
+      "id": "tv-auberge",
+      "name": "Auberge du Goéland Rouge",
+      "region": "trois-vannes",
+      "biome": "intérieur",
+      "description": "Chambres, cheminée, rumeurs. Yannig y sert les tables.",
+      "links": [
+        "tv-place-cloche"
+      ]
+    },
+    {
+      "id": "tv-forge",
+      "name": "Forge de Tangi",
+      "region": "trois-vannes",
+      "biome": "intérieur",
+      "description": "Enclume, soufflet, armes et outils. Craft avancé.",
+      "links": [
+        "tv-place-cloche"
+      ]
+    },
+    {
+      "id": "tv-apothicaire",
+      "name": "Apothicairerie de Nolwenn",
+      "region": "trois-vannes",
+      "biome": "intérieur",
+      "description": "Herbes séchées, onguents, antidotes.",
+      "links": [
+        "tv-place-cloche"
+      ]
+    },
+    {
+      "id": "tv-chapelle",
+      "name": "Chapelle Sainte-Azenor",
+      "region": "trois-vannes",
+      "biome": "chapelle",
+      "description": "Petite chapelle de granit. Une trappe mène aux caves aux fresques.",
+      "links": [
+        "tv-place-cloche",
+        "tv-caves"
+      ]
+    },
+    {
+      "id": "tv-caves",
+      "name": "Les Caves aux Fresques",
+      "region": "trois-vannes",
+      "biome": "souterrain",
+      "description": "Fresques anciennes : un dragon endormi, une émeraude, un phare.",
+      "links": [
+        "tv-chapelle"
+      ],
+      "access": "cle"
+    },
+    {
+      "id": "tv-halle",
+      "name": "La Halle aux Grains",
+      "region": "trois-vannes",
+      "biome": "village",
+      "description": "Marché couvert, échanges de ressources, concours de la Fête de la Cloche.",
+      "links": [
+        "tv-place-cloche"
+      ]
+    },
+    {
+      "id": "tv-criee",
+      "name": "La Criée",
+      "region": "trois-vannes",
+      "biome": "port",
+      "description": "Marché au poisson, rations, rumeurs de marins.",
+      "links": [
+        "tv-place-cloche",
+        "tv-port"
+      ]
+    },
+    {
+      "id": "tv-port",
+      "name": "Le Port de Trois-Vannes",
+      "region": "trois-vannes",
+      "biome": "port",
+      "description": "Quais, barques, balises. Départ vers la Mer d'Iroise.",
+      "links": [
+        "tv-remparts",
+        "tv-criee",
+        "tv-chantier",
+        "tv-moulin",
+        "mer-iroise"
+      ]
+    },
+    {
+      "id": "tv-chantier",
+      "name": "Chantier naval de Corentin",
+      "region": "trois-vannes",
+      "biome": "port",
+      "description": "Cale sèche où l'on construit le bateau pour la traversée.",
+      "links": [
+        "tv-port"
+      ]
+    },
+    {
+      "id": "tv-moulin",
+      "name": "Moulin à marée",
+      "region": "trois-vannes",
+      "biome": "village",
+      "description": "Moulin dont la roue tourne avec la marée. Idéal pour une cache secrète.",
+      "links": [
+        "tv-port"
+      ]
+    },
+    {
+      "id": "tv-manoir",
+      "name": "Manoir Kerhoël",
+      "region": "trois-vannes",
+      "biome": "manoir",
+      "description": "Demeure du Baron Hoël de Kerhoël : salle à manger, bureau, cave aux coffres.",
+      "links": [
+        "tv-place-cloche"
+      ],
+      "access": "cle",
+      "points": [
+        "salle à manger",
+        "bureau du Baron",
+        "coffre vide",
+        "registres de cargaison"
+      ]
+    },
+    {
+      "id": "ea-plage-naufrages",
+      "name": "Plage des Naufragés",
+      "region": "enez-aerouant",
+      "biome": "plage",
+      "description": "Sable noir, épaves et débris. Premier contact avec l'île.",
+      "links": [
+        "mer-iroise",
+        "ea-embouchure",
+        "ea-sentier-embruns"
+      ],
+      "access": "bateau"
+    },
+    {
+      "id": "ea-sentier-embruns",
+      "name": "Sentier des Embruns",
+      "region": "enez-aerouant",
+      "biome": "falaise",
+      "description": "Sentier de falaise battu par le vent, patrouilles de la Garde.",
+      "links": [
+        "ea-plage-naufrages",
+        "ea-camp-base",
+        "ea-foret-coat-du"
+      ]
+    },
+    {
+      "id": "ea-camp-base",
+      "name": "Camp de Base des Naufragés",
+      "region": "enez-aerouant",
+      "biome": "camp",
+      "description": "Abri, feu et établi construits par le joueur. Point de sauvegarde et de craft.",
+      "links": [
+        "ea-sentier-embruns",
+        "ea-embouchure"
+      ]
+    },
+    {
+      "id": "ea-embouchure",
+      "name": "Embouchure de la Stêr-Glas",
+      "region": "enez-aerouant",
+      "biome": "delta",
+      "description": "La grande rivière verte se jette dans la mer en un delta de roseaux.",
+      "links": [
+        "ea-plage-naufrages",
+        "ea-camp-base",
+        "ea-gue-lavandieres"
+      ]
+    },
+    {
+      "id": "ea-gue-lavandieres",
+      "name": "Gué des Lavandières",
+      "region": "enez-aerouant",
+      "biome": "rivière",
+      "description": "Gué peu profond, pierres plates, vieux lavoirs.",
+      "links": [
+        "ea-embouchure",
+        "ea-pont-de-corde",
+        "ea-foret-coat-du"
+      ],
+      "access": "gue"
+    },
+    {
+      "id": "ea-pont-de-corde",
+      "name": "Pont de Corde de Pen-Stêr",
+      "region": "enez-aerouant",
+      "biome": "rivière",
+      "description": "Pont suspendu au-dessus des rapides. Surveillé par la Garde.",
+      "links": [
+        "ea-gue-lavandieres",
+        "ea-cascade-voile"
+      ],
+      "access": "pont"
+    },
+    {
+      "id": "ea-cascade-voile",
+      "name": "Cascade du Voile",
+      "region": "enez-aerouant",
+      "biome": "cascade",
+      "description": "Chute d'eau haute de vingt mètres. Une grotte secrète se cache derrière le rideau d'eau.",
+      "links": [
+        "ea-pont-de-corde",
+        "ea-lac-miroir",
+        "ea-grotte-voile"
+      ]
+    },
+    {
+      "id": "ea-grotte-voile",
+      "name": "Grotte du Voile",
+      "region": "enez-aerouant",
+      "biome": "grotte",
+      "description": "Grotte cachée derrière la cascade. Contient la boîte des veilleurs n°2.",
+      "links": [
+        "ea-cascade-voile"
+      ],
+      "points": [
+        "boîte des veilleurs n°2"
+      ]
+    },
+    {
+      "id": "ea-lac-miroir",
+      "name": "Lac Miroir",
+      "region": "enez-aerouant",
+      "biome": "lac",
+      "description": "Source de la Stêr-Glas. Eau immobile qui reflète le Pic de Braise.",
+      "links": [
+        "ea-cascade-voile",
+        "ea-landes-brug"
+      ]
+    },
+    {
+      "id": "ea-foret-coat-du",
+      "name": "Forêt de Coat-Du",
+      "region": "enez-aerouant",
+      "biome": "forêt sombre",
+      "description": "Forêt dense et humide. Feux follets, loups, silence pesant.",
+      "links": [
+        "ea-sentier-embruns",
+        "ea-gue-lavandieres",
+        "ea-coeur-foret",
+        "ea-marais-stank"
+      ]
+    },
+    {
+      "id": "ea-coeur-foret",
+      "name": "Cœur de la Forêt",
+      "region": "enez-aerouant",
+      "biome": "clairière",
+      "description": "Clairière du Cerf de Brume, gardien de la forêt.",
+      "links": [
+        "ea-foret-coat-du"
+      ]
+    },
+    {
+      "id": "ea-marais-stank",
+      "name": "Marais de Stank",
+      "region": "enez-aerouant",
+      "biome": "marais",
+      "description": "Marais brumeux, eaux stagnantes, plantes toxiques, ponts de planches pourris.",
+      "links": [
+        "ea-foret-coat-du",
+        "ea-ker-goz",
+        "ea-antre-serpent"
+      ]
+    },
+    {
+      "id": "ea-antre-serpent",
+      "name": "Antre du Serpent de Stank",
+      "region": "enez-aerouant",
+      "biome": "marais",
+      "description": "Île de vase au cœur du marais. Repaire du Serpent.",
+      "links": [
+        "ea-marais-stank"
+      ]
+    },
+    {
+      "id": "ea-ker-goz",
+      "name": "Ker-Goz, le Vieux Village",
+      "region": "enez-aerouant",
+      "biome": "village abandonné",
+      "description": "Village de pêcheurs vidé par la Garde. Quelques survivants se cachent.",
+      "links": [
+        "ea-marais-stank",
+        "ea-landes-brug"
+      ]
+    },
+    {
+      "id": "ea-landes-brug",
+      "name": "Landes de Brug",
+      "region": "enez-aerouant",
+      "biome": "landes",
+      "description": "Bruyère violette, vent fort, menhirs. Le Pic de Braise domine l'horizon.",
+      "links": [
+        "ea-ker-goz",
+        "ea-lac-miroir",
+        "ea-gorges-rochgwenn",
+        "ea-camp-garde"
+      ]
+    },
+    {
+      "id": "ea-gorges-rochgwenn",
+      "name": "Gorges de Roc'h-Gwenn",
+      "region": "enez-aerouant",
+      "biome": "gorges",
+      "description": "Falaises blanches, passerelles, éboulis. Gardées par un golem de schiste.",
+      "links": [
+        "ea-landes-brug",
+        "ea-ruines-veilleurs"
+      ]
+    },
+    {
+      "id": "ea-ruines-veilleurs",
+      "name": "Ruines des Veilleurs",
+      "region": "enez-aerouant",
+      "biome": "ruines",
+      "description": "Ancien phare effondré où vivaient les premiers Veilleurs.",
+      "links": [
+        "ea-gorges-rochgwenn"
+      ],
+      "points": [
+        "tour effondrée",
+        "bibliothèque",
+        "boîte des veilleurs n°3"
+      ]
+    },
+    {
+      "id": "ea-camp-garde",
+      "name": "Camp de la Garde de l'Émeraude",
+      "region": "enez-aerouant",
+      "biome": "camp militaire",
+      "description": "Tentes, palissades, tours de guet. Point d'entrée vers les mines et la citadelle.",
+      "links": [
+        "ea-landes-brug",
+        "ea-mines-vertes",
+        "ea-citadelle-remparts"
+      ]
+    },
+    {
+      "id": "ea-mines-vertes",
+      "name": "Les Mines Vertes",
+      "region": "enez-aerouant",
+      "biome": "mines",
+      "description": "Galeries où les villageois sont forcés de miner la poussière d'émeraude.",
+      "links": [
+        "ea-camp-garde",
+        "ea-citadelle-cryptes"
+      ]
+    },
+    {
+      "id": "ea-citadelle-remparts",
+      "name": "Remparts de Kastell-Glas",
+      "region": "enez-aerouant",
+      "biome": "citadelle",
+      "description": "Hautes murailles vertes, herse, chemins de ronde.",
+      "links": [
+        "ea-camp-garde",
+        "ea-citadelle-cour"
+      ]
+    },
+    {
+      "id": "ea-citadelle-cour",
+      "name": "Cour d'Armes",
+      "region": "enez-aerouant",
+      "biome": "citadelle",
+      "description": "Grande cour pavée où s'entraîne la Garde.",
+      "links": [
+        "ea-citadelle-remparts",
+        "ea-citadelle-donjon"
+      ]
+    },
+    {
+      "id": "ea-citadelle-cryptes",
+      "name": "Cryptes de Kastell-Glas",
+      "region": "enez-aerouant",
+      "biome": "souterrain",
+      "description": "Passage secret reliant les mines au donjon.",
+      "links": [
+        "ea-mines-vertes",
+        "ea-citadelle-donjon"
+      ]
+    },
+    {
+      "id": "ea-citadelle-donjon",
+      "name": "Donjon du Baron",
+      "region": "enez-aerouant",
+      "biome": "citadelle",
+      "description": "Tour de six étages. Tout en haut : la salle verte et le piédestal du Kalon-Glas.",
+      "links": [
+        "ea-citadelle-cour",
+        "ea-citadelle-cryptes",
+        "ea-salle-verte"
+      ]
+    },
+    {
+      "id": "ea-salle-verte",
+      "name": "La Salle Verte",
+      "region": "enez-aerouant",
+      "biome": "salle du trésor",
+      "description": "Salle ronde baignée de lumière verte. Piédestal du Kalon-Glas.",
+      "links": [
+        "ea-citadelle-donjon",
+        "ea-crete-vents"
+      ]
+    },
+    {
+      "id": "ea-crete-vents",
+      "name": "Crête des Vents",
+      "region": "enez-aerouant",
+      "biome": "montagne",
+      "description": "Crête étroite entre la citadelle et le cratère. Le sol tremble.",
+      "links": [
+        "ea-salle-verte",
+        "ea-pic-braise",
+        "ea-plage-naufrages"
+      ]
+    },
+    {
+      "id": "ea-pic-braise",
+      "name": "Pic de Braise",
+      "region": "enez-aerouant",
+      "biome": "volcan",
+      "description": "Volcan endormi dont le cratère abrite l'antre d'Aerouant.",
+      "links": [
+        "ea-crete-vents",
+        "ea-antre-aerouant"
+      ]
+    },
+    {
+      "id": "ea-antre-aerouant",
+      "name": "Antre d'Aerouant",
+      "region": "enez-aerouant",
+      "biome": "caverne de lave",
+      "description": "Caverne immense, lac de braise, ossements de navires. Le dragon dort ici.",
+      "links": [
+        "ea-pic-braise"
+      ]
+    }
+  ],
+  "rivers": [
+    {
+      "id": "ster-glas",
+      "name": "La Stêr-Glas (la Rivière Verte)",
+      "source": "ea-lac-miroir",
+      "mouth": "ea-embouchure",
+      "course": [
+        "ea-lac-miroir",
+        "ea-cascade-voile",
+        "ea-pont-de-corde",
+        "ea-gue-lavandieres",
+        "ea-embouchure"
+      ],
+      "crossings": [
+        {
+          "zone": "ea-gue-lavandieres",
+          "kind": "gue"
+        },
+        {
+          "zone": "ea-pont-de-corde",
+          "kind": "pont-de-corde"
+        },
+        {
+          "zone": "ea-cascade-voile",
+          "kind": "cascade"
+        }
+      ]
+    },
+    {
+      "id": "ruisseau-stank",
+      "name": "Le Ruisseau de Stank",
+      "source": "ea-foret-coat-du",
+      "mouth": "ea-marais-stank",
+      "course": [
+        "ea-foret-coat-du",
+        "ea-marais-stank"
+      ],
+      "crossings": [
+        {
+          "zone": "ea-marais-stank",
+          "kind": "barque"
+        }
+      ]
+    }
+  ],
+  "chapters": [
+    {
+      "id": "c01",
+      "number": 1,
+      "act": 1,
+      "title": "L'Arrivée sur Keravel",
+      "synopsis": "La relève du Service des feux débarque sur un archipel où la cloche du phare résonne encore, mais où la lampe est morte.",
+      "parts": [
+        {
+          "id": "c01-p1",
+          "title": "Le ponton et la cloche",
+          "zone": "ponton-arrivee",
+          "summary": "Le bateau repart. La relève reste seule sur le ponton, la cloche sonne dans la brume.",
+          "cinematic": "Plan large sur la mer, mouettes, cloche en off. Caméra qui monte vers la prairie et le phare rouge et blanc.",
+          "objectives": [
+            {
+              "kind": "interact",
+              "target": "cloche-lointaine",
+              "label": "Écouter la cloche"
+            },
+            {
+              "kind": "goto",
+              "zone": "prairie-phare",
+              "label": "Rejoindre la prairie",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "La cloche résonne encore.",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "releve",
+              "text": "Quelqu'un sonne. Donc quelqu'un vit ici.",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "ewen",
+              "text": "(Lettre) Arrivée confirmée. Le phare de Keravel est éteint depuis trois ans. Rallumez-le. Gardez la flamme.",
+              "mood": "solennel"
+            }
+          ],
+          "journalEntry": "Journal de relève — Jour 1. Débarqué à Keravel. Le phare est muet, la cloche, elle, sonne toujours."
+        },
+        {
+          "id": "c01-p2",
+          "title": "Premiers gestes",
+          "zone": "prairie-phare",
+          "summary": "Tutoriel de survie : ramasser, cueillir, lire le HUD (Vie, Chaleur, Faim).",
+          "objectives": [
+            {
+              "kind": "collect",
+              "item": "bois",
+              "count": 5,
+              "label": "Ramasser 5 bois"
+            },
+            {
+              "kind": "collect",
+              "item": "baies",
+              "count": 3,
+              "label": "Cueillir 3 baies"
+            },
+            {
+              "kind": "collect",
+              "item": "silex",
+              "count": 2,
+              "label": "Trouver 2 silex"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "[E] Ramasser le bois — [E] Cueillir les baies.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "releve",
+              "text": "Un feu, de quoi manger, et on verra pour le reste.",
+              "mood": "neutre"
+            }
+          ],
+          "rewards": {
+            "unlockRecipes": [
+              "r-feu",
+              "r-rations"
+            ]
+          }
+        },
+        {
+          "id": "c01-p3",
+          "title": "Le feu de camp",
+          "zone": "prairie-phare",
+          "summary": "Première nuit : on allume un feu pour garder la Chaleur.",
+          "objectives": [
+            {
+              "kind": "craft",
+              "item": "braise-fortune",
+              "label": "Allumer un feu"
+            },
+            {
+              "kind": "wait",
+              "condition": "nuit",
+              "label": "Passer le crépuscule près du feu"
+            },
+            {
+              "kind": "survive",
+              "seconds": 45,
+              "label": "Tenir 45 secondes au chaud"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "Le vent tombe. La Chaleur baisse vite quand le soleil se couche.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "releve",
+              "text": "Allez, petite flamme. Tiens-moi compagnie.",
+              "mood": "joyeux"
+            }
+          ],
+          "setFlags": [
+            "premiere-nuit"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c02",
+      "number": 2,
+      "act": 1,
+      "title": "Le Phare Muet",
+      "synopsis": "Le phare est ouvert, abandonné, et un journal de veilleur raconte ce qui manque.",
+      "parts": [
+        {
+          "id": "c02-p1",
+          "title": "Devant la porte rouge",
+          "zone": "phare-keravel",
+          "summary": "La porte du phare cède après quelques coups. L'intérieur sent le sel et la cendre froide.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "phare-keravel",
+              "label": "Entrer dans le phare",
+              "optional": false
+            },
+            {
+              "kind": "interact",
+              "target": "porte-phare",
+              "label": "Forcer la porte"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "releve",
+              "text": "Personne depuis trois ans. Et pourtant la cloche…",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "narrateur",
+              "text": "La poussière a recouvert l'escalier, sauf quelques marches. Récentes.",
+              "mood": "mysterieux"
+            }
+          ]
+        },
+        {
+          "id": "c02-p2",
+          "title": "Le journal du veilleur",
+          "zone": "phare-keravel",
+          "summary": "Dans la salle du journal : le carnet d'Erwan Le Bris et l'inventaire des pièces manquantes.",
+          "objectives": [
+            {
+              "kind": "interact",
+              "target": "journal-erwan",
+              "label": "Lire le journal d'Erwan"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "erwan",
+              "text": "(Journal) Pièces 0/3. Il manque la lentille, le réflecteur, la dynamo. Et la braise. La braise n'est plus dans la lanterne.",
+              "mood": "triste"
+            },
+            {
+              "speaker": "erwan",
+              "text": "(Journal) Quelqu'un est venu de nuit. Je n'ai vu que des bottes vertes.",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "releve",
+              "text": "Une braise, trois pièces, et un voleur. Commençons par le plus simple.",
+              "mood": "neutre"
+            }
+          ],
+          "journalEntry": "La lampe de Keravel : 3 pièces (Courlis, Corne de brume, Salines) et une braise manquante.",
+          "setFlags": [
+            "journal-lu",
+            "quete-lampe-active"
+          ],
+          "rewards": {
+            "unlockAbilities": [
+              "carte-hydrographique"
+            ]
+          }
+        },
+        {
+          "id": "c02-p3",
+          "title": "Un établi de fortune",
+          "zone": "prairie-phare",
+          "summary": "Le joueur construit son premier établi pour fabriquer outils et pioche.",
+          "objectives": [
+            {
+              "kind": "collect",
+              "item": "bois",
+              "count": 6,
+              "label": "Réunir 6 bois"
+            },
+            {
+              "kind": "build",
+              "structure": "etabli",
+              "label": "Construire un établi [B]"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "[B] Construire — un établi ouvre la fabrication d'outils.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "releve",
+              "text": "Une hache, une pioche. Et ensuite, la marée.",
+              "mood": "joyeux"
+            }
+          ],
+          "rewards": {
+            "unlockRecipes": [
+              "r-hache",
+              "r-pioche"
+            ],
+            "items": [
+              {
+                "item": "lanterne",
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c03",
+      "number": 3,
+      "act": 1,
+      "title": "Le Courlis",
+      "synopsis": "Une épave sur un îlot, accessible seulement à marée basse. Dans la cale : la lentille et un vieux marin.",
+      "parts": [
+        {
+          "id": "c03-p1",
+          "title": "La passe à marée basse",
+          "zone": "passe-courlis",
+          "summary": "Il faut attendre que la mer se retire pour traverser la passe.",
+          "objectives": [
+            {
+              "kind": "wait",
+              "condition": "maree-basse",
+              "label": "Attendre la marée basse"
+            },
+            {
+              "kind": "goto",
+              "zone": "le-courlis",
+              "label": "Traverser jusqu'au Courlis",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "Prochaine pleine mer dans quelques secondes… puis la mer se retire.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "releve",
+              "text": "Si je rate le créneau, je dors dans l'eau.",
+              "mood": "inquiet"
+            }
+          ],
+          "rewards": {
+            "unlockZones": [
+              "le-courlis"
+            ]
+          }
+        },
+        {
+          "id": "c03-p2",
+          "title": "Dans la cale",
+          "zone": "le-courlis",
+          "summary": "Exploration de l'épave, cale inondée, crabes, lentille de Fresnel au fond.",
+          "objectives": [
+            {
+              "kind": "defeat",
+              "enemy": "crabe-geant",
+              "count": 2,
+              "label": "Écarter 2 crabes"
+            },
+            {
+              "kind": "interact",
+              "target": "cale-courlis",
+              "label": "Plonger dans la cale"
+            },
+            {
+              "kind": "collect",
+              "item": "lentille",
+              "count": 1,
+              "label": "Récupérer la lentille"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "L'eau monte déjà. La marée n'attend personne.",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "releve",
+              "text": "Là ! La lentille, intacte.",
+              "mood": "joyeux"
+            }
+          ],
+          "combat": {
+            "id": "cmb-courlis",
+            "arena": "le-courlis",
+            "enemies": [
+              {
+                "enemy": "crabe-geant",
+                "count": 2
+              }
+            ],
+            "rules": [
+              "Retourner vite au pont avant la pleine mer"
+            ]
+          },
+          "rewards": {
+            "items": [
+              {
+                "item": "lentille",
+                "count": 1
+              }
+            ]
+          },
+          "setFlags": [
+            "lentille-obtenue"
+          ]
+        },
+        {
+          "id": "c03-p3",
+          "title": "Goulven le rescapé",
+          "zone": "le-courlis",
+          "summary": "Un vieux marin vit encore dans la cabine. Il parle de la Brume et d'une île au-delà d'Iroise.",
+          "objectives": [
+            {
+              "kind": "talk",
+              "npc": "goulven",
+              "label": "Parler au vieil homme"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "goulven",
+              "text": "Le phare s'est éteint la nuit où la braise a disparu. Depuis, la Brume bouffe les navires.",
+              "mood": "colere"
+            },
+            {
+              "speaker": "goulven",
+              "text": "Je l'ai vu, moi, un feu vert filer vers l'ouest. Vers Enez-Aerouant, l'île du dragon.",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "releve",
+              "text": "Un dragon ? Sérieusement ?",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "goulven",
+              "text": "Ris donc. La mer, elle, n'a jamais ri.",
+              "mood": "solennel"
+            }
+          ],
+          "journalEntry": "Goulven parle d'un feu vert vu filer vers Enez-Aerouant, à l'ouest, au-delà de la Mer d'Iroise.",
+          "setFlags": [
+            "goulven-rencontre",
+            "enez-aerouant-evoquee"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c04",
+      "number": 4,
+      "act": 1,
+      "title": "La Corne de Brume",
+      "synopsis": "Un îlot au nord, un treuil bloqué, et la première vraie nuit de brume.",
+      "parts": [
+        {
+          "id": "c04-p1",
+          "title": "Le Chenal du Nord",
+          "zone": "passe-nord",
+          "summary": "Passe plus courte, récifs traîtres : il faut chronométrer la marée.",
+          "objectives": [
+            {
+              "kind": "wait",
+              "condition": "maree-basse",
+              "label": "Attendre la fenêtre de marée"
+            },
+            {
+              "kind": "goto",
+              "zone": "corne-de-brume",
+              "label": "Atteindre l'îlot nord",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "Basse des Dents, à gauche : rien que des dents de pierre dans la mer.",
+              "mood": "inquiet"
+            }
+          ]
+        },
+        {
+          "id": "c04-p2",
+          "title": "Le treuil bloqué",
+          "zone": "corne-de-brume",
+          "summary": "Le réflecteur est coincé sous le treuil. Il faut caler le mécanisme avec 4 silex.",
+          "objectives": [
+            {
+              "kind": "collect",
+              "item": "silex",
+              "count": 4,
+              "label": "Réunir 4 silex"
+            },
+            {
+              "kind": "solve",
+              "puzzle": "treuil-corne",
+              "label": "Caler le treuil"
+            },
+            {
+              "kind": "collect",
+              "item": "reflecteur",
+              "count": 1,
+              "label": "Prendre le réflecteur"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "releve",
+              "text": "Quatre silex, un cran… et on lâche. Doucement.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "narrateur",
+              "text": "Le treuil gémit, puis libère le réflecteur de cuivre.",
+              "mood": "neutre"
+            }
+          ],
+          "rewards": {
+            "items": [
+              {
+                "item": "reflecteur",
+                "count": 1
+              }
+            ]
+          },
+          "setFlags": [
+            "reflecteur-obtenu"
+          ]
+        },
+        {
+          "id": "c04-p3",
+          "title": "La première brume",
+          "zone": "corne-de-brume",
+          "summary": "La Brume arrive d'un coup. Les spectres surgissent. Seule la lanterne les repousse.",
+          "objectives": [
+            {
+              "kind": "survive",
+              "seconds": 60,
+              "label": "Tenir dans la brume"
+            },
+            {
+              "kind": "defeat",
+              "enemy": "spectre-brume",
+              "count": 3,
+              "label": "Repousser 3 spectres"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "La cloche sonne trois fois. La brume avale tout.",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "releve",
+              "text": "Ça bouge… dans le blanc.",
+              "mood": "inquiet"
+            }
+          ],
+          "combat": {
+            "id": "cmb-brume-1",
+            "arena": "corne-de-brume",
+            "enemies": [
+              {
+                "enemy": "spectre-brume",
+                "count": 3
+              }
+            ],
+            "rules": [
+              "Les spectres fuient la lumière de la lanterne"
+            ]
+          },
+          "rewards": {
+            "items": [
+              {
+                "item": "boite-veilleur",
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c05",
+      "number": 5,
+      "act": 1,
+      "title": "L'Atelier des Salines",
+      "synopsis": "Une roue à eau morte et une dynamo à réparer, de nuit, dans les marais salants.",
+      "parts": [
+        {
+          "id": "c05-p1",
+          "title": "Les marais salants",
+          "zone": "ateliers-salines",
+          "summary": "Traversée des bassins de sel, collecte et premières traces de bottes vertes.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ateliers-salines",
+              "label": "Atteindre l'atelier",
+              "optional": false
+            },
+            {
+              "kind": "collect",
+              "item": "sel",
+              "count": 4,
+              "label": "Récolter 4 sel gris"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "releve",
+              "text": "Des bottes. Vertes, avec de la boue de mine…",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "narrateur",
+              "text": "Quelqu'un est passé ici avant toi, et récemment.",
+              "mood": "mysterieux"
+            }
+          ],
+          "setFlags": [
+            "traces-vertes-1"
+          ]
+        },
+        {
+          "id": "c05-p2",
+          "title": "La dynamo coincée",
+          "zone": "ateliers-salines",
+          "summary": "La roue est bloquée, il faut la débloquer puis réparer la dynamo avec 4 bois.",
+          "objectives": [
+            {
+              "kind": "collect",
+              "item": "bois",
+              "count": 4,
+              "label": "Réunir 4 bois"
+            },
+            {
+              "kind": "solve",
+              "puzzle": "roue-salines",
+              "label": "Débloquer la roue à eau"
+            },
+            {
+              "kind": "collect",
+              "item": "dynamo",
+              "count": 1,
+              "label": "Récupérer la dynamo"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "releve",
+              "text": "La roue tourne ! Le sel craque sous mes bottes.",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "narrateur",
+              "text": "La dynamo est lourde, mais elle respire encore.",
+              "mood": "neutre"
+            }
+          ],
+          "rewards": {
+            "items": [
+              {
+                "item": "dynamo",
+                "count": 1
+              }
+            ]
+          },
+          "setFlags": [
+            "dynamo-obtenue"
+          ]
+        },
+        {
+          "id": "c05-p3",
+          "title": "Retour dans la nuit",
+          "zone": "prairie-phare",
+          "summary": "Il faut rentrer au phare avant que la Chaleur ne chute.",
+          "objectives": [
+            {
+              "kind": "wait",
+              "condition": "nuit",
+              "label": "La nuit tombe"
+            },
+            {
+              "kind": "survive",
+              "seconds": 60,
+              "label": "Tenir jusqu'au phare"
+            },
+            {
+              "kind": "goto",
+              "zone": "phare-keravel",
+              "label": "Atteindre le phare",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "releve",
+              "text": "Les trois pièces sont là. Il manque la braise.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "narrateur",
+              "text": "Au loin, la cloche sonne une dernière fois.",
+              "mood": "mysterieux"
+            }
+          ],
+          "setFlags": [
+            "trois-pieces-reunies"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c06",
+      "number": 6,
+      "act": 1,
+      "title": "La Braise Manquante",
+      "synopsis": "On assemble la lampe, mais sans braise, la lumière est faible. Le faisceau révèle une lueur verte.",
+      "parts": [
+        {
+          "id": "c06-p1",
+          "title": "Assembler la lampe",
+          "zone": "phare-keravel",
+          "summary": "Lentille, réflecteur et dynamo prennent place dans la salle de la lanterne.",
+          "objectives": [
+            {
+              "kind": "interact",
+              "target": "poser-lentille",
+              "label": "Poser la lentille, le réflecteur et la dynamo"
+            },
+            {
+              "kind": "interact",
+              "target": "lanterne-assemblage",
+              "label": "Assembler la lanterne"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "Chaque pièce s'emboîte avec un claquement sec.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "releve",
+              "text": "Elle est là. Il ne lui manque plus que son cœur.",
+              "mood": "solennel"
+            }
+          ],
+          "setFlags": [
+            "lampe-assemblee"
+          ]
+        },
+        {
+          "id": "c06-p2",
+          "title": "L'allumage",
+          "zone": "phare-keravel",
+          "summary": "On allume avec une braise de fortune. Le phare s'éclaire faiblement et un point vert apparaît à l'ouest.",
+          "objectives": [
+            {
+              "kind": "craft",
+              "item": "braise-fortune",
+              "label": "Préparer une braise de fortune"
+            },
+            {
+              "kind": "interact",
+              "target": "allumer-phare",
+              "label": "Allumer le phare"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "releve",
+              "text": "Allez… allez…",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "narrateur",
+              "text": "Un faisceau pâle traverse la Brume. Très loin, une lueur verte répond.",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "goulven",
+              "text": "(Au loin) Elle est vivante, notre vieille lampe !",
+              "mood": "joyeux"
+            }
+          ],
+          "rewards": {
+            "lampPower": 35
+          },
+          "setFlags": [
+            "phare-allume-faible",
+            "lueur-verte-vue"
+          ]
+        },
+        {
+          "id": "c06-p3",
+          "title": "La lettre d'Ewen",
+          "zone": "phare-keravel",
+          "summary": "Un message arrive par pigeon : se rendre à Trois-Vannes, voir la doyenne Soizic.",
+          "objectives": [
+            {
+              "kind": "interact",
+              "target": "pigeon-ewen",
+              "label": "Lire la lettre"
+            },
+            {
+              "kind": "goto",
+              "zone": "route-trois-vannes",
+              "label": "Prendre la route de Trois-Vannes",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "ewen",
+              "text": "(Lettre) Beau travail. Mais une braise ordinaire ne tiendra pas. Allez à Trois-Vannes, voyez Soizic. Quelqu'un là-bas sait où est le vrai cœur du phare.",
+              "mood": "solennel"
+            },
+            {
+              "speaker": "releve",
+              "text": "Le vrai cœur… Une braise pas comme les autres.",
+              "mood": "mysterieux"
+            }
+          ],
+          "journalEntry": "Fin du chapitre : la lampe brille faiblement. La lueur verte vient de l'ouest. Direction Trois-Vannes.",
+          "setFlags": [
+            "acte1-termine"
+          ],
+          "rewards": {
+            "unlockZones": [
+              "route-trois-vannes",
+              "tv-remparts"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c07",
+      "number": 7,
+      "act": 2,
+      "title": "Les Portes de Trois-Vannes",
+      "synopsis": "Le village est grand, vivant, et méfiant. La relève doit se faire accepter.",
+      "parts": [
+        {
+          "id": "c07-p1",
+          "title": "La route côtière",
+          "zone": "route-trois-vannes",
+          "summary": "Une route de terre, des mouettes, une patrouille du Baron à éviter ou à saluer.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "tv-remparts",
+              "label": "Atteindre les remparts",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "Au bout de la route, des toits d'ardoise et une cloche de bronze.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "releve",
+              "text": "Enfin des gens.",
+              "mood": "joyeux"
+            }
+          ]
+        },
+        {
+          "id": "c07-p2",
+          "title": "Place de la Cloche",
+          "zone": "tv-place-cloche",
+          "summary": "La doyenne Soizic accueille la relève, mais les villageois chuchotent.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "tv-place-cloche",
+              "label": "Traverser la place",
+              "optional": false
+            },
+            {
+              "kind": "talk",
+              "npc": "soizic",
+              "label": "Parler à Soizic"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "soizic",
+              "text": "Le Service des feux envoie une relève ? Après trois ans de silence ?",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "releve",
+              "text": "J'ai rallumé le phare. Faiblement, mais il brille.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "soizic",
+              "text": "On l'a vu. Les enfants ont applaudi. Les gardes du Baron, beaucoup moins.",
+              "mood": "mysterieux"
+            }
+          ],
+          "setFlags": [
+            "soizic-rencontree"
+          ],
+          "rewards": {
+            "unlockZones": [
+              "tv-place-cloche",
+              "tv-auberge",
+              "tv-forge",
+              "tv-apothicaire",
+              "tv-halle",
+              "tv-criee",
+              "tv-port"
+            ]
+          }
+        },
+        {
+          "id": "c07-p3",
+          "title": "Un lit à l'auberge",
+          "zone": "tv-auberge",
+          "summary": "Yannig, garçon d'auberge, prend la relève sous son aile et connaît tous les secrets du village.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "tv-auberge",
+              "label": "Entrer à l'auberge",
+              "optional": false
+            },
+            {
+              "kind": "talk",
+              "npc": "yannig",
+              "label": "Parler à Yannig"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "yannig",
+              "text": "Vous êtes la relève du phare ? Alors vous ne payez pas la soupe. Règle de la maison.",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "yannig",
+              "text": "Mais un conseil : ne dites pas « émeraude » devant le Baron.",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "releve",
+              "text": "Pourquoi cette émeraude ?",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "yannig",
+              "text": "Parce que tout le monde sait… mais personne ne dit.",
+              "mood": "mysterieux"
+            }
+          ],
+          "setFlags": [
+            "yannig-rencontre"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c08",
+      "number": 8,
+      "act": 2,
+      "title": "Gagner la Confiance",
+      "synopsis": "Petits services, grande forge : la relève s'intègre en rendant service.",
+      "parts": [
+        {
+          "id": "c08-p1",
+          "title": "L'apothicaire",
+          "zone": "tv-apothicaire",
+          "summary": "Nolwenn a besoin d'herbes de la côte pour soigner les enfants malades de la Brume.",
+          "objectives": [
+            {
+              "kind": "talk",
+              "npc": "nolwenn",
+              "label": "Parler à Nolwenn"
+            },
+            {
+              "kind": "collect",
+              "item": "baies",
+              "count": 6,
+              "label": "Rapporter 6 baies"
+            },
+            {
+              "kind": "deliver",
+              "item": "baies",
+              "npc": "nolwenn",
+              "label": "Livrer les baies"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "nolwenn",
+              "text": "La Brume donne la toux aux petits. Mes onguents ne suffisent plus.",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "nolwenn",
+              "text": "Des baies de la crique, et je te prépare une petite fiole. Marché ?",
+              "mood": "joyeux"
+            }
+          ],
+          "rewards": {
+            "items": [
+              {
+                "item": "rations",
+                "count": 3
+              }
+            ],
+            "reputation": {
+              "trois-vannes": 10
+            }
+          }
+        },
+        {
+          "id": "c08-p2",
+          "title": "La forge de Tangi",
+          "zone": "tv-forge",
+          "summary": "Tangi forge si on lui apporte du fer. La relève l'aide à réparer ses soufflets.",
+          "objectives": [
+            {
+              "kind": "talk",
+              "npc": "tangi",
+              "label": "Parler à Tangi"
+            },
+            {
+              "kind": "collect",
+              "item": "fer",
+              "count": 3,
+              "label": "Trouver 3 fers"
+            },
+            {
+              "kind": "craft",
+              "item": "epee-fer",
+              "label": "Forger une épée de fer"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "tangi",
+              "text": "Tu cherches une lame ? Apporte le fer, je forge. Pas de cadeaux, ici.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "tangi",
+              "text": "Les gardes du Baron achètent tout mon acier. Il en fait quoi ? Je préfère pas savoir.",
+              "mood": "colere"
+            }
+          ],
+          "rewards": {
+            "items": [
+              {
+                "item": "epee-fer",
+                "count": 1
+              }
+            ],
+            "unlockRecipes": [
+              "r-epee",
+              "r-bouclier",
+              "r-arbalete",
+              "r-harpon"
+            ],
+            "reputation": {
+              "trois-vannes": 10
+            }
+          }
+        },
+        {
+          "id": "c08-p3",
+          "title": "La Criée",
+          "zone": "tv-criee",
+          "summary": "À la criée, une cartographe cherche quelqu'un pour affronter la mer.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "tv-criee",
+              "label": "Aller à la criée",
+              "optional": false
+            },
+            {
+              "kind": "talk",
+              "npc": "maelle",
+              "label": "Parler à Maëlle"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "maelle",
+              "text": "Tu as rallumé le phare ? Alors tu as vu la lueur verte à l'ouest.",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "maelle",
+              "text": "Je dessine ses courants depuis deux ans. Il me manque un bateau. Et du courage.",
+              "mood": "mysterieux"
+            }
+          ],
+          "setFlags": [
+            "maelle-rencontree"
+          ],
+          "rewards": {
+            "reputation": {
+              "trois-vannes": 5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "c09",
+      "number": 9,
+      "act": 2,
+      "title": "La Chapelle et la Légende",
+      "synopsis": "Sous la chapelle Sainte-Azenor, des fresques racontent l'histoire du dragon et de l'émeraude.",
+      "parts": [
+        {
+          "id": "c09-p1",
+          "title": "Sœur Azenor",
+          "zone": "tv-chapelle",
+          "summary": "La gardienne de la chapelle teste la relève avant de lui confier la clé des caves.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "tv-chapelle",
+              "label": "Entrer dans la chapelle",
+              "optional": false
+            },
+            {
+              "kind": "talk",
+              "npc": "azenor",
+              "label": "Parler à Sœur Azenor"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "azenor",
+              "text": "Beaucoup cherchent l'émeraude. Peu cherchent pourquoi elle existe.",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "azenor",
+              "text": "Apporte-moi un cierge de bois d'épave, et je te laisse descendre.",
+              "mood": "neutre"
+            }
+          ]
+        },
+        {
+          "id": "c09-p2",
+          "title": "Les caves aux fresques",
+          "zone": "tv-caves",
+          "summary": "Trois fresques : le dragon endormi, l'émeraude dans la lanterne, l'émeraude arrachée.",
+          "objectives": [
+            {
+              "kind": "collect",
+              "item": "bois",
+              "count": 2,
+              "label": "Rapporter du bois d'épave"
+            },
+            {
+              "kind": "goto",
+              "zone": "tv-caves",
+              "label": "Descendre dans les caves",
+              "optional": false
+            },
+            {
+              "kind": "interact",
+              "target": "fresques",
+              "label": "Examiner les trois fresques"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "azenor",
+              "text": "Première fresque : Aerouant dort. Deuxième : les Veilleurs placent le Kalon-Glas dans le phare.",
+              "mood": "solennel"
+            },
+            {
+              "speaker": "azenor",
+              "text": "Troisième : la lumière verte quitte la lanterne. Et tout recommence.",
+              "mood": "triste"
+            },
+            {
+              "speaker": "releve",
+              "text": "Donc la braise manquante, c'est l'émeraude.",
+              "mood": "inquiet"
+            }
+          ],
+          "journalEntry": "Le Kalon-Glas, émeraude verte, était le cœur du phare. Sa lumière endort le dragon Aerouant. On l'a volée.",
+          "setFlags": [
+            "legende-apprise",
+            "kalon-glas-identifie"
+          ],
+          "rewards": {
+            "items": [
+              {
+                "item": "cle-caves",
+                "count": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "c09-p3",
+          "title": "La prophétie des veilleurs",
+          "zone": "tv-caves",
+          "summary": "Une inscription annonce trois boîtes cachées contenant la vérité des premiers Veilleurs.",
+          "objectives": [
+            {
+              "kind": "interact",
+              "target": "inscription-veilleurs",
+              "label": "Lire l'inscription"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "azenor",
+              "text": "« Trois boîtes, trois souvenirs. Qui les réunit comprendra pourquoi on a enfermé le feu. »",
+              "mood": "solennel"
+            },
+            {
+              "speaker": "releve",
+              "text": "J'en ai déjà trouvé une, sur la Corne de brume.",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "azenor",
+              "text": "Alors tu es plus avancé que le Baron.",
+              "mood": "mysterieux"
+            }
+          ],
+          "setFlags": [
+            "prophetie-veilleurs"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c10",
+      "number": 10,
+      "act": 2,
+      "title": "Le Manoir Kerhoël",
+      "synopsis": "Le Baron invite la relève à dîner. Derrière les sourires, un coffre vide et des registres à fouiller.",
+      "parts": [
+        {
+          "id": "c10-p1",
+          "title": "L'invitation",
+          "zone": "tv-place-cloche",
+          "summary": "Un messager du Baron remet une invitation scellée de cire verte.",
+          "objectives": [
+            {
+              "kind": "interact",
+              "target": "invitation-baron",
+              "label": "Recevoir l'invitation"
+            },
+            {
+              "kind": "goto",
+              "zone": "tv-manoir",
+              "label": "Se rendre au manoir",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "La cire est verte, couleur d'émeraude.",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "soizic",
+              "text": "N'y va pas seul. Et ne bois pas son vin.",
+              "mood": "inquiet"
+            }
+          ]
+        },
+        {
+          "id": "c10-p2",
+          "title": "Dîner de dupes",
+          "zone": "tv-manoir",
+          "summary": "Dialogue à choix avec le Baron. Chaque réponse change son attitude.",
+          "objectives": [
+            {
+              "kind": "talk",
+              "npc": "kerhoel",
+              "label": "Dîner avec le Baron"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "kerhoel",
+              "text": "Ah, notre petite relève ! Votre phare nous rend la vie plus douce.",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "kerhoel",
+              "text": "Dites-moi, que cherchez-vous à Keravel, exactement ?",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "releve",
+              "text": "Une braise.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "kerhoel",
+              "text": "Une braise ! Quelle poésie. Hélas, je ne connais que du charbon.",
+              "mood": "joyeux"
+            }
+          ],
+          "choices": [
+            {
+              "id": "diner-baron",
+              "prompt": "Comment répondre au Baron ?",
+              "options": [
+                {
+                  "id": "franc",
+                  "label": "Lui parler franchement de l'émeraude",
+                  "setFlags": [
+                    "baron-alerte"
+                  ],
+                  "reputation": {
+                    "trois-vannes": 5
+                  },
+                  "consequence": "Le Baron renforce la garde de son coffre."
+                },
+                {
+                  "id": "prudent",
+                  "label": "Rester vague et observer",
+                  "setFlags": [
+                    "baron-endormi"
+                  ],
+                  "consequence": "Le Baron se croit en sécurité, plus facile à surprendre."
+                },
+                {
+                  "id": "piege",
+                  "label": "Glisser un faux indice pour le piéger",
+                  "setFlags": [
+                    "baron-piege"
+                  ],
+                  "reputation": {
+                    "veilleurs": 5
+                  },
+                  "consequence": "Il enverra un messager à l'île, ce qui permet de le suivre."
+                }
+              ]
+            }
+          ],
+          "setFlags": [
+            "diner-fait"
+          ]
+        },
+        {
+          "id": "c10-p3",
+          "title": "Le coffre vide",
+          "zone": "tv-manoir",
+          "summary": "La nuit, infiltration dans le bureau : le coffre est vide, mais les registres de cargaison parlent.",
+          "objectives": [
+            {
+              "kind": "sneak",
+              "zone": "tv-manoir",
+              "label": "S'infiltrer dans le bureau"
+            },
+            {
+              "kind": "interact",
+              "target": "registres-cargaison",
+              "label": "Lire les registres"
+            },
+            {
+              "kind": "interact",
+              "target": "coffre-vide",
+              "label": "Examiner le coffre vide"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "Le coffre est vide, mais la poussière de verre vert tapisse le fond.",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "releve",
+              "text": "Cargaisons vers Enez-Aerouant, une fois par mois. Chargées de fer, de vivres, d'hommes.",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "releve",
+              "text": "Il a transféré l'émeraude là-bas. Dans une citadelle.",
+              "mood": "colere"
+            }
+          ],
+          "journalEntry": "Le Baron a déplacé le Kalon-Glas sur Enez-Aerouant, dans la citadelle de Kastell-Glas, protégée par la Garde de l'Émeraude.",
+          "setFlags": [
+            "preuve-baron",
+            "citadelle-localisee"
+          ],
+          "rewards": {
+            "items": [
+              {
+                "item": "uniforme-garde",
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c11",
+      "number": 11,
+      "act": 2,
+      "title": "La Fête de la Cloche",
+      "synopsis": "Le village fête sa cloche. Concours, musique, et un sabotage qui change tout.",
+      "parts": [
+        {
+          "id": "c11-p1",
+          "title": "Préparatifs",
+          "zone": "tv-place-cloche",
+          "summary": "Guirlandes, lanternes, pains tressés : le village se prépare.",
+          "objectives": [
+            {
+              "kind": "collect",
+              "item": "bois",
+              "count": 8,
+              "label": "Fournir du bois pour les feux"
+            },
+            {
+              "kind": "interact",
+              "target": "guirlandes",
+              "label": "Accrocher les lanternes"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "yannig",
+              "text": "La fête, c'est la seule nuit où la Brume n'ose pas venir.",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "soizic",
+              "text": "Alors faisons-la belle. Ils s'en souviendront.",
+              "mood": "solennel"
+            }
+          ]
+        },
+        {
+          "id": "c11-p2",
+          "title": "Les concours",
+          "zone": "tv-halle",
+          "summary": "Mini-jeux : course à la rame, tir à l'arbalète, course aux lanternes. Gagner donne du soutien et du matériel.",
+          "objectives": [
+            {
+              "kind": "solve",
+              "puzzle": "concours-rame",
+              "label": "Gagner la course à la rame"
+            },
+            {
+              "kind": "solve",
+              "puzzle": "concours-tir",
+              "label": "Réussir le tir à l'arbalète"
+            },
+            {
+              "kind": "solve",
+              "puzzle": "concours-lanternes",
+              "label": "Terminer la course aux lanternes"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "tangi",
+              "text": "T'as du bras. Garde-le pour plus tard.",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "maelle",
+              "text": "La rame, c'est de la navigation déguisée. Retiens bien le rythme.",
+              "mood": "joyeux"
+            }
+          ],
+          "rewards": {
+            "reputation": {
+              "trois-vannes": 15
+            },
+            "items": [
+              {
+                "item": "arbalete",
+                "count": 1
+              }
+            ]
+          },
+          "setFlags": [
+            "fete-concours-gagnes"
+          ]
+        },
+        {
+          "id": "c11-p3",
+          "title": "Le sabotage",
+          "zone": "tv-chantier",
+          "summary": "Pendant la fête, des hommes du Baron incendient le chantier naval pour empêcher toute traversée.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "tv-chantier",
+              "label": "Courir au chantier",
+              "optional": false
+            },
+            {
+              "kind": "survive",
+              "seconds": 40,
+              "label": "Éteindre l'incendie"
+            },
+            {
+              "kind": "talk",
+              "npc": "corentin",
+              "label": "Parler à Corentin"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "corentin",
+              "text": "Ma coque ! Ma belle coque !",
+              "mood": "triste"
+            },
+            {
+              "speaker": "yannig",
+              "text": "Ce sont les gardes du Baron. J'ai vu leurs bottes vertes.",
+              "mood": "colere"
+            },
+            {
+              "speaker": "soizic",
+              "text": "Il a peur de toi. C'est bon signe.",
+              "mood": "solennel"
+            }
+          ],
+          "setFlags": [
+            "chantier-sabote",
+            "baron-hostile"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c12",
+      "number": 12,
+      "act": 2,
+      "title": "Le Bateau",
+      "synopsis": "Tout le village se mobilise pour construire un bateau capable de traverser la Mer d'Iroise.",
+      "parts": [
+        {
+          "id": "c12-p1",
+          "title": "Les plans de Corentin",
+          "zone": "tv-chantier",
+          "summary": "Corentin sauve ses plans et conçoit un petit navire robuste.",
+          "objectives": [
+            {
+              "kind": "talk",
+              "npc": "corentin",
+              "label": "Valider les plans"
+            },
+            {
+              "kind": "interact",
+              "target": "plans-bateau",
+              "label": "Étudier les plans"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "corentin",
+              "text": "Une coque étroite, un mât unique, une voile de renfort. Il tiendra Iroise. Peut-être.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "goulven",
+              "text": "Il tiendra. Je le conduirai.",
+              "mood": "solennel"
+            }
+          ]
+        },
+        {
+          "id": "c12-p2",
+          "title": "Rassembler les matériaux",
+          "zone": "tv-port",
+          "summary": "Planches, fer, toile, sel : chaque métier du village contribue.",
+          "objectives": [
+            {
+              "kind": "collect",
+              "item": "planche",
+              "count": 8,
+              "label": "8 planches"
+            },
+            {
+              "kind": "collect",
+              "item": "fer",
+              "count": 4,
+              "label": "4 lingots de fer"
+            },
+            {
+              "kind": "collect",
+              "item": "toile",
+              "count": 2,
+              "label": "2 toiles de voile"
+            },
+            {
+              "kind": "collect",
+              "item": "sel",
+              "count": 3,
+              "label": "3 sels gris"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "tangi",
+              "text": "Du fer pour les gonds. Je ne laisse pas ma ville partir sans clous.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "nolwenn",
+              "text": "Du sel pour conserver les vivres. Et un peu de courage en bouteille.",
+              "mood": "joyeux"
+            }
+          ],
+          "rewards": {
+            "reputation": {
+              "trois-vannes": 10
+            }
+          }
+        },
+        {
+          "id": "c12-p3",
+          "title": "Le lancement",
+          "zone": "tv-port",
+          "summary": "Le bateau est mis à l'eau, baptisé, et l'équipage se forme.",
+          "objectives": [
+            {
+              "kind": "build",
+              "structure": "bateau-keravel",
+              "label": "Construire le bateau"
+            },
+            {
+              "kind": "talk",
+              "npc": "maelle",
+              "label": "Embarquer Maëlle"
+            },
+            {
+              "kind": "talk",
+              "npc": "goulven",
+              "label": "Embarquer Goulven"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "soizic",
+              "text": "Que la mer te rende ce qu'elle nous a pris. Nomme-le.",
+              "mood": "solennel"
+            },
+            {
+              "speaker": "releve",
+              "text": "La Veilleuse.",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "yannig",
+              "text": "Rapporte-moi un coquillage brillant !",
+              "mood": "joyeux"
+            }
+          ],
+          "journalEntry": "Fin de l'Acte II. La Veilleuse est lancée. Direction Enez-Aerouant, l'île du dragon.",
+          "setFlags": [
+            "acte2-termine",
+            "bateau-pret"
+          ],
+          "rewards": {
+            "unlockZones": [
+              "mer-iroise",
+              "ea-plage-naufrages"
+            ],
+            "items": [
+              {
+                "item": "carte-enez",
+                "count": 1
+              },
+              {
+                "item": "harpon",
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c13",
+      "number": 13,
+      "act": 3,
+      "title": "La Traversée",
+      "synopsis": "La Mer d'Iroise est capricieuse. La tempête sépare l'équipage et jette la Veilleuse sur les récifs.",
+      "parts": [
+        {
+          "id": "c13-p1",
+          "title": "La Mer d'Iroise",
+          "zone": "mer-iroise",
+          "summary": "Navigation à la boussole, lecture des courants, passage près de la Basse des Dents.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "mer-iroise",
+              "label": "Quitter le port",
+              "optional": false
+            },
+            {
+              "kind": "solve",
+              "puzzle": "navigation-iroise",
+              "label": "Suivre le cap de Maëlle"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "maelle",
+              "text": "Cap ouest-sud-ouest. Si la brume épaissit, on suit le bruit des vagues sur les dents.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "goulven",
+              "text": "La mer écoute. Parle-lui poliment.",
+              "mood": "joyeux"
+            }
+          ]
+        },
+        {
+          "id": "c13-p2",
+          "title": "La tempête",
+          "zone": "mer-iroise",
+          "summary": "Vagues, éclairs, voile déchirée. Il faut tenir la barre et écoper.",
+          "objectives": [
+            {
+              "kind": "survive",
+              "seconds": 75,
+              "label": "Survivre à la tempête"
+            },
+            {
+              "kind": "solve",
+              "puzzle": "ecoper",
+              "label": "Écoper la coque"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "goulven",
+              "text": "Tiens la barre ! Je descends refermer la brèche !",
+              "mood": "colere"
+            },
+            {
+              "speaker": "narrateur",
+              "text": "Au-dessus des vagues, une ombre immense traverse les nuages. Une seconde. Pas plus.",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "maelle",
+              "text": "Tu as vu ça ?!",
+              "mood": "inquiet"
+            }
+          ],
+          "setFlags": [
+            "ombre-dragon-vue"
+          ]
+        },
+        {
+          "id": "c13-p3",
+          "title": "Naufrage",
+          "zone": "ea-plage-naufrages",
+          "summary": "La Veilleuse s'échoue sur la Plage des Naufragés. L'équipage est dispersé.",
+          "cinematic": "Fondu au noir sur le fracas de la coque, puis lumière blanche sur le sable noir.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-plage-naufrages",
+              "label": "Atteindre la plage",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "Le sable est noir. Les épaves sont nombreuses. Certaines sont très anciennes.",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "releve",
+              "text": "Goulven ? Maëlle ?",
+              "mood": "inquiet"
+            }
+          ],
+          "setFlags": [
+            "naufrage"
+          ],
+          "rewards": {
+            "unlockZones": [
+              "ea-plage-naufrages",
+              "ea-sentier-embruns",
+              "ea-embouchure"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c14",
+      "number": 14,
+      "act": 3,
+      "title": "Les Naufragés",
+      "synopsis": "Survie sur une île inconnue : retrouver ses compagnons, bâtir un camp, comprendre la Garde.",
+      "parts": [
+        {
+          "id": "c14-p1",
+          "title": "Réveil sur le sable noir",
+          "zone": "ea-plage-naufrages",
+          "summary": "Récupérer les débris utiles de la Veilleuse, éviter les goélands pillards.",
+          "objectives": [
+            {
+              "kind": "collect",
+              "item": "bois",
+              "count": 8,
+              "label": "Récupérer du bois d'épave"
+            },
+            {
+              "kind": "collect",
+              "item": "rations",
+              "count": 2,
+              "label": "Retrouver des vivres"
+            },
+            {
+              "kind": "defeat",
+              "enemy": "goeland-pillard",
+              "count": 2,
+              "label": "Chasser 2 goélands"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "La Chaleur chute vite sur cette côte battue par le vent.",
+              "mood": "neutre"
+            },
+            {
+              "speaker": "releve",
+              "text": "Un feu, d'abord. Ensuite, on cherche.",
+              "mood": "neutre"
+            }
+          ]
+        },
+        {
+          "id": "c14-p2",
+          "title": "Un camp de base",
+          "zone": "ea-camp-base",
+          "summary": "Construire un abri, un feu et un établi pour tenir sur l'île.",
+          "objectives": [
+            {
+              "kind": "collect",
+              "item": "bois",
+              "count": 10,
+              "label": "Réunir 10 bois"
+            },
+            {
+              "kind": "build",
+              "structure": "abri",
+              "label": "Construire un abri"
+            },
+            {
+              "kind": "build",
+              "structure": "etabli",
+              "label": "Construire un établi"
+            },
+            {
+              "kind": "craft",
+              "item": "braise-fortune",
+              "label": "Allumer le feu"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "releve",
+              "text": "Ce n'est pas un phare, mais ça tiendra.",
+              "mood": "joyeux"
+            }
+          ],
+          "setFlags": [
+            "camp-base-construit"
+          ]
+        },
+        {
+          "id": "c14-p3",
+          "title": "Les premières traces",
+          "zone": "ea-sentier-embruns",
+          "summary": "Des traces de bottes vertes mènent à une patrouille de la Garde, et à Maëlle, prisonnière.",
+          "objectives": [
+            {
+              "kind": "sneak",
+              "zone": "ea-sentier-embruns",
+              "label": "Suivre la patrouille sans se faire repérer"
+            },
+            {
+              "kind": "interact",
+              "target": "maelle-prisonniere",
+              "label": "Libérer Maëlle"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "maelle",
+              "text": "Ils m'ont prise pour une espionne du Service des feux. Ils n'ont pas tort.",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "maelle",
+              "text": "Goulven est vivant, il a rejoint les marais. J'ai vu sa barque.",
+              "mood": "inquiet"
+            }
+          ],
+          "combat": {
+            "id": "cmb-patrouille-1",
+            "arena": "ea-sentier-embruns",
+            "enemies": [
+              {
+                "enemy": "garde-recrue",
+                "count": 3
+              }
+            ],
+            "rules": [
+              "Possible de contourner par furtivité"
+            ]
+          },
+          "setFlags": [
+            "maelle-libre",
+            "garde-rencontree"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c15",
+      "number": 15,
+      "act": 3,
+      "title": "La Stêr-Glas",
+      "synopsis": "Remonter la rivière verte : gué, pont de corde, cascade et grotte secrète.",
+      "parts": [
+        {
+          "id": "c15-p1",
+          "title": "Le gué des Lavandières",
+          "zone": "ea-gue-lavandieres",
+          "summary": "Traverser un gué peu profond en évitant les courants et les loups d'eau douce.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-embouchure",
+              "label": "Rejoindre l'embouchure",
+              "optional": false
+            },
+            {
+              "kind": "goto",
+              "zone": "ea-gue-lavandieres",
+              "label": "Atteindre le gué",
+              "optional": false
+            },
+            {
+              "kind": "solve",
+              "puzzle": "gue-pierres",
+              "label": "Traverser sur les pierres plates"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "maelle",
+              "text": "Les pierres plates sont à six pas du bord. Ne regarde pas l'eau, regarde tes pieds.",
+              "mood": "neutre"
+            }
+          ]
+        },
+        {
+          "id": "c15-p2",
+          "title": "Le pont de corde de Pen-Stêr",
+          "zone": "ea-pont-de-corde",
+          "summary": "Un pont suspendu surveillé par deux gardes. Combat, furtivité ou diversion.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-pont-de-corde",
+              "label": "Approcher du pont",
+              "optional": false
+            },
+            {
+              "kind": "defeat",
+              "enemy": "garde-arbalete",
+              "count": 2,
+              "label": "Neutraliser les arbalétriers"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "ronan",
+              "text": "(Garde, de loin) Qui va là ?! … Personne. Retourne à ta ronde, Yvon.",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "maelle",
+              "text": "Celui-là ne veut pas qu'on le trouve. Étrange.",
+              "mood": "mysterieux"
+            }
+          ],
+          "combat": {
+            "id": "cmb-pont",
+            "arena": "ea-pont-de-corde",
+            "enemies": [
+              {
+                "enemy": "garde-arbalete",
+                "count": 2
+              },
+              {
+                "enemy": "garde-lance",
+                "count": 1
+              }
+            ],
+            "rules": [
+              "Couper la corde fait tomber les gardes dans la rivière"
+            ]
+          }
+        },
+        {
+          "id": "c15-p3",
+          "title": "La cascade du Voile",
+          "zone": "ea-cascade-voile",
+          "summary": "Derrière le rideau d'eau, une grotte secrète cache la deuxième boîte des veilleurs.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-cascade-voile",
+              "label": "Atteindre la cascade",
+              "optional": false
+            },
+            {
+              "kind": "goto",
+              "zone": "ea-grotte-voile",
+              "label": "Passer derrière le Voile",
+              "optional": false
+            },
+            {
+              "kind": "collect",
+              "item": "boite-veilleur",
+              "count": 1,
+              "label": "Prendre la boîte n°2"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "Un souvenir gravé : « On n'a pas tué le dragon. On l'a rendu au sommeil. »",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "releve",
+              "text": "Ils l'ont endormi. Pas vaincu.",
+              "mood": "inquiet"
+            }
+          ],
+          "setFlags": [
+            "boite-2"
+          ],
+          "rewards": {
+            "items": [
+              {
+                "item": "boite-veilleur",
+                "count": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c16",
+      "number": 16,
+      "act": 3,
+      "title": "La Forêt de Coat-Du",
+      "synopsis": "Une forêt sombre pleine de feux follets où un cerf spectral garde le chemin du sud.",
+      "parts": [
+        {
+          "id": "c16-p1",
+          "title": "Sous les arbres",
+          "zone": "ea-foret-coat-du",
+          "summary": "Loups, racines pièges, nuit permanente. La lanterne devient indispensable.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-foret-coat-du",
+              "label": "Entrer dans la forêt",
+              "optional": false
+            },
+            {
+              "kind": "defeat",
+              "enemy": "loup-des-landes",
+              "count": 3,
+              "label": "Repousser la meute"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "maelle",
+              "text": "Les arbres ont mangé la lumière. Garde ta lanterne haute.",
+              "mood": "inquiet"
+            }
+          ],
+          "combat": {
+            "id": "cmb-loups",
+            "arena": "ea-foret-coat-du",
+            "enemies": [
+              {
+                "enemy": "loup-des-landes",
+                "count": 3
+              }
+            ]
+          }
+        },
+        {
+          "id": "c16-p2",
+          "title": "Les feux follets",
+          "zone": "ea-foret-coat-du",
+          "summary": "Suivre les bonnes lueurs, ignorer les mauvaises : puzzle de lumières.",
+          "objectives": [
+            {
+              "kind": "solve",
+              "puzzle": "feux-follets",
+              "label": "Suivre la bonne lueur"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "Trois lueurs dansent. Deux mentent.",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "releve",
+              "text": "La seule qui ne bouge pas quand je cligne des yeux…",
+              "mood": "neutre"
+            }
+          ]
+        },
+        {
+          "id": "c16-p3",
+          "title": "Le Cerf de Brume",
+          "zone": "ea-coeur-foret",
+          "summary": "Mini-boss : un cerf gigantesque fait de brume et de ramures.",
+          "objectives": [
+            {
+              "kind": "defeat",
+              "enemy": "cerf-de-brume",
+              "count": 1,
+              "label": "Vaincre le Cerf de Brume"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "Il ne veut pas vous tuer. Il veut que vous partiez.",
+              "mood": "mysterieux"
+            }
+          ],
+          "combat": {
+            "id": "cmb-cerf",
+            "arena": "ea-coeur-foret",
+            "enemies": [
+              {
+                "enemy": "cerf-de-brume",
+                "count": 1
+              }
+            ],
+            "boss": "cerf-de-brume",
+            "rules": [
+              "Éclairer le cerf avec la lanterne pour l'étourdir"
+            ]
+          },
+          "rewards": {
+            "unlockAbilities": [
+              "lanterne-vive"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c17",
+      "number": 17,
+      "act": 3,
+      "title": "Les Marais de Stank et Ker-Goz",
+      "synopsis": "Marais toxique, village abandonné, retrouvailles avec Goulven, et un serpent géant.",
+      "parts": [
+        {
+          "id": "c17-p1",
+          "title": "Le marais",
+          "zone": "ea-marais-stank",
+          "summary": "Poison, brume, ponts de planches pourris. Nolwenn a laissé une recette d'antidote.",
+          "objectives": [
+            {
+              "kind": "collect",
+              "item": "herbe-marais",
+              "count": 3,
+              "label": "Cueillir 3 herbes de marais"
+            },
+            {
+              "kind": "craft",
+              "item": "antidote",
+              "label": "Préparer l'antidote"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "maelle",
+              "text": "Ne touche pas aux nénuphars violets. Ils collent.",
+              "mood": "inquiet"
+            }
+          ]
+        },
+        {
+          "id": "c17-p2",
+          "title": "Ker-Goz, le village vidé",
+          "zone": "ea-ker-goz",
+          "summary": "Le vieux village de pêcheurs a été vidé par la Garde. Goulven et quelques survivants s'y cachent.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-ker-goz",
+              "label": "Atteindre Ker-Goz",
+              "optional": false
+            },
+            {
+              "kind": "talk",
+              "npc": "goulven",
+              "label": "Retrouver Goulven"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "goulven",
+              "text": "Ils les ont envoyés aux mines. Hommes, femmes, tout ce qui peut porter un seau.",
+              "mood": "colere"
+            },
+            {
+              "speaker": "goulven",
+              "text": "Le Baron n'est pas un voleur. C'est un roi qui s'ignore.",
+              "mood": "solennel"
+            }
+          ],
+          "setFlags": [
+            "goulven-retrouve",
+            "mineurs-captifs-connus"
+          ]
+        },
+        {
+          "id": "c17-p3",
+          "title": "Le Serpent de Stank",
+          "zone": "ea-antre-serpent",
+          "summary": "Mini-boss : un serpent colossal qui garde l'unique passage vers les landes.",
+          "objectives": [
+            {
+              "kind": "defeat",
+              "enemy": "serpent-de-stank",
+              "count": 1,
+              "label": "Vaincre le Serpent de Stank"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "goulven",
+              "text": "Frappe la tête quand il sort ! Pas avant !",
+              "mood": "colere"
+            }
+          ],
+          "combat": {
+            "id": "cmb-serpent",
+            "arena": "ea-antre-serpent",
+            "enemies": [
+              {
+                "enemy": "serpent-de-stank",
+                "count": 1
+              }
+            ],
+            "boss": "serpent-de-stank"
+          },
+          "rewards": {
+            "items": [
+              {
+                "item": "fer",
+                "count": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c18",
+      "number": 18,
+      "act": 3,
+      "title": "Les Ruines des Veilleurs",
+      "synopsis": "Un ancien phare effondré cache le dernier veilleur et la vérité sur le dragon.",
+      "parts": [
+        {
+          "id": "c18-p1",
+          "title": "Les gorges de Roc'h-Gwenn",
+          "zone": "ea-gorges-rochgwenn",
+          "summary": "Falaises blanches, passerelles instables, un golem de schiste en travers du chemin.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-landes-brug",
+              "label": "Traverser les Landes de Brug",
+              "optional": false
+            },
+            {
+              "kind": "goto",
+              "zone": "ea-gorges-rochgwenn",
+              "label": "Entrer dans les gorges",
+              "optional": false
+            },
+            {
+              "kind": "defeat",
+              "enemy": "golem-de-schiste",
+              "count": 1,
+              "label": "Briser le golem"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "maelle",
+              "text": "Son cœur brille dans son dos. Vise-le avec une arbalète.",
+              "mood": "neutre"
+            }
+          ],
+          "combat": {
+            "id": "cmb-golem",
+            "arena": "ea-gorges-rochgwenn",
+            "enemies": [
+              {
+                "enemy": "golem-de-schiste",
+                "count": 1
+              }
+            ],
+            "boss": "golem-de-schiste"
+          }
+        },
+        {
+          "id": "c18-p2",
+          "title": "Erwan Le Bris",
+          "zone": "ea-ruines-veilleurs",
+          "summary": "Le dernier veilleur, vieilli, survit dans les ruines depuis trois ans.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-ruines-veilleurs",
+              "label": "Explorer les ruines",
+              "optional": false
+            },
+            {
+              "kind": "talk",
+              "npc": "erwan",
+              "label": "Parler à Erwan"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "erwan",
+              "text": "Je savais qu'une relève viendrait. Je n'espérais pas qu'elle survive.",
+              "mood": "triste"
+            },
+            {
+              "speaker": "erwan",
+              "text": "C'est le Baron. Il a pris le Kalon-Glas dans la lanterne, la nuit des cloches. Je n'ai rien pu faire.",
+              "mood": "triste"
+            },
+            {
+              "speaker": "releve",
+              "text": "Pourquoi la Brume ? Pourquoi ces spectres ?",
+              "mood": "inquiet"
+            }
+          ],
+          "setFlags": [
+            "erwan-retrouve"
+          ]
+        },
+        {
+          "id": "c18-p3",
+          "title": "La clé de braise",
+          "zone": "ea-ruines-veilleurs",
+          "summary": "Erwan révèle la vérité sur Aerouant, donne la clé de la Salle Verte et la troisième boîte.",
+          "objectives": [
+            {
+              "kind": "collect",
+              "item": "boite-veilleur",
+              "count": 1,
+              "label": "Prendre la boîte n°3"
+            },
+            {
+              "kind": "collect",
+              "item": "cle-braise",
+              "count": 1,
+              "label": "Recevoir la clé de braise"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "erwan",
+              "text": "Aerouant n'est pas un monstre né pour détruire. C'est un feu ancien. Nos ancêtres lui ont pris son cœur, le Kalon-Glas, pour le dompter.",
+              "mood": "solennel"
+            },
+            {
+              "speaker": "erwan",
+              "text": "Tant que la lumière verte brille dans le phare, il dort. Sans elle, il se réveille. Doucement. Il rêve déjà.",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "erwan",
+              "text": "Prenez la clé. Mais promettez-moi une chose : quand vous aurez l'émeraude, ne la gardez pas. Rapportez-la au phare. Vite.",
+              "mood": "solennel"
+            }
+          ],
+          "journalEntry": "Vérité : le Kalon-Glas est le cœur du dragon. Le phare l'endort par sa lumière verte. Ramener l'émeraude au phare, vite.",
+          "setFlags": [
+            "verite-aerouant",
+            "acte3-termine"
+          ],
+          "rewards": {
+            "items": [
+              {
+                "item": "cle-braise",
+                "count": 1
+              },
+              {
+                "item": "boite-veilleur",
+                "count": 1
+              }
+            ],
+            "reputation": {
+              "veilleurs": 20
+            },
+            "unlockZones": [
+              "ea-camp-garde"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c19",
+      "number": 19,
+      "act": 4,
+      "title": "Le Camp de la Garde",
+      "synopsis": "Observer, infiltrer, convaincre : le camp est la porte de la citadelle.",
+      "parts": [
+        {
+          "id": "c19-p1",
+          "title": "Observer depuis la lande",
+          "zone": "ea-landes-brug",
+          "summary": "Depuis un menhir, la relève étudie les rondes, les tours et les relèves.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-landes-brug",
+              "label": "Atteindre le menhir de guet",
+              "optional": false
+            },
+            {
+              "kind": "interact",
+              "target": "longue-vue",
+              "label": "Observer le camp avec la longue-vue"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "maelle",
+              "text": "Trois tours, deux relèves par nuit, un feu au centre. Et un lieutenant qui regarde la mer plus que ses hommes.",
+              "mood": "neutre"
+            }
+          ]
+        },
+        {
+          "id": "c19-p2",
+          "title": "Trois façons d'entrer",
+          "zone": "ea-camp-garde",
+          "summary": "Choix d'approche : furtivité, combat ou diplomatie.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-camp-garde",
+              "label": "Atteindre le camp",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "goulven",
+              "text": "Furtif, c'est long. Frontal, c'est sanglant. Parler, c'est risqué. Choisis ton poison.",
+              "mood": "neutre"
+            }
+          ],
+          "choices": [
+            {
+              "id": "entree-camp",
+              "prompt": "Comment entrer dans le camp ?",
+              "options": [
+                {
+                  "id": "furtif",
+                  "label": "Se glisser avec l'uniforme volé",
+                  "setFlags": [
+                    "camp-furtif"
+                  ],
+                  "consequence": "Aucun alarme, mais pas de renforts."
+                },
+                {
+                  "id": "force",
+                  "label": "Attaquer de front",
+                  "setFlags": [
+                    "camp-force"
+                  ],
+                  "reputation": {
+                    "garde": -10
+                  },
+                  "consequence": "Alarme générale, mais la Garde se disperse."
+                },
+                {
+                  "id": "parler",
+                  "label": "Demander à parler au lieutenant Ronan",
+                  "setFlags": [
+                    "camp-diplomatie"
+                  ],
+                  "reputation": {
+                    "garde": 10
+                  },
+                  "consequence": "Ronan devient allié plus tôt."
+                }
+              ]
+            }
+          ],
+          "combat": {
+            "id": "cmb-camp",
+            "arena": "ea-camp-garde",
+            "enemies": [
+              {
+                "enemy": "garde-recrue",
+                "count": 4
+              },
+              {
+                "enemy": "garde-lance",
+                "count": 2
+              },
+              {
+                "enemy": "garde-bouclier",
+                "count": 1
+              }
+            ],
+            "rules": [
+              "Uniquement si l'option « force » est choisie"
+            ]
+          }
+        },
+        {
+          "id": "c19-p3",
+          "title": "Le renégat",
+          "zone": "ea-camp-garde",
+          "summary": "Ronan, jeune lieutenant, avoue ne plus croire au Baron et offre son aide.",
+          "objectives": [
+            {
+              "kind": "talk",
+              "npc": "ronan",
+              "label": "Parler à Ronan"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "ronan",
+              "text": "On m'a dit que je protégeais l'île. J'ai vu des familles enchaînées.",
+              "mood": "triste"
+            },
+            {
+              "speaker": "ronan",
+              "text": "Je vous ouvre la petite porte des mines. Après, je n'ai rien vu.",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "releve",
+              "text": "Merci, Ronan.",
+              "mood": "joyeux"
+            }
+          ],
+          "setFlags": [
+            "ronan-allie"
+          ],
+          "rewards": {
+            "reputation": {
+              "garde": 15
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "c20",
+      "number": 20,
+      "act": 4,
+      "title": "Les Mines Vertes",
+      "synopsis": "Libérer les mineurs, découvrir ce que le Baron fait de la poussière d'émeraude.",
+      "parts": [
+        {
+          "id": "c20-p1",
+          "title": "L'entrée des mines",
+          "zone": "ea-mines-vertes",
+          "summary": "Galeries étroites, wagonnets, poussière verte qui brille.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-mines-vertes",
+              "label": "Entrer dans les mines",
+              "optional": false
+            },
+            {
+              "kind": "collect",
+              "item": "poussiere-emeraude",
+              "count": 3,
+              "label": "Examiner la poussière d'émeraude"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "La poussière verte brille faiblement. Elle est chaude, comme un cœur.",
+              "mood": "mysterieux"
+            }
+          ]
+        },
+        {
+          "id": "c20-p2",
+          "title": "Les mineurs enchaînés",
+          "zone": "ea-mines-vertes",
+          "summary": "Libérer les villageois de Ker-Goz et de Trois-Vannes détenus par la Garde.",
+          "objectives": [
+            {
+              "kind": "defeat",
+              "enemy": "garde-recrue",
+              "count": 3,
+              "label": "Neutraliser les surveillants"
+            },
+            {
+              "kind": "interact",
+              "target": "chaines-mineurs",
+              "label": "Briser les chaînes"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "Un vieux mineur lève les yeux : « C'est donc vrai, quelqu'un est venu. »",
+              "mood": "triste"
+            }
+          ],
+          "combat": {
+            "id": "cmb-mineurs",
+            "arena": "ea-mines-vertes",
+            "enemies": [
+              {
+                "enemy": "garde-recrue",
+                "count": 3
+              }
+            ]
+          },
+          "setFlags": [
+            "mineurs-liberes"
+          ],
+          "rewards": {
+            "reputation": {
+              "trois-vannes": 20
+            }
+          }
+        },
+        {
+          "id": "c20-p3",
+          "title": "L'éboulement",
+          "zone": "ea-mines-vertes",
+          "summary": "Une galerie s'effondre : fuite à travers un passage secret menant aux cryptes de la citadelle.",
+          "objectives": [
+            {
+              "kind": "survive",
+              "seconds": 40,
+              "label": "Fuir l'éboulement"
+            },
+            {
+              "kind": "goto",
+              "zone": "ea-citadelle-cryptes",
+              "label": "Atteindre les cryptes",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "ronan",
+              "text": "La galerie est piégée ! Par ici, les cryptes !",
+              "mood": "colere"
+            },
+            {
+              "speaker": "goulven",
+              "text": "J'ai connu des tempêtes plus calmes que ça !",
+              "mood": "joyeux"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c21",
+      "number": 21,
+      "act": 4,
+      "title": "Les Remparts",
+      "synopsis": "Assaut sur les murailles, archers, herse à lever.",
+      "parts": [
+        {
+          "id": "c21-p1",
+          "title": "L'escalade silencieuse",
+          "zone": "ea-citadelle-remparts",
+          "summary": "Grimper aux remparts sans réveiller le guet.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-citadelle-remparts",
+              "label": "Atteindre le pied des murs",
+              "optional": false
+            },
+            {
+              "kind": "sneak",
+              "zone": "ea-citadelle-remparts",
+              "label": "Grimper en silence"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "maelle",
+              "text": "La pierre est humide. Trois prises à gauche, deux à droite.",
+              "mood": "neutre"
+            }
+          ]
+        },
+        {
+          "id": "c21-p2",
+          "title": "Les archers",
+          "zone": "ea-citadelle-remparts",
+          "summary": "Combat sur le chemin de ronde contre les arbalétriers.",
+          "objectives": [
+            {
+              "kind": "defeat",
+              "enemy": "garde-arbalete",
+              "count": 4,
+              "label": "Éliminer les arbalétriers"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "ronan",
+              "text": "Baissez-vous ! Ils rechargent dans quatre secondes !",
+              "mood": "colere"
+            }
+          ],
+          "combat": {
+            "id": "cmb-remparts",
+            "arena": "ea-citadelle-remparts",
+            "enemies": [
+              {
+                "enemy": "garde-arbalete",
+                "count": 4
+              },
+              {
+                "enemy": "garde-bouclier",
+                "count": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "c21-p3",
+          "title": "La herse",
+          "zone": "ea-citadelle-remparts",
+          "summary": "Lever la herse de l'intérieur pour laisser entrer les mineurs libérés.",
+          "objectives": [
+            {
+              "kind": "solve",
+              "puzzle": "treuil-herse",
+              "label": "Actionner le treuil de la herse"
+            },
+            {
+              "kind": "interact",
+              "target": "herse",
+              "label": "Ouvrir la herse"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "La herse grince. Derrière, des centaines de silhouettes avancent dans la nuit.",
+              "mood": "solennel"
+            }
+          ],
+          "setFlags": [
+            "herse-ouverte"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c22",
+      "number": 22,
+      "act": 4,
+      "title": "La Cour d'Armes",
+      "synopsis": "Le cœur militaire de Kastell-Glas : combats en vagues, maître d'armes, puis la Capitaine Orwenn.",
+      "parts": [
+        {
+          "id": "c22-p1",
+          "title": "Les vagues de la cour",
+          "zone": "ea-citadelle-cour",
+          "summary": "Trois vagues d'ennemis dans la cour pavée, avec l'aide des mineurs.",
+          "objectives": [
+            {
+              "kind": "defeat",
+              "enemy": "garde-lance",
+              "count": 3,
+              "label": "Vague 1 : lanciers"
+            },
+            {
+              "kind": "defeat",
+              "enemy": "garde-bouclier",
+              "count": 2,
+              "label": "Vague 2 : boucliers"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "tangi",
+              "text": "(Mineur) J'ai ma masse. Montrez-moi qui frapper.",
+              "mood": "joyeux"
+            }
+          ],
+          "combat": {
+            "id": "cmb-cour-vagues",
+            "arena": "ea-citadelle-cour",
+            "enemies": [
+              {
+                "enemy": "garde-lance",
+                "count": 3
+              },
+              {
+                "enemy": "garde-bouclier",
+                "count": 2
+              },
+              {
+                "enemy": "garde-recrue",
+                "count": 4
+              }
+            ]
+          }
+        },
+        {
+          "id": "c22-p2",
+          "title": "Le Maître d'armes",
+          "zone": "ea-citadelle-cour",
+          "summary": "Boss duelliste rapide : parades, enchaînements à trois coups.",
+          "objectives": [
+            {
+              "kind": "defeat",
+              "enemy": "maitre-darmes",
+              "count": 1,
+              "label": "Vaincre le Maître d'armes Kervella"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "Le Maître d'armes salue. Pas de haine, juste du métier.",
+              "mood": "solennel"
+            }
+          ],
+          "combat": {
+            "id": "cmb-maitre",
+            "arena": "ea-citadelle-cour",
+            "enemies": [
+              {
+                "enemy": "maitre-darmes",
+                "count": 1
+              }
+            ],
+            "boss": "maitre-darmes",
+            "rules": [
+              "Esquiver le troisième coup, frapper après"
+            ]
+          }
+        },
+        {
+          "id": "c22-p3",
+          "title": "La Capitaine Orwenn",
+          "zone": "ea-citadelle-cour",
+          "summary": "Face à face avec la Capitaine. Elle doute. Le joueur peut l'affronter ou la convaincre.",
+          "objectives": [
+            {
+              "kind": "talk",
+              "npc": "orwenn",
+              "label": "Parler à Orwenn"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "orwenn",
+              "text": "Vous avez libéré mes mineurs. Vous avez tué mes hommes. Que voulez-vous que je fasse ?",
+              "mood": "colere"
+            },
+            {
+              "speaker": "releve",
+              "text": "Que vous regardiez ce que vous protégez.",
+              "mood": "solennel"
+            },
+            {
+              "speaker": "orwenn",
+              "text": "… Le Baron m'a dit qu'il sauvait l'île.",
+              "mood": "triste"
+            }
+          ],
+          "choices": [
+            {
+              "id": "sort-orwenn",
+              "prompt": "Que faire d'Orwenn ?",
+              "options": [
+                {
+                  "id": "combat",
+                  "label": "L'affronter en duel",
+                  "setFlags": [
+                    "orwenn-vaincue"
+                  ],
+                  "reputation": {
+                    "garde": -10
+                  },
+                  "consequence": "Boss à vaincre, elle meurt ou fuit."
+                },
+                {
+                  "id": "pardon",
+                  "label": "L'épargner et lui demander de se rendre",
+                  "setFlags": [
+                    "orwenn-epargnee"
+                  ],
+                  "reputation": {
+                    "garde": 20
+                  },
+                  "consequence": "Orwenn rejoint le camp à l'acte V."
+                }
+              ]
+            }
+          ],
+          "combat": {
+            "id": "cmb-orwenn",
+            "arena": "ea-citadelle-cour",
+            "enemies": [
+              {
+                "enemy": "capitaine-orwenn",
+                "count": 1
+              }
+            ],
+            "boss": "capitaine-orwenn",
+            "rules": [
+              "Uniquement si le joueur choisit « combat »"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c23",
+      "number": 23,
+      "act": 4,
+      "title": "Le Donjon",
+      "synopsis": "Six étages à gravir, des énigmes, un Baron et un piège.",
+      "parts": [
+        {
+          "id": "c23-p1",
+          "title": "L'ascension",
+          "zone": "ea-citadelle-donjon",
+          "summary": "Six étages, chacun avec une mécanique : leviers, ponts levis, miroirs.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-citadelle-donjon",
+              "label": "Entrer dans le donjon",
+              "optional": false
+            },
+            {
+              "kind": "solve",
+              "puzzle": "donjon-leviers",
+              "label": "Résoudre les leviers"
+            },
+            {
+              "kind": "solve",
+              "puzzle": "donjon-miroirs",
+              "label": "Aligner les miroirs"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "maelle",
+              "text": "Les étages sont asymétriques. Les miroirs renvoient la lumière du Kalon-Glas.",
+              "mood": "neutre"
+            }
+          ]
+        },
+        {
+          "id": "c23-p2",
+          "title": "Le Baron Kerhoël",
+          "zone": "ea-citadelle-donjon",
+          "summary": "Duel contre le Baron, armé d'un éclat d'émeraude.",
+          "objectives": [
+            {
+              "kind": "defeat",
+              "enemy": "baron-kerhoel",
+              "count": 1,
+              "label": "Vaincre le Baron"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "kerhoel",
+              "text": "Vous ne comprenez pas ! Je tiens enfin Keravel dans ma main !",
+              "mood": "colere"
+            },
+            {
+              "speaker": "kerhoel",
+              "text": "Cette pierre vaut dix flottes. Vous préférez des mouettes ?",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "releve",
+              "text": "Elle ne vous appartient pas.",
+              "mood": "solennel"
+            }
+          ],
+          "combat": {
+            "id": "cmb-baron",
+            "arena": "ea-citadelle-donjon",
+            "enemies": [
+              {
+                "enemy": "baron-kerhoel",
+                "count": 1
+              }
+            ],
+            "boss": "baron-kerhoel",
+            "rules": [
+              "Éviter les rayons verts, frapper quand il recharge"
+            ]
+          }
+        },
+        {
+          "id": "c23-p3",
+          "title": "Le piège",
+          "zone": "ea-citadelle-donjon",
+          "summary": "Le Baron, vaincu, déclenche un mécanisme qui scelle la Salle Verte… et l'ouvre à moitié.",
+          "objectives": [
+            {
+              "kind": "interact",
+              "target": "mecanisme-salle-verte",
+              "label": "Désactiver le mécanisme"
+            },
+            {
+              "kind": "interact",
+              "target": "porte-salle-verte",
+              "label": "Utiliser la clé de braise"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "kerhoel",
+              "text": "Si je ne l'ai pas, personne ne l'aura !",
+              "mood": "colere"
+            },
+            {
+              "speaker": "erwan",
+              "text": "(Souvenir) La clé ne s'use qu'une fois. Choisis bien l'instant.",
+              "mood": "mysterieux"
+            }
+          ],
+          "setFlags": [
+            "baron-vaincu"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c24",
+      "number": 24,
+      "act": 4,
+      "title": "Le Kalon-Glas",
+      "synopsis": "L'émeraude est enfin devant vous. La prendre réveille le dragon.",
+      "parts": [
+        {
+          "id": "c24-p1",
+          "title": "La Salle Verte",
+          "zone": "ea-salle-verte",
+          "summary": "Salle ronde, lumière verte vibrante, piédestal gravé aux noms des Veilleurs.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-salle-verte",
+              "label": "Entrer dans la Salle Verte",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "La lumière est douce. Presque vivante. Elle respire.",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "maelle",
+              "text": "Je n'ai jamais rien vu d'aussi beau. Et d'aussi dangereux.",
+              "mood": "inquiet"
+            }
+          ]
+        },
+        {
+          "id": "c24-p2",
+          "title": "Prendre l'émeraude",
+          "zone": "ea-salle-verte",
+          "summary": "Le joueur prend le Kalon-Glas. La salle tremble.",
+          "objectives": [
+            {
+              "kind": "collect",
+              "item": "kalon-glas",
+              "count": 1,
+              "label": "Prendre le Kalon-Glas"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "releve",
+              "text": "Rapporter l'émeraude au phare. Vite.",
+              "mood": "solennel"
+            },
+            {
+              "speaker": "narrateur",
+              "text": "Au moment où votre main se referme, le sol gronde sous la citadelle.",
+              "mood": "mysterieux"
+            }
+          ],
+          "rewards": {
+            "items": [
+              {
+                "item": "kalon-glas",
+                "count": 1
+              }
+            ],
+            "reputation": {
+              "veilleurs": 30
+            }
+          },
+          "setFlags": [
+            "kalon-glas-pris"
+          ]
+        },
+        {
+          "id": "c24-p3",
+          "title": "L'éveil",
+          "zone": "ea-crete-vents",
+          "summary": "Le Pic de Braise s'embrase. Un œil immense s'ouvre dans la lave.",
+          "cinematic": "Le cratère rougeoie. Plan serré sur une pupille verticale qui s'ouvre. Rugissement. Tremblement de caméra.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-crete-vents",
+              "label": "Fuir sur la Crête des Vents",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "aerouant",
+              "text": "Qui touche… à mon cœur ?",
+              "mood": "colere"
+            },
+            {
+              "speaker": "goulven",
+              "text": "Il est réveillé ! Tous à la côte !",
+              "mood": "colere"
+            }
+          ],
+          "journalEntry": "Fin de l'Acte IV. Le Kalon-Glas est en main. Aerouant est réveillé. Direction la côte, le bateau et le phare.",
+          "setFlags": [
+            "dragon-reveille",
+            "acte4-termine"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c25",
+      "number": 25,
+      "act": 5,
+      "title": "La Fuite sous les Cendres",
+      "synopsis": "La citadelle s'effondre, la lave descend, l'île entière brûle. Il faut atteindre la côte.",
+      "parts": [
+        {
+          "id": "c25-p1",
+          "title": "L'effondrement",
+          "zone": "ea-citadelle-donjon",
+          "summary": "Course dans les escaliers du donjon pendant que les murs s'écroulent.",
+          "objectives": [
+            {
+              "kind": "survive",
+              "seconds": 45,
+              "label": "Descendre avant l'effondrement"
+            },
+            {
+              "kind": "goto",
+              "zone": "ea-citadelle-cour",
+              "label": "Atteindre la cour",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "ronan",
+              "text": "Par ici ! L'escalier de service tient encore !",
+              "mood": "colere"
+            },
+            {
+              "speaker": "maelle",
+              "text": "Le sol se fend ! Saute !",
+              "mood": "inquiet"
+            }
+          ]
+        },
+        {
+          "id": "c25-p2",
+          "title": "Les landes en feu",
+          "zone": "ea-crete-vents",
+          "summary": "Course à travers la crête et les landes sous une pluie de cendres et de roches brûlantes.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-crete-vents",
+              "label": "Franchir la Crête des Vents",
+              "optional": false
+            },
+            {
+              "kind": "survive",
+              "seconds": 60,
+              "label": "Esquiver les roches de lave"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "Le ciel devient orange. Les menhirs fondent comme du sucre.",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "goulven",
+              "text": "Je n'ai jamais couru aussi vite depuis mes vingt ans !",
+              "mood": "joyeux"
+            }
+          ]
+        },
+        {
+          "id": "c25-p3",
+          "title": "Le dernier bateau",
+          "zone": "ea-plage-naufrages",
+          "summary": "La Veilleuse, réparée en secret par les rescapés de Ker-Goz, attend sur la plage.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "ea-plage-naufrages",
+              "label": "Atteindre la plage",
+              "optional": false
+            },
+            {
+              "kind": "interact",
+              "target": "veilleuse-embarquer",
+              "label": "Embarquer sur la Veilleuse"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "goulven",
+              "text": "Je l'ai raboutée comme j'ai pu. Elle flotte. Elle fera le reste.",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "orwenn",
+              "text": "(Si épargnée) Je tiens la poupe. La Garde a un devoir de plus.",
+              "mood": "solennel"
+            }
+          ],
+          "setFlags": [
+            "fuite-reussie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c26",
+      "number": 26,
+      "act": 5,
+      "title": "Le Réveil d'Aerouant",
+      "synopsis": "Le dragon surgit du volcan, poursuit la Veilleuse au-dessus d'Iroise, parle.",
+      "parts": [
+        {
+          "id": "c26-p1",
+          "title": "Le dragon sur la mer",
+          "zone": "mer-iroise",
+          "summary": "Poursuite à bord de la Veilleuse : harpons, voile, esquive des jets de feu.",
+          "cinematic": "Le dragon surgit du cratère, ailes déployées, éclipse la lune. Plan large sur la Veilleuse minuscule.",
+          "objectives": [
+            {
+              "kind": "survive",
+              "seconds": 90,
+              "label": "Tenir la mer pendant la poursuite"
+            },
+            {
+              "kind": "solve",
+              "puzzle": "harpon-aile",
+              "label": "Harponner une aile du dragon"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "goulven",
+              "text": "Tribord toute ! Il vise la voile !",
+              "mood": "colere"
+            },
+            {
+              "speaker": "maelle",
+              "text": "Les harpons ! Maintenant !",
+              "mood": "inquiet"
+            }
+          ]
+        },
+        {
+          "id": "c26-p2",
+          "title": "La voix du dragon",
+          "zone": "mer-iroise",
+          "summary": "Aerouant s'approche de la Veilleuse et parle au porteur du Kalon-Glas.",
+          "objectives": [
+            {
+              "kind": "talk",
+              "npc": "aerouant",
+              "label": "Écouter le dragon"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "aerouant",
+              "text": "Petit veilleur… tu portes mon cœur dans une main d'humain.",
+              "mood": "mysterieux"
+            },
+            {
+              "speaker": "aerouant",
+              "text": "Vos ancêtres l'ont arraché. Ils ont appelé cela un sommeil. Moi, j'ai appelé cela une prison.",
+              "mood": "colere"
+            },
+            {
+              "speaker": "releve",
+              "text": "Si je te le rends, tu brûleras Keravel.",
+              "mood": "solennel"
+            },
+            {
+              "speaker": "aerouant",
+              "text": "Peut-être. Peut-être pas. Tu veux parier ?",
+              "mood": "joyeux"
+            }
+          ],
+          "setFlags": [
+            "dragon-parle"
+          ]
+        },
+        {
+          "id": "c26-p3",
+          "title": "La côte de Keravel",
+          "zone": "mer-iroise",
+          "summary": "Le dragon coupe la route. Il prend de l'avance vers Trois-Vannes.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "tv-port",
+              "label": "Rejoindre le port de Trois-Vannes",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "maelle",
+              "text": "Il vole droit sur le village !",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "releve",
+              "text": "On sonne la cloche. Toutes les cloches.",
+              "mood": "solennel"
+            }
+          ],
+          "journalEntry": "Aerouant s'est dirigé vers Trois-Vannes. Il faut ramener le Kalon-Glas au phare, mais d'abord sauver le village."
+        }
+      ]
+    },
+    {
+      "id": "c27",
+      "number": 27,
+      "act": 5,
+      "title": "Trois-Vannes sous le Feu",
+      "synopsis": "Phase 1 du combat : le dragon attaque le village par les airs. Tout le village se défend.",
+      "parts": [
+        {
+          "id": "c27-p1",
+          "title": "L'alerte",
+          "zone": "tv-place-cloche",
+          "summary": "Sonner la grande cloche, évacuer les habitants, armer les balistes.",
+          "objectives": [
+            {
+              "kind": "interact",
+              "target": "grande-cloche",
+              "label": "Sonner la grande cloche"
+            },
+            {
+              "kind": "talk",
+              "npc": "soizic",
+              "label": "Rejoindre Soizic"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "soizic",
+              "text": "Tout le monde aux caves de la chapelle ! Les armes à la halle !",
+              "mood": "colere"
+            },
+            {
+              "speaker": "tangi",
+              "text": "Mes balistes sont prêtes. Montrez-moi où tirer.",
+              "mood": "solennel"
+            }
+          ]
+        },
+        {
+          "id": "c27-p2",
+          "title": "Les balistes de Tangi",
+          "zone": "tv-port",
+          "summary": "Phase 1 du boss : viser les ailes avec les balistes pendant que le dragon passe en rase-mottes.",
+          "objectives": [
+            {
+              "kind": "defeat",
+              "enemy": "aerouant",
+              "count": 1,
+              "label": "Faire atterrir le dragon (phase 1)"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "yannig",
+              "text": "Je charge ! Vous, visez !",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "aerouant",
+              "text": "Petites flèches. Petits toits. Petit monde.",
+              "mood": "mysterieux"
+            }
+          ],
+          "combat": {
+            "id": "boss-aerouant-p1",
+            "arena": "tv-port",
+            "enemies": [
+              {
+                "enemy": "aerouant",
+                "count": 1
+              }
+            ],
+            "boss": "aerouant",
+            "rules": [
+              "Phase 1 : Le Ciel de Feu",
+              "Les balistes infligent 3 fois plus de dégâts aux ailes"
+            ]
+          }
+        },
+        {
+          "id": "c27-p3",
+          "title": "Le port en flammes",
+          "zone": "tv-port",
+          "summary": "Sauvetage de villageois coincés, et Yannig en danger.",
+          "objectives": [
+            {
+              "kind": "survive",
+              "seconds": 60,
+              "label": "Éteindre les incendies"
+            },
+            {
+              "kind": "interact",
+              "target": "yannig-sauvetage",
+              "label": "Sauver Yannig"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "yannig",
+              "text": "Je suis là ! Sous la poutre !",
+              "mood": "inquiet"
+            },
+            {
+              "speaker": "releve",
+              "text": "Accroche-toi. Je te sors de là.",
+              "mood": "solennel"
+            },
+            {
+              "speaker": "aerouant",
+              "text": "(Il se pose) Le cœur. Maintenant.",
+              "mood": "colere"
+            }
+          ],
+          "setFlags": [
+            "yannig-sauve",
+            "dragon-atterri"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c28",
+      "number": 28,
+      "act": 5,
+      "title": "Le Combat au Pied du Phare",
+      "synopsis": "Le dragon poursuit la relève jusqu'à la prairie du phare : bataille au sol, puis ascension de la tour.",
+      "parts": [
+        {
+          "id": "c28-p1",
+          "title": "Gravir la colline",
+          "zone": "route-trois-vannes",
+          "summary": "Courir de Trois-Vannes au phare avec le Kalon-Glas en harcelant le dragon.",
+          "objectives": [
+            {
+              "kind": "survive",
+              "seconds": 60,
+              "label": "Fuir sur la route côtière"
+            },
+            {
+              "kind": "goto",
+              "zone": "prairie-phare",
+              "label": "Atteindre la Prairie du Phare",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "maelle",
+              "text": "Le phare, c'est la seule chose qu'il craint ! Cours !",
+              "mood": "inquiet"
+            }
+          ]
+        },
+        {
+          "id": "c28-p2",
+          "title": "Aerouant au sol",
+          "zone": "prairie-phare",
+          "summary": "Phase 2 : combat au sol, queue, morsure, souffle en cône. Utiliser les rochers et la barrière comme abris.",
+          "objectives": [
+            {
+              "kind": "defeat",
+              "enemy": "aerouant",
+              "count": 1,
+              "label": "Réduire le dragon à 40 % de PV (phase 2)"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "aerouant",
+              "text": "Ici, tout a commencé. Ici, tout finira.",
+              "mood": "solennel"
+            }
+          ],
+          "combat": {
+            "id": "boss-aerouant-p2",
+            "arena": "prairie-phare",
+            "enemies": [
+              {
+                "enemy": "aerouant",
+                "count": 1
+              }
+            ],
+            "boss": "aerouant",
+            "rules": [
+              "Phase 2 : Le Dragon au Sol",
+              "Ventre exposé après chaque souffle"
+            ]
+          }
+        },
+        {
+          "id": "c28-p3",
+          "title": "La lanterne",
+          "zone": "phare-keravel",
+          "summary": "Monter dans le phare pendant que le dragon grimpe sur la tour.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "phare-keravel",
+              "label": "Entrer dans le phare",
+              "optional": false
+            },
+            {
+              "kind": "survive",
+              "seconds": 40,
+              "label": "Gravir l'escalier"
+            },
+            {
+              "kind": "goto",
+              "zone": "phare-keravel",
+              "label": "Atteindre la salle de la lanterne",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "ronan",
+              "text": "Je retiens la porte du bas !",
+              "mood": "colere"
+            },
+            {
+              "speaker": "erwan",
+              "text": "(Écho) Tout en haut. Le Kalon-Glas va dans la braise. Maintenant.",
+              "mood": "solennel"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c29",
+      "number": 29,
+      "act": 5,
+      "title": "La Lumière Verte",
+      "synopsis": "Insérer l'émeraude, tourner le faisceau, affronter la fin du dragon, et choisir.",
+      "parts": [
+        {
+          "id": "c29-p1",
+          "title": "Insérer le Kalon-Glas",
+          "zone": "phare-keravel",
+          "summary": "Phase 3 : placer le Kalon-Glas dans la lampe sous les assauts du dragon.",
+          "objectives": [
+            {
+              "kind": "interact",
+              "target": "inserer-kalon-glas",
+              "label": "Insérer le Kalon-Glas dans la lanterne"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "releve",
+              "text": "Allez… prends ta place, petite lumière.",
+              "mood": "solennel"
+            },
+            {
+              "speaker": "narrateur",
+              "text": "La lanterne s'illumine d'un vert profond. Toute l'île s'éclaire.",
+              "mood": "mysterieux"
+            }
+          ],
+          "combat": {
+            "id": "boss-aerouant-p3",
+            "arena": "phare-keravel",
+            "enemies": [
+              {
+                "enemy": "aerouant",
+                "count": 1
+              }
+            ],
+            "boss": "aerouant",
+            "rules": [
+              "Phase 3 : La Lumière Verte"
+            ]
+          },
+          "rewards": {
+            "lampPower": 100
+          },
+          "setFlags": [
+            "kalon-glas-insere"
+          ]
+        },
+        {
+          "id": "c29-p2",
+          "title": "Le faisceau",
+          "zone": "phare-keravel",
+          "summary": "Phase 4 : orienter le faisceau vers le dragon pour l'étourdir et l'affaiblir.",
+          "objectives": [
+            {
+              "kind": "defeat",
+              "enemy": "aerouant",
+              "count": 1,
+              "label": "Maintenir le faisceau sur le dragon (phase 4)"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "aerouant",
+              "text": "Cette lumière… je m'en souviens…",
+              "mood": "triste"
+            },
+            {
+              "speaker": "maelle",
+              "text": "Il faiblit ! Garde le cap !",
+              "mood": "joyeux"
+            }
+          ],
+          "combat": {
+            "id": "boss-aerouant-p4",
+            "arena": "phare-keravel",
+            "enemies": [
+              {
+                "enemy": "aerouant",
+                "count": 1
+              }
+            ],
+            "boss": "aerouant",
+            "rules": [
+              "Phase 4 : L'Agonie de Braise",
+              "Séquence de timing du faisceau"
+            ]
+          }
+        },
+        {
+          "id": "c29-p3",
+          "title": "Le choix",
+          "zone": "phare-keravel",
+          "summary": "Le dragon est à genoux. Trois fins possibles.",
+          "objectives": [
+            {
+              "kind": "talk",
+              "npc": "aerouant",
+              "label": "Décider du sort du dragon"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "aerouant",
+              "text": "Alors, veilleur ? Une prison, une mort, ou un adieu ?",
+              "mood": "solennel"
+            }
+          ],
+          "choices": [
+            {
+              "id": "fin-dragon",
+              "prompt": "Que faire d'Aerouant ?",
+              "options": [
+                {
+                  "id": "sceller",
+                  "label": "Le rendormir avec la lumière verte",
+                  "setFlags": [
+                    "fin-veilleur"
+                  ],
+                  "reputation": {
+                    "veilleurs": 30
+                  },
+                  "consequence": "Fin « La Flamme Gardée » : le phare brille pour toujours."
+                },
+                {
+                  "id": "tuer",
+                  "label": "Porter le coup final",
+                  "setFlags": [
+                    "fin-chasseur"
+                  ],
+                  "reputation": {
+                    "garde": 20
+                  },
+                  "consequence": "Fin « Le Dernier Coup » : la Brume disparaît mais le phare s'éteint."
+                },
+                {
+                  "id": "liberer",
+                  "label": "Lui rendre son cœur",
+                  "setFlags": [
+                    "fin-liberation"
+                  ],
+                  "reputation": {
+                    "veilleurs": -10
+                  },
+                  "consequence": "Fin « La Paix de Braise » : le dragon part, Keravel est libre mais sans protection."
+                }
+              ]
+            }
+          ],
+          "setFlags": [
+            "dragon-vaincu"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c30",
+      "number": 30,
+      "act": 5,
+      "title": "Après la Brume",
+      "synopsis": "L'aube sur Keravel. Conséquences, reconstruction, épilogue, et monde libre.",
+      "parts": [
+        {
+          "id": "c30-p1",
+          "title": "L'aube",
+          "zone": "phare-keravel",
+          "summary": "Le soleil se lève, la Brume se dissipe. Chaque fin a son plan final.",
+          "cinematic": "Aube sur la mer. Le phare, rouge et blanc, domine l'archipel. La caméra monte au-dessus des nuages.",
+          "objectives": [
+            {
+              "kind": "goto",
+              "zone": "phare-keravel",
+              "label": "Sortir sur le balcon",
+              "optional": false
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "narrateur",
+              "text": "La cloche sonne une dernière fois. Pour la première fois depuis trois ans, elle sonne l'aurore.",
+              "mood": "solennel"
+            }
+          ]
+        },
+        {
+          "id": "c30-p2",
+          "title": "Trois-Vannes se relève",
+          "zone": "tv-place-cloche",
+          "summary": "Reconstruction : le joueur aide à rebâtir le village, avec les gens qu'il a aidés.",
+          "objectives": [
+            {
+              "kind": "build",
+              "structure": "reconstruction-port",
+              "label": "Reconstruire le port"
+            },
+            {
+              "kind": "talk",
+              "npc": "soizic",
+              "label": "Parler à Soizic"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "soizic",
+              "text": "Nous avons perdu des toits. Nous avons gagné un ciel.",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "yannig",
+              "text": "Je te garde une chambre à l'auberge. À vie.",
+              "mood": "joyeux"
+            },
+            {
+              "speaker": "tangi",
+              "text": "(Il pose une plaque de fer gravée au phare) Pour le veilleur.",
+              "mood": "solennel"
+            }
+          ]
+        },
+        {
+          "id": "c30-p3",
+          "title": "Le veilleur de Keravel",
+          "zone": "phare-keravel",
+          "summary": "Épilogue : le joueur devient le veilleur officiel, le monde reste ouvert.",
+          "objectives": [
+            {
+              "kind": "interact",
+              "target": "journal-veilleur-final",
+              "label": "Signer le journal du phare"
+            }
+          ],
+          "dialogue": [
+            {
+              "speaker": "ewen",
+              "text": "(Lettre) Vous êtes désormais veilleur de Keravel. Gardez la flamme.",
+              "mood": "solennel"
+            },
+            {
+              "speaker": "releve",
+              "text": "Toujours.",
+              "mood": "joyeux"
+            }
+          ],
+          "journalEntry": "Fin de l'histoire principale. Monde libre : retrouver les boîtes des veilleurs, explorer Enez-Aerouant, aider Trois-Vannes.",
+          "setFlags": [
+            "histoire-terminee",
+            "acte5-termine"
+          ],
+          "rewards": {
+            "unlockAbilities": [
+              "monde-libre",
+              "nouvelle-partie-plus"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -22,7 +22,13 @@ node web-host.mjs
 test -s dist/index.wasm
 test -s dist/index.pck
 
-if [[ "${NIN_VERIFY:-0}" == 1 ]]; then
+if [[ "${NIN_VERIFY:-0}" == story ]]; then
+  npm install --prefix story_authoring --no-fund --no-audit
+  npm run --prefix story_authoring typecheck
+  npm run --prefix story_authoring validate
+fi
+
+if [[ "${NIN_VERIFY:-0}" == 1 || "${NIN_VERIFY:-0}" == viewport || "${NIN_VERIFY:-0}" == story ]]; then
   npm install --prefix "$tools/browser" --no-fund --no-audit @sparticuz/chromium@140.0.0 puppeteer-core@24.20.0
   node verify-web.mjs "$tools/browser"
 fi

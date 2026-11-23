@@ -6,6 +6,15 @@ const Sound=preload("res://audio.gd")
 const Overlay=preload("res://hud.gd")
 const Ink=preload("res://meshwork.gd")
 const Art=preload("res://art.gd")
+const KeravelMap=preload("res://keravel_map.gd")
+const EXPEDITION=[
+	"ea-sentier-embruns","ea-camp-base","ea-embouchure","ea-gue-lavandieres",
+	"ea-pont-de-corde","ea-cascade-voile","ea-grotte-voile","ea-lac-miroir",
+	"ea-foret-coat-du","ea-coeur-foret","ea-marais-stank","ea-ker-goz",
+	"ea-antre-serpent","ea-landes-brug","ea-gorges-rochgwenn","ea-ruines-veilleurs",
+	"ea-camp-garde","ea-mines-vertes","ea-citadelle-cryptes","ea-citadelle-remparts",
+	"ea-citadelle-cour","ea-citadelle-donjon","ea-salle-verte","ea-crete-vents","ea-plage-naufrages",
+]
 const DAY=282.0
 const TIDE_CYCLE=135.0
 const SAVE_PATH="user://quart_v1.json"
@@ -89,6 +98,9 @@ var move_finger=-1
 var look_finger=-1
 var touch_move=Vector2.ZERO
 var browser_qa
+var campaign_phase=-1
+var expedition_index=0
+var campaign_track=""
 var qa_save_path=""
 var save_timer_msg=0.
 var compass_targets=[]
@@ -213,9 +225,12 @@ func new_run():
 	total_built=0
 	harvests=0
 	survived=0
-	safe=World.SPAWN
-	home=World.SPAWN
-	xy=World.SPAWN
+	campaign_phase=0
+	expedition_index=0
+	campaign_track=""
+	safe=KeravelMap.START
+	home=safe
+	xy=safe
 	actor.facing=.20
 	actor.rotation.y=.20
 	selected_site=-1
@@ -225,10 +240,11 @@ func new_run():
 	was_new=true
 	start_play()
 	save_run()
-	notify("Ramasse du bois flotté et du silex près du sentier.",5)
+	notify("Trois-Vannes • Rejoins le port pour prendre ton service au phare.",6)
 
 func start_play():
 	state="play"
+	world.set_campaign_lamp(100 if campaign_phase>=6 else (35 if campaign_phase>=2 else 0))
 	ui_hidden=false
 	actor.visible=true
 	boat.visible=rescued
@@ -315,6 +331,7 @@ func save_run():
 	data["watch"]=[signal_active,signal_calls,signal_start,next_signal]
 	data["stamps"]=stamps
 	data["marais"]=marsh.pack()
+	data["campaign"]=[campaign_phase,expedition_index,campaign_track]
 	var path=get_save_path()
 	var f=FileAccess.open(path+".tmp",FileAccess.WRITE)
 	if f==null:
@@ -351,6 +368,10 @@ func resume_run():
 	signal_active=watch[0];signal_calls=int(watch[1]);signal_start=float(watch[2]);next_signal=float(watch[3]);call_announced=false
 	total_built=int(d.total); harvests=int(d.harvests); survived=int(d.survived); run_name=int(d.run)
 	selected_site=int(d.get("tracked",-1))
+	var journey=d.get("campaign",[-1,0,""])
+	campaign_phase=int(journey[0])
+	expedition_index=clampi(int(journey[1]),0,EXPEDITION.size())
+	campaign_track=journey[2] if world.campaign.zones.has(journey[2]) else ""
 	sailing={};sail_speed=0.
 	for b in d.built:
 		camp.spawn(b[0],Vector2(b[1],b[2]),b[3],int(b[4]),b[5])
@@ -430,8 +451,9 @@ func follow_camera(dt:float,snap:bool=false):
 
 func set_actor_height(snap:bool=false,dt:float=.016):
 	var base=camp.deck_height(xy)
-	depth=maxf(0.,water-base)
-	var target=maxf(base,water-.98+.055*sin(visual_time*3))
+	var surface:float=world.campaign.water_at(xy,water)
+	depth=maxf(0.,surface-base)
+	var target=maxf(base,surface-.98+.055*sin(visual_time*3))
 	actor.position=Vector3(xy.x,target if snap else lerpf(actor.position.y,target,1-exp(-dt*16.0)),xy.y)
 
 func open_panel(s:String):
@@ -439,7 +461,7 @@ func open_panel(s:String):
 	mouselook=false
 	Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
 	previous_panel=state
-	state=s
+	state="campaign_atlas" if s=="map" and campaign_phase>=0 else s
 	hud.focus_index=0
 	if s in ["pause","map","help","craft"]: save_run()
 
@@ -467,6 +489,8 @@ func command(id:String):
 		"music": audio.music_on=not audio.music_on; pref()
 		"full": toggle_fullscreen()
 		"map": open_panel("map")
+		"campaign_atlas": state="campaign_atlas"
+		"local_atlas": state="map"
 		"craft": open_panel("craft")
 		"menu": go_menu()
 		"respawn": respawn()
@@ -479,6 +503,11 @@ func command(id:String):
 			exit_game()
 		"skip": finish_cinematic()
 		_:
+			if id.begins_with("chart_"):
+				var marker=id.trim_prefix("chart_")
+				if world.campaign.zones.has(marker):
+					campaign_track="" if campaign_track==marker else marker
+					selected_site=-1
 			if id.begins_with("plans_"):
 				hud.craft_tab=int(id.trim_prefix("plans_"))
 				audio.effect("prise",-13,1.18)
@@ -518,13 +547,13 @@ func _input(event):
 			if state=="play":
 				if camp.kind!="": camp.cancel()
 				else: open_panel("pause")
-			elif state in ["map","craft","help","pause","confirm_new","letter","remove"]: close_panel()
+			elif state in ["map","campaign_atlas","craft","help","pause","confirm_new","letter","remove"]: close_panel()
 			return
 		if state=="menu" and k in [KEY_ENTER,KEY_SPACE] and hud.focus_index==0:
 			if active_save: resume_run()
 			else: new_run()
 			return
-		if state=="map" and k in [KEY_M,KEY_TAB]: close_panel(); return
+		if state in ["map","campaign_atlas"] and k in [KEY_M,KEY_TAB]: close_panel(); return
 		if state=="craft":
 			if k==KEY_B: close_panel(); return
 			if k>=KEY_1 and k<=KEY_9:
@@ -625,8 +654,11 @@ func input_move()->Vector2:
 	var z=float(Input.is_physical_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN))-float(Input.is_physical_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP))
 	return Vector2(x,z).normalized().rotated(-yaw)
 
+func reachable_world(p:Vector2)->bool:
+	return world.campaign.inside(p) and (campaign_phase<0 or campaign_phase>=4 or not KeravelMap.ISLAND.has_point(p))
+
 func can_walk(p:Vector2)->bool:
-	if abs(p.x)>113 or abs(p.y)>93: return false
+	if not reachable_world(p): return false
 	if world.blocked(p,.19) and not world.blocked(xy,.19): return false
 	if camp.building_blocks_move(xy,p,actor.position.y): return false
 	return true
@@ -675,6 +707,10 @@ func find_nearest():
 	if not sailing.is_empty():
 		nearest={"kind":"disembark","at":xy,"label":"Quitter la yole"}
 		return
+	var story_target=campaign_action()
+	if not story_target.is_empty():
+		nearest=story_target
+		return
 	var target=marsh.target()
 	if not target.is_empty(): nearest=target; return
 	var dl=xy.distance_to(World.LIGHT)
@@ -713,6 +749,7 @@ func interact():
 	if nearest.is_empty(): return
 	gather_cd=.39
 	match nearest.kind:
+		"campaign": advance_campaign(nearest.id)
 		"marsh": marsh.use(nearest.index)
 		"disembark": disembark()
 		"letter":
@@ -737,7 +774,20 @@ func interact():
 				notify("Assez de matériaux • B pour construire ton premier feu.",4.3)
 		"site": recover_part(nearest.index)
 		"phare":
-			if rescued: audio.effect("corne",-6); notify("Le canot de relève garde le contact.")
+			if campaign_phase==1 and has_ember and pieces.count(true)==3:
+				campaign_phase=2
+				world.set_campaign_lamp(35)
+				campaign_track=""
+				notify("Le phare retrouve une lueur pâle. À Trois-Vannes, enquête sur la braise volée.",6)
+				save_run()
+			elif campaign_phase==5:
+				campaign_phase=6
+				world.set_campaign_lamp(100)
+				campaign_track=""
+				notify("Le Kalon-Glas rallume Keravel. Tu peux continuer à explorer l’archipel.",6)
+				save_run()
+			elif campaign_phase in [2,3,4,6]: notify("Le phare veille sur le chenal.")
+			elif rescued: audio.effect("corne",-6); notify("Le canot de relève garde le contact.")
 			elif signal_active: notify("Reste près du phare. Réponds avec Espace quand le canot appelle.",4)
 			elif not has_ember or pieces.count(true)<3: notify("La lanterne réclame trois pièces et la braise d’un feu de camp.",4.4)
 			else: start_watch()
@@ -793,6 +843,72 @@ func claim_part(i:int):
 	camp.spray(world.pos(world.spots[i])+Vector3.UP,"gold",15)
 	audio.effect("vestige",-2)
 	notify(World.PARTS[i]+" récupéré"+("e" if i!=1 else "")+" • %d / 3"%pieces.count(true),4.5)
+	save_run()
+
+func campaign_destination()->String:
+	match campaign_phase:
+		0: return "tv-port"
+		1:
+			for i in 3:
+				if not pieces[i]: return ["le-courlis","corne-de-brume","ateliers-salines"][i]
+			return "phare-keravel" if has_ember else "prairie-phare"
+		2: return "tv-place-cloche"
+		3: return "tv-port"
+		4:
+			if expedition_index<EXPEDITION.size(): return EXPEDITION[expedition_index]
+		5: return "phare-keravel"
+	return ""
+
+func campaign_action()->Dictionary:
+	var id=campaign_destination()
+	if id=="" or id=="phare-keravel" or campaign_phase==1: return {}
+	var p:Vector2=KeravelMap.POINTS[id]
+	if xy.distance_to(p)>4.4: return {}
+	var label="Lire le repère"
+	match campaign_phase:
+		0: label="Embarquer pour le ponton du phare"
+		2: label="Consulter les annonces de Trois-Vannes"
+		3: label="Prendre la Veilleuse vers Enez-Aerouant"
+		4:
+			match id:
+				"ea-ruines-veilleurs": label="Lire le message d’Erwan"
+				"ea-salle-verte": label="Récupérer le Kalon-Glas"
+				"ea-plage-naufrages": label="Reprendre la Veilleuse vers Trois-Vannes"
+	return {"kind":"campaign","id":id,"at":p,"label":label}
+
+func campaign_landing(id:String):
+	xy=KeravelMap.POINTS[id]
+	safe=xy
+	home=xy
+	velocity=Vector2.ZERO
+	set_actor_height(true)
+	reset_camera()
+
+func advance_campaign(id:String):
+	if id!=campaign_destination(): return
+	match campaign_phase:
+		0:
+			campaign_phase=1
+			campaign_landing("ponton-arrivee")
+			audio.effect("cloche",-4)
+			notify("Arrivée confirmée. Le phare est éteint depuis trois ans. Rallume-le.",6)
+		2:
+			campaign_phase=3
+			notify("Les registres du Baron désignent Kastell-Glas. La Veilleuse attend au port.",6)
+		3:
+			campaign_phase=4
+			campaign_landing("ea-plage-naufrages")
+			notify("La tempête t’a rejeté sur la plage. Gagne le camp des Naufragés.",6)
+		4:
+			expedition_index+=1
+			if id=="ea-plage-naufrages":
+				campaign_phase=5
+				campaign_landing("tv-port")
+				notify("Retour à Trois-Vannes. Rapporte le Kalon-Glas au phare par la route côtière.",6)
+			elif id=="ea-ruines-veilleurs": notify("Message d’Erwan • Le Kalon-Glas est le cœur d’Aerouant.",6)
+			elif id=="ea-salle-verte": notify("Kalon-Glas récupéré • Fuis par la Crête des Vents.",6)
+			else: notify(world.campaign.zones[id].description,5.5)
+	campaign_track=""
 	save_run()
 
 func eat():
@@ -982,7 +1098,7 @@ func _process(delta):
 	elif state=="play":
 		age+=dt
 		update_sea()
-		world.atmosphere(visual_time,water,night,storm,rescued or signal_active)
+		world.atmosphere(visual_time,water,night,storm,rescued or signal_active or campaign_phase>=2)
 		signal_watch()
 		if sailing.is_empty(): move_player(dt)
 		else: sail(dt)
@@ -1058,7 +1174,7 @@ func sail(dt:float):
 	var candidate=sailing.at+front*sail_speed*dt
 	if world.ground(candidate)>water+.45 and world.ground(candidate)>world.ground(sailing.at):
 		sail_speed=0.
-	elif abs(candidate.x)<112 and abs(candidate.y)<92 and not world.on_pier(candidate) and not world.blocked(candidate,.65) and not camp.building_blocks_move(sailing.at,candidate,sailing.y+.44):
+	elif reachable_world(candidate) and not world.on_pier(candidate) and not world.blocked(candidate,.65) and not camp.building_blocks_move(sailing.at,candidate,sailing.y+.44):
 		sailing.at=candidate
 	else: sail_speed=0.
 	xy=sailing.at

@@ -1,6 +1,7 @@
 extends Node3D
 const Ink=preload("res://meshwork.gd")
 const Art=preload("res://art.gd")
+const KeravelMap=preload("res://keravel_map.gd")
 const GRID=2.0
 const NX=121
 const NZ=101
@@ -38,6 +39,7 @@ var light_base:Vector3
 var spots=[]
 var resources=[]
 var blocks=[]
+var campaign=KeravelMap.new()
 var mobile_detail=false
 var building_footprints:Array[Rect2]=[]
 var noise=FastNoiseLite.new()
@@ -65,6 +67,8 @@ func _ready():
 	noise.seed=8361
 	noise.frequency=.063
 	noise.fractal_octaves=3
+	campaign.configure(self)
+	add_child(campaign)
 	environment_setup()
 	terrain()
 	ocean()
@@ -73,6 +77,7 @@ func _ready():
 	nature()
 	populate()
 	birds()
+	campaign.build()
 
 func environment_setup():
 	env=Environment.new()
@@ -126,7 +131,7 @@ func field(p:Vector2)->float:
 	if keel.length()<1.65:
 		var bank=smoothstep(.71,1.65,keel.length())
 		height=lerpf(.14+n*.20,height,bank)
-	return preload("res://marais.gd").terrain(p,height)
+	return maxf(campaign.coastal_height(p),preload("res://marais.gd").terrain(p,height))
 
 func tint(h:float,n:float,p:Vector2)->Color:
 	var sand=Color("#d6bd8d").lerp(Color("#e2cda0"),clamp(.5+n,0,1))
@@ -181,6 +186,7 @@ func terrain():
 	add_child(terrain_node)
 
 func ground(p:Vector2)->float:
+	if p.x<ORIGIN.x or p.y<ORIGIN.y or p.x>120. or p.y>100.: return campaign.height(p)
 	var v=(p-ORIGIN)/GRID
 	var x=clampi(floori(v.x),0,NX-2)
 	var z=clampi(floori(v.y),0,NZ-2)
@@ -330,11 +336,19 @@ func landmarks():
 	beam.visible=false
 
 func blocked(p:Vector2,extra:float=0.0)->bool:
+	if campaign.blocked(p,extra): return true
 	for footprint in building_footprints:
 		if footprint.grow(extra).has_point(p): return true
 	for b in blocks:
 		if p.distance_to(b[0])<b[1]+extra: return true
 	return false
+
+func set_campaign_lamp(power:int):
+	var cone=beam.get_child(0) as MeshInstance3D
+	var green=power>=100
+	cone.material_override.albedo_color=Color(.36,1.,.68,.20) if green else Color(1.,.88,.54,.075 if power==35 else .16)
+	beacon_lens.material_override.albedo_color=Color("#a5ffd0") if green else Color("#fff4b8")
+	bloom.modulate=Color(.45,1.,.68) if green else Color.WHITE
 
 func make_veg(key:String,builder):
 	veg_meshes[key]=builder.mesh(mat)
@@ -512,6 +526,11 @@ func atmosphere(time:float,tide:float,night:float,storm:float,lit:bool):
 	shore.animate(self,time,tide)
 
 func region(p:Vector2)->String:
+	var zone:String=campaign.nearest_zone(p,16.)
+	if zone.begins_with("tv-") or zone.begins_with("ea-") or zone=="route-trois-vannes":
+		return campaign.zones[zone].name
+	if KeravelMap.TOWN.has_point(p) and p.y>115.: return "Trois-Vannes"
+	if KeravelMap.ISLAND.has_point(p) and ground(p)>1.8: return "Enez-Aerouant"
 	if preload("res://marais.gd").extent(p)<1.2: return "Marais des Trois-Vannes"
 	if p.distance_to(SITES[0])<25: return "Les Bancs du Courlis"
 	if p.distance_to(SITES[1])<27: return "Îlot de la Corne"
@@ -519,4 +538,4 @@ func region(p:Vector2)->String:
 	if p.distance_to(Vector2(-65,-38))<15: return "Les Dents de granit"
 	if p.distance_to(Vector2(48,43))<14: return "Île de la Veuve"
 	if p.distance_to(Vector2(4,26))<31: return "Pointe de Keravel"
-	return "Le Grand Estran"
+	return "Mer d’Iroise"
