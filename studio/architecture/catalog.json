@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "criteria": {
+    "geometry": "Dimensions adaptées au personnage, géométrie utile et sans dégénérescence.",
+    "silhouette": "Usage et identité reconnaissables depuis la rue et à distance.",
+    "facade": "Composition, encadrements, signes d’usage et détails lisibles.",
+    "roof": "Pente, faîtage, rives et charpente cohérents avec la construction.",
+    "openings": "Portes, fenêtres et accès alignés avec leurs volumes et leur usage.",
+    "materials": "Matériaux identifiables. Vérifier les raccords et les textures si présentes.",
+    "interior": "Volumes réellement accessibles et à l’échelle des interactions attendues.",
+    "furniture": "Mobilier utile, plausible et disposé sans bloquer la circulation.",
+    "lighting": "Lecture de jour, de nuit et lors des transitions intérieur–extérieur.",
+    "collisions": "Essai des murs, angles, ouvertures, passages et parcours de caméra.",
+    "environment": "Implantation sur le terrain, raccords aux chemins, accès et contexte.",
+    "performance": "Coût mesuré sur des vues de référence et qualité suffisante au niveau de détail utilisé."
+  },
+  "families": [
+    {
+      "id": "maison-keravel",
+      "label": "Maisons, commerces et manoir",
+      "builder": {"file": "keravel_architecture.gd", "symbol": "house"},
+      "variants": ["Colombages", "Porte à arc de pierre", "Silhouette à deux niveaux", "Quatre combinaisons d’enduis et de toitures"],
+      "detailLevels": [
+        {"id": "detaille", "status": "source", "selection": "Activé sur ordinateur, près de la place sur mobile ou pour certains édifices.", "features": ["Rangs de couverture", "Volets", "Jardinières", "Lucarnes selon la variante"]},
+        {"id": "leger", "status": "source", "selection": "Choisi à la génération pour les autres maisons sur mobile.", "features": ["Volume", "Toiture", "Ouvertures", "Faîtage"]},
+        {"id": "distance", "status": "todo", "selection": "Niveau calculé en jeu selon la distance.", "features": ["Maillage réduit", "Transition visuelle"]} 
+      ],
+      "observed": {
+        "geometry": "Fondation, volume et proportions variables explicitement construits.",
+        "silhouette": "Un ou deux niveaux, pente et variantes de couverture.",
+        "facade": "Colombages, chaînes d’angle, volets et jardinières conditionnels.",
+        "roof": "Deux pans, faîtage, cheminée, rangs de tuiles et certaines lucarnes.",
+        "openings": "Portes pleines et fenêtres façonnées. Les portes de ce générateur n’ouvrent pas sur une pièce.",
+        "materials": "Couleur procédurale par sommet pour pierre, bois, enduit et couverture."
+      }
+    },
+    {
+      "id": "tour-keravel",
+      "label": "Tours, flèches et ouvrages fortifiés",
+      "builder": {"file": "keravel_architecture.gd", "symbol": "tower"},
+      "variants": ["Toiture conique", "Couronnement crénelé", "Tours de tailles différentes"],
+      "detailLevels": [
+        {"id": "standard", "status": "source", "selection": "Géométrie à douze côtés.", "features": ["Bandeaux", "Meurtrières", "Couronnement"]},
+        {"id": "distance", "status": "todo", "selection": "Choix dynamique à distance.", "features": ["Silhouette simplifiée"]}
+      ],
+      "observed": {
+        "geometry": "Empattement, fût et couronnement construits séparément.",
+        "silhouette": "Variation entre toiture conique et créneaux.",
+        "facade": "Bandeaux et meurtrières sur quatre orientations.",
+        "roof": "Flèche avec épi ou terrasse crénelée selon le paramètre.",
+        "materials": "Palette granit et ardoise appliquée par sommet."
+      }
+    },
+    {
+      "id": "porte-voutee",
+      "label": "Portes de la ville",
+      "builder": {"file": "keravel_architecture.gd", "symbol": "arch_ring"},
+      "variants": ["Porte de terre couverte", "Porte de mer avec linteau maçonné"],
+      "detailLevels": [
+        {"id": "standard", "status": "source", "selection": "Arc maçonné à neuf sections.", "features": ["Piliers", "Voussoirs", "Intrados"]},
+        {"id": "distance", "status": "todo", "selection": "Simplification du décor distante.", "features": ["Arc et passage conservés"]}
+      ],
+      "observed": {
+        "geometry": "Arc en sections et ouverture centrale non fermée dans le constructeur.",
+        "facade": "Voussoirs aux nuances de pierre alternées.",
+        "openings": "Le maillage laisse un passage. Les tests traversée et caméra restent nécessaires."
+      }
+    },
+    {
+      "id": "etals-keravel",
+      "label": "Étals et auvents",
+      "builder": {"file": "keravel_architecture.gd", "symbol": "canopy"},
+      "variants": ["Toiles ocre", "Toiles bleues", "Toiles vertes"],
+      "detailLevels": [
+        {"id": "standard", "status": "source", "selection": "Maillage statique intégré au quartier.", "features": ["Poteaux", "Toiles rayées", "Comptoir et marchandises"]}
+      ],
+      "observed": {
+        "geometry": "Ossature ouverte à quatre poteaux.",
+        "roof": "Couverture rayée distincte de la structure.",
+        "furniture": "Comptoir et marchandises en volume."
+      }
+    },
+    {
+      "id": "mobilier-portuaire",
+      "label": "Mobilier de quai et embarcadères",
+      "builder": {"file": "keravel_architecture.gd", "symbol": "pier_prop"},
+      "variants": ["Accessoires répétés sur plusieurs quais", "Assemblages de quais et navires de dimensions différentes dans la zone"],
+      "detailLevels": [
+        {"id": "standard", "status": "source", "selection": "Accessoire posé à intervalles fixes sur les quais.", "features": ["Poteaux", "Caisse et renforts"]},
+        {"id": "distance", "status": "todo", "selection": "Masquage des accessoires lointains après profilage.", "features": ["Géométrie portuaire principale conservée"]}
+      ],
+      "observed": {
+        "furniture": "Poteaux et caisses en bois créés par le constructeur.",
+        "environment": "Plusieurs embarcadères avec platelage et navires sont placés dans la définition de la ville."
+      }
+    },
+    {
+      "id": "phare-keravel",
+      "label": "Phare rouge et blanc",
+      "builder": {"file": "art.gd", "symbol": "lighthouse"},
+      "variants": ["Modèle de référence"],
+      "detailLevels": [
+        {"id": "standard", "status": "source", "selection": "Modèle statique du phare.", "features": ["Fût", "Galerie", "Lanterne"]}
+      ],
+      "observed": {
+        "geometry": "La fonction de référence construit la tour et la lanterne.",
+        "silhouette": "Tour maritime verticale qui sert de repère.",
+        "materials": "Couleurs de signalisation intégrées au maillage."
+      }
+    }
+  ],
+  "buildings": [
+    {"id":"phare", "name":"Phare de Keravel", "zone":"phare-keravel", "family":"phare-keravel", "essential":["interior","lighting","collisions"], "notes":"Vérifier l’accès réel au journal et distinguer interaction extérieure et pièce visitable."},
+    {"id":"remparts", "name":"Porte de terre et remparts", "zone":"tv-remparts", "family":"porte-voutee", "essential":["openings","collisions","environment"], "exemptions":{"interior":"La revue de cette porte concerne le passage traversant. Les tours sont à examiner séparément.","furniture":"Aucun mobilier dans le passage."}},
+    {"id":"porte-mer", "name":"Porte de mer", "zone":"tv-port", "family":"porte-voutee", "essential":["openings","collisions","environment"], "exemptions":{"interior":"Passage traversant sans salle attenante dans ce périmètre.","furniture":"Aucun mobilier dans le passage."}},
+    {"id":"quais", "name":"Quais de Trois-Vannes", "zone":"tv-port", "family":"mobilier-portuaire", "essential":["furniture","environment","collisions","performance"], "exemptions":{"interior":"Revue limitée aux quais et embarcadères extérieurs.","roof":"Les quais étudiés sont à ciel ouvert.","openings":"Les accès se font par le platelage, sans porte ni fenêtre dans ce périmètre."}, "notes":"Tester le raccord au sol, l’embarquement à différentes marées et l’occultation par les caisses."},
+    {"id":"auberge", "name":"Auberge du Goéland Rouge", "zone":"tv-auberge", "family":"maison-keravel", "essential":["interior","furniture","lighting","collisions"], "notes":"La façade est générée. Salle commune et chambres restent à vérifier ou construire."},
+    {"id":"forge", "name":"Forge de Tangi", "zone":"tv-forge", "family":"maison-keravel", "essential":["interior","furniture","lighting","collisions"], "notes":"Évaluer l’atelier, le foyer et le parcours jusqu’à l’enclume."},
+    {"id":"apothicairerie", "name":"Apothicairerie", "zone":"tv-apothicaire", "family":"maison-keravel", "essential":["interior","furniture","collisions"]},
+    {"id":"chapelle", "name":"Chapelle et clocher", "zone":"tv-chapelle", "family":"maison-keravel", "essential":["interior","furniture","lighting","collisions"], "notes":"Vérifier la nef et la liaison jouable vers les caves aux fresques."},
+    {"id":"halle", "name":"Halle aux Grains", "zone":"tv-halle", "family":"etals-keravel", "essential":["interior","furniture","collisions"], "notes":"Tester la circulation sous la halle et autour des comptoirs."},
+    {"id":"criee", "name":"Criée de Trois-Vannes", "zone":"tv-criee", "family":"maison-keravel", "essential":["interior","furniture","collisions"]},
+    {"id":"moulin", "name":"Moulin à marée", "zone":"tv-moulin", "family":"maison-keravel", "essential":["interior","furniture","environment","collisions"], "notes":"Contrôler la relation entre niveau d’eau, accès et mécanisme de mouture en jeu."},
+    {"id":"manoir", "name":"Manoir Kerhoël", "zone":"tv-manoir", "family":"maison-keravel", "essential":["interior","furniture","lighting","collisions"], "notes":"Les deux tours enrichissent l’extérieur. Il faut vérifier le bureau, les pièces et les accès narratifs."},
+    {"id":"citadelle", "name":"Remparts de Kastell-Glas", "zone":"ea-citadelle-remparts", "family":"tour-keravel", "essential":["openings","collisions","environment"], "notes":"L’enceinte et la position du portail existent en source. Tester la herse et les cheminements."},
+    {"id":"donjon", "name":"Donjon du Baron", "zone":"ea-citadelle-donjon", "family":"tour-keravel", "essential":["interior","furniture","lighting","collisions","performance"], "notes":"Le donjon possède six volumes superposés dans le modèle. Les étages visitables, escaliers et énigmes demandent une vérification dédiée."}
+  ],
+  "reviews": {}
+}

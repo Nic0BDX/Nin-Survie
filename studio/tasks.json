@@ -1,0 +1,35 @@
+[
+  {
+    "id": "journal-acte-i",
+    "title": "Donner au journal d’Erwan une suite claire vers les trois pièces du phare",
+    "priority": "P1",
+    "qualityMode": "max",
+    "files": ["keravel_prologue.gd"],
+    "dependsOn": [],
+    "tokenBudget": 22000,
+    "instructions": "Améliore seulement l’ordre et la lisibilité du journal existant après le premier quart. Réutilise les objectifs et dialogues de story_authoring/src/story/chapters/act1.ts. Préserve les étapes, sauvegardes et retours tactiles. Exécute le test Godot s’il est disponible, puis rapporte séparément toute validation qui dépend du moteur.",
+    "checks": [{"command":"node","args":["studio/architecture/check.mjs"]}]
+  },
+  {
+    "id": "chapelle-interieur",
+    "title": "Construire le kit intérieur de la chapelle Sainte-Azenor",
+    "priority": "P2",
+    "qualityMode": "max",
+    "files": ["keravel_chapel_interior.gd"],
+    "dependsOn": [],
+    "tokenBudget": 22000,
+    "instructions": "La façade de la chapelle est intégrée dans keravel_civic.gd. Construis un module intérieur réutilisable avec nef, bancs, autel, trappe vers les caves et passage accessible. Réutilise le langage de pierre du kit existant. Classe les collisions et l’éclairage à valider. Le raccord à la scène se fera après revue.",
+    "checks": [{"command":"node","args":["studio/architecture/check.mjs"]}]
+  },
+  {
+    "id": "trajet-enez-regression",
+    "title": "Mesurer la continuité des passages entre la plage, le gué et le pont de corde",
+    "priority": "P2",
+    "qualityMode": "max",
+    "files": ["studio/check_world.gd"],
+    "dependsOn": [],
+    "tokenBudget": 15000,
+    "instructions": "Étends le test de monde avec des parcours et hauteurs de collision de la Stêr-Glas, en distinguant plage, gué, pont et rive. Garde une limite de coût pour la recherche de chemin. Une vérification non exécutée dans Godot reste signalée comme telle.",
+    "checks": [{"command":"node","args":["studio/architecture/check.mjs"]}]
+  }
+]

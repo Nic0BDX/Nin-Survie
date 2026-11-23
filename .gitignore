@@ -1,3 +1,5 @@
 .godot/
 .vercel/
 dist/
+.studio/
+NIGHTLY_REPORT.md

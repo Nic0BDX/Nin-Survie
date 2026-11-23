@@ -1,0 +1,6 @@
+{
+  "mode": "eco",
+  "session": "cycle",
+  "limits": { "task": 24000, "agent": 54000, "cycle": 98000, "night": 175000 },
+  "thresholds": { "warn": 0.7, "optimize": 0.85, "reserve": 0.95 }
+}
