@@ -17,6 +17,10 @@ var serif=SystemFont.new()
 var mono=SystemFont.new()
 var v=Vector2(1440,810)
 var ui_scale=1.
+var ui_origin=Vector2.ZERO
+var full_canvas=Rect2(0,0,1440,810)
+var safe_insets=Vector4.ZERO
+var web_resize_callback
 var buttons=[]
 var focus_index=0
 var pointer_mode=true
@@ -38,6 +42,20 @@ func _ready():
 	mono.font_names=PackedStringArray(["Consolas","Courier New"])
 	shade=gradient([Color(.015,.043,.056,.0),Color(.015,.043,.056,.70),Color(.015,.043,.056,.94)],[0.,.52,1.],Vector2(0,.0),Vector2(0,1))
 	side_shade=gradient([Color(.018,.060,.074,.97),Color(.018,.060,.074,.86),Color(.018,.060,.074,.24),Color(.018,.060,.074,0)],[0.,.41,.81,1.],Vector2(0,0),Vector2(1,0))
+	if OS.has_feature("web"):
+		web_resize_callback=JavaScriptBridge.create_callback(refresh_safe_area)
+		JavaScriptBridge.get_interface("window").addEventListener("nin-viewport-resize",web_resize_callback)
+		refresh_safe_area([])
+
+func _exit_tree():
+	if web_resize_callback:
+		JavaScriptBridge.get_interface("window").removeEventListener("nin-viewport-resize",web_resize_callback)
+
+func refresh_safe_area(_args:Array):
+	var safe=JavaScriptBridge.get_interface("ninSafeArea")
+	if safe:
+		safe_insets=Vector4(safe.left,safe.top,safe.right,safe.bottom)
+		queue_redraw()
 
 func gradient(cols:Array,off:Array,a:Vector2,b:Vector2)->GradientTexture2D:
 	var gr=Gradient.new()
@@ -168,12 +186,15 @@ func button(id:String,label:String,r:Rect2,primary:bool=false):
 	txt(label,r.position.x+18,r.position.y+r.size.y*.65,20,INK if primary else PAPER,bold if primary else sans)
 	icon("arrow",r.end-Vector2(24,r.size.y*.49),16,INK if primary else MINT)
 func click_at(point:Vector2):
-	for b in buttons:
-		if b[1].has_point(point/ui_scale):
-			game.command(b[0]);return
+	click_hud(point)
+
+func layout_point(point:Vector2)->Vector2:
+	return (point-ui_origin)/ui_scale
+
 func click_hud(point:Vector2)->bool:
+	var local=layout_point(point)
 	for b in buttons:
-		if b[1].has_point(point/ui_scale): game.command(b[0]); return true
+		if b[1].has_point(local): game.command(b[0]); return true
 	return false
 func key_nav(k:int):
 	if buttons.is_empty(): return
@@ -183,11 +204,14 @@ func key_nav(k:int):
 
 func _draw():
 	if not game: return
-	ui_scale=minf(size.x/1440.,size.y/810.)
+	ui_origin=size*Vector2(safe_insets.x,safe_insets.y)
+	var safe_size=size-ui_origin-size*Vector2(safe_insets.z,safe_insets.w)
+	ui_scale=minf(safe_size.x/1440.,safe_size.y/810.)
 	if ui_scale<=0: return
-	v=size/ui_scale
-	draw_set_transform(Vector2.ZERO,0,Vector2.ONE*ui_scale)
-	mpos=get_local_mouse_position()/ui_scale
+	v=safe_size/ui_scale
+	full_canvas=Rect2(-ui_origin/ui_scale,size/ui_scale)
+	draw_set_transform(ui_origin,0,Vector2.ONE*ui_scale)
+	mpos=layout_point(get_local_mouse_position())
 	buttons.clear();hand=false
 	if last_state!=game.state: focus_index=0;last_state=game.state
 	match game.state:
@@ -216,9 +240,9 @@ func _draw():
 		"cinema": cinema()
 	if not game.save_status and game.state=="play": center("Sauvegarde indisponible",v.x/2,26,14,GOLD,mono)
 	if game.hit_flash>0 and game.state=="play":
-		draw_rect(Rect2(Vector2.ZERO,v),Color(.56,.15,.10,game.hit_flash*.21))
+		draw_rect(full_canvas,Color(.56,.15,.10,game.hit_flash*.21))
 	if game.dawn_fade>0 and game.state=="play":
-		draw_rect(Rect2(Vector2.ZERO,v),Color(.94,.86,.69,game.dawn_fade*.69))
+		draw_rect(full_canvas,Color(.94,.86,.69,game.dawn_fade*.69))
 	var cursor=Input.CURSOR_POINTING_HAND if hand else Input.CURSOR_ARROW
 	if Input.get_current_cursor_shape()!=cursor: Input.set_default_cursor_shape(cursor)
 
@@ -235,18 +259,18 @@ func touch_rect(i:int)->Rect2:
 func touch_key(point:Vector2)->int:
 	if ui_scale<=0: return 0
 	for i in TOUCH_KEYS.size():
-		if touch_rect(i).has_point(point/ui_scale): return TOUCH_KEYS[i]
+		if touch_rect(i).has_point(layout_point(point)): return TOUCH_KEYS[i]
 	return 0
 
 func touch_stick_center()->Vector2:
 	return Vector2(150,v.y-146)
 
 func touch_stick_hit(point:Vector2)->bool:
-	return ui_scale>0 and point.distance_to(touch_stick_center()*ui_scale)<126*ui_scale
+	return ui_scale>0 and layout_point(point).distance_to(touch_stick_center())<126
 
 func touch_stick_value(point:Vector2)->Vector2:
 	if ui_scale<=0: return Vector2.ZERO
-	var motion=(point/ui_scale-touch_stick_center())/88.
+	var motion=(layout_point(point)-touch_stick_center())/88.
 	if motion.length()<.15: return Vector2.ZERO
 	return motion.limit_length()
 
@@ -266,10 +290,10 @@ func draw_touch_controls():
 		center(label,r.get_center().x,r.get_center().y+8,24,PAPER,bold)
 func middle(w:float,h:float)->Rect2: return Rect2((v-Vector2(w,h))*.5,Vector2(w,h))
 func modal_shade():
-	draw_rect(Rect2(Vector2.ZERO,v),Color(.016,.047,.063,.70))
+	draw_rect(full_canvas,Color(.016,.047,.063,.70))
 func title_screen(interactive:bool=true):
-	draw_texture_rect(side_shade,Rect2(0,0,v.x*.76,v.y),false)
-	draw_texture_rect(shade,Rect2(0,v.y-104,v.x,104),false,Color(1,1,1,.58))
+	draw_texture_rect(side_shade,Rect2(full_canvas.position,Vector2(full_canvas.size.x*.68,full_canvas.size.y)),false)
+	draw_texture_rect(shade,Rect2(full_canvas.position.x,full_canvas.end.y-104,full_canvas.size.x,104),false,Color(1,1,1,.44))
 	var x=66.
 	var y=v.y*.35
 	line(Vector2(x,62),Vector2(x+40,62),GOLD,2)

@@ -15,9 +15,16 @@ html, body { height: 100%; background: #0b1820; overscroll-behavior: none; }
   width: 100%;
   height: 100%;
   height: 100dvh;
-  box-sizing: border-box;
-  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
-           env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+}
+#nin-safe-area {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  visibility: hidden;
+  padding: var(--nin-safe-top, env(safe-area-inset-top, 0px))
+           var(--nin-safe-right, env(safe-area-inset-right, 0px))
+           var(--nin-safe-bottom, env(safe-area-inset-bottom, 0px))
+           var(--nin-safe-left, env(safe-area-inset-left, 0px));
 }
 #canvas, #canvas:fullscreen {
   display: block;
@@ -39,6 +46,7 @@ html, body { height: 100%; background: #0b1820; overscroll-behavior: none; }
 `;
 
 const body = `
+<div id="nin-safe-area" aria-hidden="true"></div>
 <div id="nin-rotate" role="status">
   <strong>Nin Survie</strong>
   <span>Tourne ton téléphone en mode paysage pour jouer.</span>
@@ -47,18 +55,26 @@ const body = `
 (() => {
   const canvas = document.getElementById('canvas');
   canvas.setAttribute('aria-label', 'Nin Survie');
-  const touch = matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
+  const probe = document.getElementById('nin-safe-area');
+  const safe = window.ninSafeArea = { left: 0, top: 0, right: 0, bottom: 0 };
   function resize() {
     const { width, height } = canvas.getBoundingClientRect();
     if (width <= 0 || height <= 0) return;
     const ratio = window.devicePixelRatio || 1;
-    const scale = touch ? Math.min(ratio, 1.75, Math.sqrt(1050000 / (width * height))) : Math.min(ratio, 1.5);
-    const pixelsX = Math.round(width * scale);
-    const pixelsY = Math.round(height * scale);
+    const pixelsX = Math.round(width * ratio);
+    const pixelsY = Math.round(height * ratio);
     if (canvas.width !== pixelsX) canvas.width = pixelsX;
     if (canvas.height !== pixelsY) canvas.height = pixelsY;
+    const padding = getComputedStyle(probe);
+    safe.left = (parseFloat(padding.paddingLeft) || 0) / width;
+    safe.right = (parseFloat(padding.paddingRight) || 0) / width;
+    safe.top = (parseFloat(padding.paddingTop) || 0) / height;
+    safe.bottom = (parseFloat(padding.paddingBottom) || 0) / height;
+    window.dispatchEvent(new Event('nin-viewport-resize'));
   }
   new ResizeObserver(resize).observe(canvas);
+  addEventListener('resize', resize);
+  window.visualViewport?.addEventListener('resize', resize);
   document.addEventListener('fullscreenchange', resize);
   resize();
 })();

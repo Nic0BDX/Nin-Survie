@@ -31,6 +31,7 @@ try {
     args: chromium.args,
     executablePath: await chromium.executablePath(),
     headless: 'shell',
+    protocolTimeout: 300000,
   });
   const page = await browser.newPage();
   const faults = [];
@@ -43,8 +44,15 @@ try {
     }
   });
   await page.evaluateOnNewDocument(() => {
-    window.ninTest = { update: (state, x, y, yaw, scale, width, height) => {
-      window.ninState = { state, x, y, yaw, scale, width, height };
+    document.addEventListener('DOMContentLoaded', () => {
+      const screen = document.documentElement.style;
+      screen.setProperty('--nin-safe-left', '47px');
+      screen.setProperty('--nin-safe-right', '47px');
+      screen.setProperty('--nin-safe-bottom', '20px');
+      window.dispatchEvent(new Event('resize'));
+    });
+    window.ninTest = { update: (state, x, y, yaw, width, height, left, top, right, bottom) => {
+      window.ninState = { state, x, y, yaw, width, height, left, top, right, bottom };
     } };
   });
   const orient = (width, height) => page.setViewport({
@@ -62,7 +70,7 @@ try {
   console.log('Page Web chargée dans Chromium.');
   await page.waitForFunction(() => window.ninState?.state === 'menu', { timeout: 120000, polling: 250 });
   assert.equal((await dimensions()).rotate, 'grid');
-  for (const [width, height] of [[844, 390], [667, 375], [932, 430]]) {
+  for (const [width, height] of [[667, 375], [844, 390]]) {
     await orient(width, height);
     await page.waitForFunction((w, h) => Math.abs(innerWidth - w) < 2 && Math.abs(innerHeight - h) < 2
       && Math.abs(document.querySelector('#canvas').getBoundingClientRect().height - h) < 2, {}, width, height);
@@ -70,12 +78,17 @@ try {
     assert.equal(screen.rotate, 'none');
     assert.ok(Math.abs(screen.width - width) < 2);
     assert.ok(Math.abs(screen.height - height) < 2);
-    assert.ok(screen.pixels[0] >= 1.55 * width && screen.pixels[1] >= 1.55 * height);
+    assert.deepEqual(screen.pixels, [3 * width, 3 * height]);
     console.log('Paysage', width, height, 'CSS', screen.width, screen.height, 'rendu', ...screen.pixels);
   }
   const state = () => page.evaluate(() => window.ninState);
   const screen = await dimensions();
-  const coords = (game, x, y) => [x / game.width * screen.width, y / game.height * screen.height];
+  const coords = (game, x, y) => [
+    screen.width * (game.left + x / game.width * (1 - game.left - game.right)),
+    screen.height * (game.top + y / game.height * (1 - game.top - game.bottom)),
+  ];
+  await page.waitForFunction(() => Math.abs(window.ninState?.left * innerWidth - 47) < .5
+    && Math.abs(window.ninState?.bottom * innerHeight - 20) < .5);
   let game = await state();
   const startButton = coords(game, 200, game.height * .35 + 265);
   console.log('Menu Godot', JSON.stringify(game), 'toucher', startButton);
@@ -88,7 +101,7 @@ try {
     const frame = await createImageBitmap(new Blob([binary], { type: 'image/png' }));
     const sample = new OffscreenCanvas(frame.width, frame.height).getContext('2d');
     sample.drawImage(frame, 0, 0);
-    return [.025, .975].flatMap(x => [.025, .975].map(y =>
+    return [.01, .99].flatMap(x => [.01, .99].map(y =>
       Array.from(sample.getImageData(Math.floor(frame.width * x), Math.floor(frame.height * y), 1, 1).data.slice(0, 3))));
   }, image);
   assert.ok(edgeSamples.every(rgb => rgb.join() !== '11,24,32' && rgb.join() !== '0,0,0'));

@@ -134,7 +134,7 @@ func _ready():
 	camera.far=630
 	camera.fov=52
 	if touch_mode:
-		get_viewport().msaa_3d=Viewport.MSAA_DISABLED
+		get_viewport().msaa_3d=Viewport.MSAA_2X
 		world.sun.shadow_enabled=false
 	audio=Sound.new()
 	add_child(audio)
@@ -971,7 +971,7 @@ func tick_rain():
 func _process(delta):
 	if not hud: return
 	if browser_qa:
-		browser_qa.update(state,xy.x,xy.y,yaw,hud.ui_scale,hud.v.x,hud.v.y)
+		browser_qa.update(state,xy.x,xy.y,yaw,hud.v.x,hud.v.y,hud.safe_insets.x,hud.safe_insets.y,hud.safe_insets.z,hud.safe_insets.w)
 	var dt=minf(delta,.065)
 	visual_time+=dt
 	if state=="menu" or state=="confirm_new" or (state=="help" and menu_return=="menu"):
