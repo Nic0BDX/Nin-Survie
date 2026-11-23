@@ -17,6 +17,10 @@ templates="$XDG_DATA_HOME/godot/export_templates/${version}.stable"
 mkdir -p "$templates" dist
 unzip -j -q "$tools/templates.zip" templates/web_nothreads_debug.zip templates/web_nothreads_release.zip -d "$templates"
 "$editor" --headless --path . --import
+if [[ "${NIN_VERIFY:-0}" == world || "${NIN_VERIFY:-0}" == art ]]; then
+  "$editor" --headless --path . --script studio/check_world.gd -- --qa 2>&1 | tee "$tools/world.log"
+  if grep -E 'SCRIPT ERROR|Parse Error|SHADER ERROR' "$tools/world.log"; then exit 1; fi
+fi
 "$editor" --headless --path . --export-release Web dist/index.html
 node web-host.mjs
 test -s dist/index.wasm
@@ -28,7 +32,7 @@ if [[ "${NIN_VERIFY:-0}" == story ]]; then
   npm run --prefix story_authoring validate
 fi
 
-if [[ "${NIN_VERIFY:-0}" == 1 || "${NIN_VERIFY:-0}" == viewport || "${NIN_VERIFY:-0}" == story ]]; then
+if [[ "${NIN_VERIFY:-0}" == 1 || "${NIN_VERIFY:-0}" == viewport || "${NIN_VERIFY:-0}" == story || "${NIN_VERIFY:-0}" == art ]]; then
   npm install --prefix "$tools/browser" --no-fund --no-audit @sparticuz/chromium@140.0.0 puppeteer-core@24.20.0
   node verify-web.mjs "$tools/browser"
 fi

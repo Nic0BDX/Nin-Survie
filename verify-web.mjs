@@ -8,8 +8,9 @@ const require = createRequire(resolve(process.argv[2], 'package.json'));
 const chromium = require('@sparticuz/chromium');
 const puppeteer = require('puppeteer-core');
 const storyOnly = process.env.NIN_VERIFY === 'story';
-const viewportOnly = process.env.NIN_VERIFY === 'viewport' || storyOnly;
-const pixelRatio = viewportOnly ? 1.5 : 3;
+const artOnly = process.env.NIN_VERIFY === 'art';
+const viewportOnly = process.env.NIN_VERIFY === 'viewport' || storyOnly || artOnly;
+const pixelRatio = artOnly ? 1 : (viewportOnly ? 1.5 : 3);
 const types = { html: 'text/html; charset=utf-8', js: 'text/javascript', wasm: 'application/wasm',
   pck: 'application/octet-stream', png: 'image/png' };
 const server = createServer(async (request, response) => {
@@ -91,7 +92,7 @@ try {
     console.log('Paysage', width, height, 'CSS', screen.width, screen.height, 'rendu', ...screen.pixels);
   }
   const transitions = [['resize', 38, 340], ['scroll', 50, 340], ['pageshow', 0, 390]];
-  if (viewportOnly) transitions.push(['resize', 38, 340]);
+  if (viewportOnly && !artOnly) transitions.push(['resize', 38, 340]);
   for (const [event, top, height] of transitions) {
     await page.evaluate(({ event, top, height }) => {
       Object.assign(window.ninViewportTest, { offsetTop: top, height, scale: 1 });
@@ -139,11 +140,19 @@ try {
   await page.waitForFunction(() => window.ninState?.state === 'play');
   console.log('Nouvelle partie démarrée.');
   if (viewportOnly) {
-    if (storyOnly) {
+    if (storyOnly || artOnly) {
       game = await state();
       assert.ok(Math.hypot(game.x - 42, game.y - 141) < .1);
+      if (artOnly) {
+        await page.screenshot({ path: 'dist/studio-trois-vannes.jpg', type: 'jpeg', quality: 90 });
+        console.log('Capture WebGL 844×390 : Trois-Vannes.');
+      }
       await page.touchscreen.tap(...coords(game, game.width - 89, game.height - 192));
       await page.waitForFunction(() => window.ninState?.state === 'campaign_atlas');
+      if (artOnly) {
+        await page.screenshot({ path: 'dist/studio-atlas.jpg', type: 'jpeg', quality: 90 });
+        console.log('Capture WebGL 844×390 : atlas illustré.');
+      }
       console.log('Trois-Vannes : départ et carte narrative validés dans le navigateur.');
     }
     assert.deepEqual(faults, []);

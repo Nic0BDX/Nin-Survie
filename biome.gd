@@ -13,7 +13,8 @@ const TITLES=["Le Courlis","La Corne de brume","L’atelier des Salines"]
 const PARTS=["Lentille de Fresnel","Réflecteur de cuivre","Dynamo marine"]
 const ISLANDS=[
 	[3,25,37,26,8.8],[-60,16,20,16,5.0],[-19,-50,24,18,10.8],[56,-20,22,21,7.8],
-	[-65,-38,12,14,9.7],[48,43,14,10,5.8],[18,-68,10,12,7.0],[-92,1,7,9,4.0],[85,17,9,12,6.7]]
+	[-65,-38,12,14,9.7],[48,43,14,10,5.8],[18,-68,10,12,7.0],[-92,1,7,9,4.0],[85,17,9,12,6.7],
+	[82,-65,9,10,7.2],[90,-60,5,6,4.2]]
 const PATHS=[
 	[Vector2(-16,26),Vector2(-43,24),6.7],[Vector2(-43,24),Vector2(-55,17),6.0],
 	[Vector2(-6,8),Vector2(-15,-12),6.5],[Vector2(-15,-12),Vector2(-29,-31),5.4],[Vector2(-29,-31),Vector2(-21,-44),6.4],
@@ -78,6 +79,9 @@ func _ready():
 	populate()
 	birds()
 	campaign.build()
+	for p in [Vector2(2.5,29.0),Vector2(-3.1,31.1),Vector2(2.8,34.2)]:
+		add_resource(p,"food")
+	campaign.update_ocean_relief(water_mat)
 
 func environment_setup():
 	env=Environment.new()
@@ -269,6 +273,17 @@ func landmarks():
 	flag_at(light_base+Vector3(2.6,0,1.45),1.35,Art.RED)
 	Art.wreck(m,pos(SITES[0]))
 	Art.ruin(m,pos(SITES[1]))
+	for i in 8:
+		var reef=Vector2(83,-65)+Vector2(cos(i*.81),sin(i*.81))*5.2
+		m.blob(pos(reef)+Vector3.UP*.8,Vector3(1.5,2.6+(i%3)*.8,1.3),Color("#767969"),i,6)
+	for z in 2:
+		for x in 3:
+			var pool=SITES[2]+Vector2(-8.+x*3.9,3.8+z*4.15)
+			var v=pos(pool)
+			m.box(v+Vector3.UP*.09,Vector3(3.62,.19,3.72),Color("#c4b69b"))
+			m.box(v+Vector3.UP*.202,Vector3(3.05,.049,3.17),Color("#91b2aa").lerp(Color("#d9c6a9"),float((x+z)%3)*.18))
+			for side in [-1.,1.]:
+				m.box(v+Vector3(side*1.71,.187,0),Vector3(.16,.18,3.73),Color("#a09879"))
 	var hutp=SITES[2]+Vector2(0,-2.9)
 	Art.hut(m,pos(hutp),1.12,true)
 	building_footprints.append(Rect2(hutp-Vector2(2.25,2.8)*1.12,Vector2(4.5,5.6)*1.12))
@@ -345,9 +360,11 @@ func blocked(p:Vector2,extra:float=0.0)->bool:
 
 func set_campaign_lamp(power:int):
 	var cone=beam.get_child(0) as MeshInstance3D
+	var beam_material=cone.get_active_material(0) as StandardMaterial3D
+	var lens_material=beacon_lens.get_active_material(0) as StandardMaterial3D
 	var green=power>=100
-	cone.material_override.albedo_color=Color(.36,1.,.68,.20) if green else Color(1.,.88,.54,.075 if power==35 else .16)
-	beacon_lens.material_override.albedo_color=Color("#a5ffd0") if green else Color("#fff4b8")
+	beam_material.albedo_color=Color(.36,1.,.68,.20) if green else Color(1.,.88,.54,.075 if power==35 else .16)
+	lens_material.albedo_color=Color("#a5ffd0") if green else Color("#fff4b8")
 	bloom.modulate=Color(.45,1.,.68) if green else Color.WHITE
 
 func make_veg(key:String,builder):
@@ -530,7 +547,7 @@ func region(p:Vector2)->String:
 	if zone.begins_with("tv-") or zone.begins_with("ea-") or zone=="route-trois-vannes":
 		return campaign.zones[zone].name
 	if KeravelMap.TOWN.has_point(p) and p.y>115.: return "Trois-Vannes"
-	if KeravelMap.ISLAND.has_point(p) and ground(p)>1.8: return "Enez-Aerouant"
+	if KeravelMap.on_outer_island(p) and ground(p)>1.8: return "Enez-Aerouant"
 	if preload("res://marais.gd").extent(p)<1.2: return "Marais des Trois-Vannes"
 	if p.distance_to(SITES[0])<25: return "Les Bancs du Courlis"
 	if p.distance_to(SITES[1])<27: return "Îlot de la Corne"

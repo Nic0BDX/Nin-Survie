@@ -2,6 +2,8 @@ extends Control
 const W=preload("res://biome.gd")
 const C=preload("res://camp.gd")
 const KM=preload("res://keravel_map.gd")
+const Cartography=preload("res://keravel_cartography.gd")
+const PaintedAtlas=preload("res://keravel_atlas.jpg")
 const PAPER=Color("#f7ecd1")
 const GOLD=Color("#edc782")
 const MINT=Color("#a6ccba")
@@ -34,6 +36,7 @@ var last_region=""
 var last_pointer=Vector2.ZERO
 var map_rect=Rect2()
 var craft_tab=0
+var illustrated_atlas=true
 
 func _ready():
 	sans.font_names=PackedStringArray(["Bahnschrift","Trebuchet MS","Arial"])
@@ -240,6 +243,8 @@ func _draw():
 		"remove": remove_panel()
 		"dead","won": end_panel()
 		"cinema": cinema()
+		"arrival_film": arrival_film()
+		"story_dialogue": story_dialogue()
 	if not game.save_status and game.state=="play": center("Sauvegarde indisponible",v.x/2,26,14,GOLD,mono)
 	if game.hit_flash>0 and game.state=="play":
 		draw_rect(full_canvas,Color(.56,.15,.10,game.hit_flash*.21))
@@ -406,9 +411,11 @@ func play_hud():
 		var to=(W.LIGHT if i==3 else game.world.spots[i])-game.xy
 		var dirs=["N","NE","E","SE","S","SO","O","NO"]
 		note=("Keravel" if i==3 else W.TITLES[i])+"   "+dirs[posmod(roundi(atan2(to.x,-to.y)/(PI/4)),8)]+"   %d m"%roundi(to.length())
+	elif game.campaign_track=="" and game.campaign_phase in [0,1] and not game.opening.objective().is_empty():
+		note=game.opening.objective()
 	elif game.campaign_track!="" or game.campaign_destination()!="":
 		var zone:String=game.campaign_track if game.campaign_track!="" else game.campaign_destination()
-		var to:Vector2=KM.POINTS[zone]-game.xy
+		var to:Vector2=game.world.campaign.points[zone]-game.xy
 		var dirs=["N","NE","E","SE","S","SO","O","NO"]
 		var direction:String=dirs[posmod(roundi(atan2(to.x,-to.y)/(PI/4)),8)]
 		note=game.world.campaign.zones[zone].name+"   "+direction+"   %d m"%roundi(to.length())
@@ -505,37 +512,40 @@ func map_point(p:Vector2,r:Rect2)->Vector2:
 func campaign_point(p:Vector2,r:Rect2)->Vector2:
 	return r.position+(p-KM.BOUNDS.position)/KM.BOUNDS.size*r.size
 
+func campaign_pin(id:String,r:Rect2,world)->Vector2:
+	if illustrated_atlas: return r.position+Cartography.PINS[id]/Cartography.SIZE*r.size
+	return campaign_point(world.points[id],r)
+
 func campaign_atlas():
 	modal_shade()
 	var world=game.world.campaign
-	if not world.chart: world.make_chart()
+	if not illustrated_atlas and not world.chart: world.make_chart()
 	var frame=middle(1270,730)
 	panel(frame,Color("#112c34"))
 	page_heading(frame,"JOURNAL DE RELÈVE","De Keravel à Enez-Aerouant","Choisis un repère pour le suivre à la boussole.")
-	button("local_atlas","Carte du phare",Rect2(frame.end.x-305,frame.position.y+67,177,48))
-	var mapr=Rect2(frame.position+Vector2(31,160),Vector2(838,510))
-	draw_texture_rect(world.chart,mapr,false)
-	for id in world.zones:
-		for next in world.zones[id].links:
-			if String(id)>=String(next): continue
-			var a=campaign_point(KM.POINTS[id],mapr)
-			var b=campaign_point(KM.POINTS[next],mapr)
-			var sea=id=="mer-iroise" or next=="mer-iroise"
-			draw_dashed_line(a,b,Color("#e2cfa3") if sea else Color("#405550"),1.5,5. if sea else 20.,true,true)
-	for i in range(KM.RIVER.size()-1):
-		line(campaign_point(KM.RIVER[i],mapr),campaign_point(KM.RIVER[i+1],mapr),MINT,2.6)
+	button("atlas_style","Relief" if illustrated_atlas else "Illustration",Rect2(frame.end.x-282,frame.position.y+67,154,48))
+	var mapr=Rect2(frame.position+Vector2(31,160),Vector2(838,471.6 if illustrated_atlas else 510.))
+	draw_texture_rect(PaintedAtlas if illustrated_atlas else world.chart,mapr,false)
+	if not illustrated_atlas:
+		for id in world.zones:
+			for next in world.zones[id].links:
+				if String(id)>=String(next): continue
+				var a=campaign_pin(id,mapr,world)
+				var b=campaign_pin(next,mapr,world)
+				var sea=id=="mer-iroise" or next=="mer-iroise"
+				draw_dashed_line(a,b,Color("#e2cfa3") if sea else Color("#405550"),1.5,5. if sea else 20.,true,true)
+		for i in range(KM.RIVER.size()-1):
+			line(campaign_point(KM.outer_to_world(KM.RIVER[i]),mapr),campaign_point(KM.outer_to_world(KM.RIVER[i+1]),mapr),MINT,2.6)
 	var destination:String=game.campaign_destination()
 	var selected:String=game.campaign_track if game.campaign_track!="" else destination
 	var hovered=""
 	for id in world.zones:
-		var p=campaign_point(KM.POINTS[id],mapr)
+		var p=campaign_pin(id,mapr,world)
 		var hot=register("chart_"+id,Rect2(p-Vector2.ONE*6,Vector2.ONE*12))
 		if hot: hovered=id
-		draw_circle(p,5. if id==selected or hot else 2.8,GOLD if id==selected else (PAPER if hot else INK))
-	for landmark in [[Vector2(-355,-110),"ENEZ-AEROUANT"],[Vector2(-100,102),"MER D’IROISE"],[Vector2(73,253),"TROIS-VANNES"],[Vector2(10,-83),"KERAVEL"]]:
-		var label=campaign_point(landmark[0],mapr)
-		center(landmark[1],label.x,label.y,17,PAPER,bold)
-	var you=campaign_point(game.xy,mapr)
+		if illustrated_atlas: draw_circle(p,4.5,Color(.03,.09,.10,.76))
+		draw_circle(p,5. if id==selected or hot else 2.4,GOLD if id==selected else (PAPER if hot else (MINT if illustrated_atlas else INK)))
+	var you=mapr.position+Cartography.locate(game.xy,world.points)/Cartography.SIZE*mapr.size if illustrated_atlas else campaign_point(game.xy,mapr)
 	draw_circle(you,7.,INK)
 	draw_circle(you,4.,MINT)
 	var side=mapr.end.x+23
@@ -550,6 +560,7 @@ func campaign_atlas():
 		4: goal="Suis les repères sur Enez-Aerouant. L’enquête mène de la Stêr-Glas à la citadelle de Kastell-Glas."
 		5: goal="Ramène le Kalon-Glas au phare par la route côtière."
 		6: goal="Le Kalon-Glas éclaire Keravel. L’archipel reste ouvert à l’exploration."
+	if game.campaign_phase in [0,1] and game.opening.objective()!="": goal=game.opening.objective()
 	var y=ptext(goal,Vector2(side,top+38),321,19,PAPER,sans,1.4)+31.
 	var shown=hovered if hovered!="" else selected
 	if world.zones.has(shown):
@@ -564,6 +575,7 @@ func campaign_atlas():
 		var chapter:Dictionary=world.chapter_for(shown)
 		if not chapter.is_empty(): ptext("Chapitre %d • %s"%[chapter.number,chapter.title],Vector2(side,y+16),310,15,MUTED)
 	caption("Point vert : ta position",Vector2(side,mapr.end.y-10),15,MINT)
+	if illustrated_atlas: button("local_atlas","Carte des passes",Rect2(mapr.position.x,mapr.end.y+8,173,41))
 
 func atlas():
 	modal_shade()
@@ -667,6 +679,25 @@ func cinema():
 	center("KERAVEL   /   LE FEU EST RALLUMÉ",v.x*.5,47,18,GOLD,mono)
 	center("« Ici le canot de relève… on voit ton feu. »",v.x*.5,v.y-38,26,PAPER,serif)
 	right("ESPACE  Passer",v.x-24,v.y-23,13,MUTED,mono)
+
+func arrival_film():
+	draw_rect(Rect2(full_canvas.position,Vector2(full_canvas.size.x,85)),Color("#07161d"))
+	draw_rect(Rect2(full_canvas.position.x,full_canvas.end.y-109,full_canvas.size.x,109),Color("#07161d"))
+	center("ACTE I   ·   LA LAMPE ÉTEINTE",v.x*.5,52,21,GOLD,mono)
+	center("Le ponton de Keravel",v.x*.5,v.y-48,32,PAPER,serif)
+	button("arrival_skip","Passer",Rect2(v.x-176,v.y-73,145,44))
+
+func story_dialogue():
+	var dialogue:Dictionary=game.opening.current_line()
+	if dialogue.is_empty(): return
+	var r=Rect2((v.x-900.)*.5,v.y-279.,900.,225.)
+	panel(r,Color("#122a32"))
+	eyebrow(game.opening.title.to_upper(),r.position+Vector2(28,35))
+	var names=game.opening.SPEAKERS
+	txt(names.get(dialogue.speaker,dialogue.speaker),r.position.x+27,r.position.y+70,30,PAPER,serif)
+	ptext(dialogue.text,r.position+Vector2(29,108),r.size.x-58,21,PAPER,sans,1.28)
+	var last=game.opening.line_index+1>=game.opening.lines.size()
+	button("story_next","Reprendre" if last else "Continuer",Rect2(r.end.x-184,r.end.y-58,153,42),true)
 
 func salvage_panel():
 	modal_shade()

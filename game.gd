@@ -7,6 +7,7 @@ const Overlay=preload("res://hud.gd")
 const Ink=preload("res://meshwork.gd")
 const Art=preload("res://art.gd")
 const KeravelMap=preload("res://keravel_map.gd")
+const StoryOpening=preload("res://keravel_prologue.gd")
 const EXPEDITION=[
 	"ea-sentier-embruns","ea-camp-base","ea-embouchure","ea-gue-lavandieres",
 	"ea-pont-de-corde","ea-cascade-voile","ea-grotte-voile","ea-lac-miroir",
@@ -101,6 +102,7 @@ var browser_qa
 var campaign_phase=-1
 var expedition_index=0
 var campaign_track=""
+var opening=StoryOpening.new()
 var qa_save_path=""
 var save_timer_msg=0.
 var compass_targets=[]
@@ -124,6 +126,7 @@ var closing=false
 var marsh=preload("res://marais.gd").new()
 
 func _ready():
+	opening.game=self
 	touch_mode=DisplayServer.is_touchscreen_available()
 	if OS.has_feature("web"):
 		touch_mode=touch_mode or bool(JavaScriptBridge.eval("matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0"))
@@ -226,6 +229,7 @@ func new_run():
 	harvests=0
 	survived=0
 	campaign_phase=0
+	opening.reset()
 	expedition_index=0
 	campaign_track=""
 	safe=KeravelMap.START
@@ -240,7 +244,7 @@ func new_run():
 	was_new=true
 	start_play()
 	save_run()
-	notify("Trois-Vannes • Rejoins le port pour prendre ton service au phare.",6)
+	notify("Trois-Vannes • Le registre de relève t’attend à la place de la Cloche.",6)
 
 func start_play():
 	state="play"
@@ -332,6 +336,8 @@ func save_run():
 	data["stamps"]=stamps
 	data["marais"]=marsh.pack()
 	data["campaign"]=[campaign_phase,expedition_index,campaign_track]
+	data["opening"]=opening.pack()
+	data["map_revision"]=2
 	var path=get_save_path()
 	var f=FileAccess.open(path+".tmp",FileAccess.WRITE)
 	if f==null:
@@ -358,7 +364,10 @@ func resume_run():
 	if d.is_empty(): new_run(); return
 	camp.clear_world(); clear_foes()
 	age=float(d.age)
-	xy=Vector2(d.xy[0],d.xy[1]); safe=Vector2(d.safe[0],d.safe[1]); home=Vector2(d.home[0],d.home[1])
+	var map_revision=int(d.get("map_revision",1))
+	xy=restore_map_point(Vector2(d.xy[0],d.xy[1]),map_revision)
+	safe=restore_map_point(Vector2(d.safe[0],d.safe[1]),map_revision)
+	home=restore_map_point(Vector2(d.home[0],d.home[1]),map_revision)
 	bag={"wood":int(d.bag.wood),"stone":int(d.bag.stone),"food":int(d.bag.food)}
 	hp=float(d.hp); warmth=float(d.warmth); hunger=float(d.hunger); stamina=float(d.stamina)
 	pieces=d.parts.duplicate(); has_ember=d.ember; rescued=d.won
@@ -370,11 +379,12 @@ func resume_run():
 	selected_site=int(d.get("tracked",-1))
 	var journey=d.get("campaign",[-1,0,""])
 	campaign_phase=int(journey[0])
+	opening.restore(d.get("opening",{}))
 	expedition_index=clampi(int(journey[1]),0,EXPEDITION.size())
 	campaign_track=journey[2] if world.campaign.zones.has(journey[2]) else ""
 	sailing={};sail_speed=0.
 	for b in d.built:
-		camp.spawn(b[0],Vector2(b[1],b[2]),b[3],int(b[4]),b[5])
+		camp.spawn(b[0],restore_map_point(Vector2(b[1],b[2]),map_revision),b[3],int(b[4]),b[5])
 		if b.size()>6: camp.items.back().heading=b[6]
 	var seat=int(d.get("aboard",-1))
 	if seat>=0 and seat<camp.items.size() and camp.items[seat].kind=="skiff": sailing=camp.items[seat]
@@ -386,6 +396,9 @@ func resume_run():
 	start_play()
 	if hp<=0: state="dead"
 	else: notify("Journal ouvert • quart repris.")
+
+func restore_map_point(p:Vector2,revision:int)->Vector2:
+	return KeravelMap.outer_to_world(p) if revision<2 and KeravelMap.ISLAND_SOURCE.has_point(p) else p
 
 func respawn():
 	sailing={};sail_speed=0.
@@ -490,6 +503,7 @@ func command(id:String):
 		"full": toggle_fullscreen()
 		"map": open_panel("map")
 		"campaign_atlas": state="campaign_atlas"
+		"atlas_style": hud.illustrated_atlas=not hud.illustrated_atlas
 		"local_atlas": state="map"
 		"craft": open_panel("craft")
 		"menu": go_menu()
@@ -502,6 +516,8 @@ func command(id:String):
 		"quit":
 			exit_game()
 		"skip": finish_cinematic()
+		"story_next": opening.advance_line()
+		"arrival_skip": opening.finish_crossing()
 		_:
 			if id.begins_with("chart_"):
 				var marker=id.trim_prefix("chart_")
@@ -532,6 +548,12 @@ func _input(event):
 		var k=event.keycode
 		if k==KEY_F11: toggle_fullscreen(); return
 		if k==KEY_F2 and state=="play": ui_hidden=not ui_hidden; return
+		if state=="story_dialogue":
+			if k in [KEY_E,KEY_ENTER,KEY_KP_ENTER,KEY_SPACE,KEY_ESCAPE]: opening.advance_line()
+			return
+		if state=="arrival_film":
+			if k in [KEY_E,KEY_ENTER,KEY_SPACE,KEY_ESCAPE]: opening.finish_crossing()
+			return
 		if state=="cinema":
 			if k in [KEY_ESCAPE,KEY_ENTER,KEY_SPACE]: finish_cinematic()
 			return
@@ -655,7 +677,7 @@ func input_move()->Vector2:
 	return Vector2(x,z).normalized().rotated(-yaw)
 
 func reachable_world(p:Vector2)->bool:
-	return world.campaign.inside(p) and (campaign_phase<0 or campaign_phase>=4 or not KeravelMap.ISLAND.has_point(p))
+	return world.campaign.inside(p) and (campaign_phase<0 or campaign_phase>=4 or not KeravelMap.on_outer_island(p))
 
 func can_walk(p:Vector2)->bool:
 	if not reachable_world(p): return false
@@ -723,6 +745,7 @@ func find_nearest():
 			best=d
 			nearest={"kind":"letter","index":i,"at":world.shore.relics[i],"label":"Ouvrir la boîte du veilleur" if not stamps[i] else "Relire le mot"}
 	for i in 3:
+		if campaign_phase==1 and opening.step<StoryOpening.COMPLETE: break
 		if pieces[i]: continue
 		var d=xy.distance_to(world.spots[i])
 		if d<3.15 and d<best:
@@ -772,6 +795,7 @@ func interact():
 			if not build_tip and not has_ember and bag.wood>=3 and bag.stone>=2:
 				build_tip=true
 				notify("Assez de matériaux • B pour construire ton premier feu.",4.3)
+			if campaign_phase==1: opening.added(r.kind,n)
 		"site": recover_part(nearest.index)
 		"phare":
 			if campaign_phase==1 and has_ember and pieces.count(true)==3:
@@ -847,8 +871,9 @@ func claim_part(i:int):
 
 func campaign_destination()->String:
 	match campaign_phase:
-		0: return "tv-port"
+		0: return opening.destination()
 		1:
+			if opening.step<StoryOpening.COMPLETE: return opening.destination()
 			for i in 3:
 				if not pieces[i]: return ["le-courlis","corne-de-brume","ateliers-salines"][i]
 			return "phare-keravel" if has_ember else "prairie-phare"
@@ -860,9 +885,10 @@ func campaign_destination()->String:
 	return ""
 
 func campaign_action()->Dictionary:
+	if campaign_phase in [0,1] and opening.step<StoryOpening.COMPLETE: return opening.action()
 	var id=campaign_destination()
 	if id=="" or id=="phare-keravel" or campaign_phase==1: return {}
-	var p:Vector2=KeravelMap.POINTS[id]
+	var p:Vector2=world.campaign.points[id]
 	if xy.distance_to(p)>4.4: return {}
 	var label="Lire le repère"
 	match campaign_phase:
@@ -877,7 +903,7 @@ func campaign_action()->Dictionary:
 	return {"kind":"campaign","id":id,"at":p,"label":label}
 
 func campaign_landing(id:String):
-	xy=KeravelMap.POINTS[id]
+	xy=world.campaign.points[id]
 	safe=xy
 	home=xy
 	velocity=Vector2.ZERO
@@ -886,12 +912,12 @@ func campaign_landing(id:String):
 
 func advance_campaign(id:String):
 	if id!=campaign_destination(): return
+	if campaign_phase in [0,1] and opening.step<StoryOpening.COMPLETE:
+		opening.accept(id)
+		campaign_track=""
+		save_run()
+		return
 	match campaign_phase:
-		0:
-			campaign_phase=1
-			campaign_landing("ponton-arrivee")
-			audio.effect("cloche",-4)
-			notify("Arrivée confirmée. Le phare est éteint depuis trois ans. Rallume-le.",6)
 		2:
 			campaign_phase=3
 			notify("Les registres du Baron désignent Kastell-Glas. La Veilleuse attend au port.",6)
@@ -1102,6 +1128,7 @@ func _process(delta):
 		signal_watch()
 		if sailing.is_empty(): move_player(dt)
 		else: sail(dt)
+		if campaign_phase==1: opening.tick(dt)
 		actor.pose(dt,speed if sailing.is_empty() else 0.,depth,ring_anim,night,visual_time)
 		ring_anim=maxf(0,ring_anim-dt); cool=maxf(0,cool-dt)
 		gather_cd=maxf(0,gather_cd-dt)
@@ -1134,6 +1161,10 @@ func _process(delta):
 			boat.rotation.z=sin(visual_time*.87)*.045
 	elif state=="cinema":
 		cinematic(dt)
+	elif state=="arrival_film":
+		update_sea()
+		world.atmosphere(visual_time,water,.23,.08,false)
+		opening.tick_crossing(dt)
 	elif state=="salvage":
 		salvage.tick(dt)
 	elif state=="won":

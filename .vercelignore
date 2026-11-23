@@ -1,0 +1,8 @@
+.git
+.godot
+.studio
+.vercel
+dist
+NIGHTLY_REPORT.md
+studio/visual/reports
+node_modules
