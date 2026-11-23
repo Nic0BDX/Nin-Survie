@@ -15,7 +15,7 @@ chmod +x "$editor"
 export XDG_DATA_HOME="$tools/data"
 templates="$XDG_DATA_HOME/godot/export_templates/${version}.stable"
 mkdir -p "$templates" dist
-unzip -j -q "$tools/templates.zip" templates/web_nothreads_release.zip -d "$templates"
+unzip -j -q "$tools/templates.zip" templates/web_nothreads_debug.zip templates/web_nothreads_release.zip -d "$templates"
 "$editor" --headless --path . --import
 "$editor" --headless --path . --export-release Web dist/index.html
 node web-host.mjs
