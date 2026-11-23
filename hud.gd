@@ -201,7 +201,10 @@ func _draw():
 			txt("Une nouvelle traversée remplacera ta sauvegarde.",r.position.x+30,r.position.y+123,18,MUTED)
 			button("confirm","Recommencer",Rect2(r.position+Vector2(30,164),Vector2(230,49)),true)
 			button("back","Retour",Rect2(r.position+Vector2(275,164),Vector2(205,49)))
-		"play": if not game.ui_hidden: play_hud()
+		"play":
+			if not game.ui_hidden:
+				play_hud()
+				if game.touch_mode: draw_touch_controls()
 		"pause": pause_panel()
 		"help": help_panel()
 		"map": atlas()
@@ -221,6 +224,46 @@ func _draw():
 
 func eyebrow(s:String,p:Vector2,col:Color=GOLD):
 	txt(s,p.x,p.y,14,col,mono)
+
+const TOUCH_KEYS=[KEY_E,KEY_B,KEY_M,KEY_R,KEY_SPACE,KEY_X,KEY_ESCAPE]
+const TOUCH_LABELS=["Agir","Plans","Carte","Ration","Cloche","Retirer","Pause"]
+
+func touch_rect(i:int)->Rect2:
+	if i==6: return Rect2(v.x-140,24,116,98)
+	return Rect2(v.x-390+(i%3)*122,v.y-242+floori(i/3.)*110,114,100)
+
+func touch_key(point:Vector2)->int:
+	if ui_scale<=0: return 0
+	for i in TOUCH_KEYS.size():
+		if touch_rect(i).has_point(point/ui_scale): return TOUCH_KEYS[i]
+	return 0
+
+func touch_stick_center()->Vector2:
+	return Vector2(150,v.y-146)
+
+func touch_stick_hit(point:Vector2)->bool:
+	return ui_scale>0 and point.distance_to(touch_stick_center()*ui_scale)<126*ui_scale
+
+func touch_stick_value(point:Vector2)->Vector2:
+	if ui_scale<=0: return Vector2.ZERO
+	var motion=(point/ui_scale-touch_stick_center())/88.
+	if motion.length()<.15: return Vector2.ZERO
+	return motion.limit_length()
+
+func draw_touch_controls():
+	var origin=touch_stick_center()
+	draw_circle(origin,112,Color(.03,.11,.13,.64))
+	draw_arc(origin,112,0,TAU,48,WASH,2,true)
+	draw_circle(origin+game.touch_move*72,43,Color(.84,.89,.80,.76))
+	for i in TOUCH_KEYS.size():
+		var r=touch_rect(i)
+		panel(r,Color(.03,.11,.13,.78),WASH)
+		var label:String=TOUCH_LABELS[i]
+		if game.camp.kind!="":
+			if i==0: label="Poser"
+			elif i==3: label="Tourner"
+			elif i==6: label="Ranger"
+		center(label,r.get_center().x,r.get_center().y+8,24,PAPER,bold)
 func middle(w:float,h:float)->Rect2: return Rect2((v-Vector2(w,h))*.5,Vector2(w,h))
 func modal_shade():
 	draw_rect(Rect2(Vector2.ZERO,v),Color(.016,.047,.063,.70))
@@ -293,7 +336,7 @@ func caption(s:String,p:Vector2,fs:int=19,col:Color=PAPER,f:Font=null):
 	txt(s,p.x,p.y,fs,col,font)
 
 func play_hud():
-	var x=34.;var base=v.y-42.
+	var x=34.;var base=v.y-(280. if game.touch_mode else 42.)
 	var c=Vector2(x+41,base-44)
 	# Brass tide watch, cream dial and a moving hand.
 	draw_circle(c,40,Color("#3a352b"));draw_circle(c,37,Color("#b18c52"));draw_circle(c,33,Color("#ead8af"))
@@ -314,8 +357,10 @@ func play_hud():
 	if game.stamina<94: caption("Souffle  %d"%ceili(game.stamina),Vector2(x+106,base+5),16,MINT)
 	var prompt=""
 	if game.camp.kind!="":
-		prompt=C.NAMES[game.camp.kind]+"   ·   "+(game.camp.reason if game.camp.reason!="" else "E poser   R tourner   Échap ranger")
-	elif not game.nearest.is_empty():prompt="[ E ]   "+game.nearest.label
+		prompt=C.NAMES[game.camp.kind]
+		if game.camp.reason!="": prompt+="   ·   "+game.camp.reason
+		elif not game.touch_mode: prompt+="   ·   E poser   R tourner   Échap ranger"
+	elif not game.nearest.is_empty():prompt=("" if game.touch_mode else "[ E ]   ")+game.nearest.label
 	if prompt!="":
 		var w=sans.get_string_size(prompt,HORIZONTAL_ALIGNMENT_LEFT,-1,20).x
 		caption(prompt,Vector2((v.x-w)/2,base-14),20)
@@ -337,10 +382,11 @@ func play_hud():
 		note=("Keravel" if i==3 else W.TITLES[i])+"   "+dirs[posmod(roundi(atan2(to.x,-to.y)/(PI/4)),8)]+"   %d m"%roundi(to.length())
 	elif game.age<40:note="Du bois, du silex, puis un feu.   B pour construire."
 	if note!="":caption(note,Vector2(35,99),18,GOLD,bold)
-	var action="B  Construire" if game.sailing.is_empty() else "E  Débarquer"
-	caption(action+"     M  Carte",Vector2(v.x-242,base),17,PAPER,bold)
-	if game.sailing.is_empty():register("craft",Rect2(v.x-248,base-22,125,29))
-	register("map",Rect2(v.x-117,base-22,100,29))
+	if not game.touch_mode:
+		var action="B  Construire" if game.sailing.is_empty() else "E  Débarquer"
+		caption(action+"     M  Carte",Vector2(v.x-242,base),17,PAPER,bold)
+		if game.sailing.is_empty():register("craft",Rect2(v.x-248,base-22,125,29))
+		register("map",Rect2(v.x-117,base-22,100,29))
 	if game.cool>0:caption("Cloche   %.0f s"%ceil(game.cool),Vector2(v.x-240,base-30),16,GOLD)
 	var bag="Bois %d   ·   Silex %d   ·   Rations %d"%[game.bag.wood,game.bag.stone,game.bag.food]
 	caption(bag,Vector2(v.x-297,base+24),15,PAPER)
@@ -349,10 +395,10 @@ func page_heading(r:Rect2,kicker:String,title:String,sub:String):
 	eyebrow(kicker,r.position+Vector2(34,34))
 	txt(title,r.position.x+32,r.position.y+86,44,PAPER,serif)
 	if sub!="": txt(sub,r.position.x+34,r.position.y+119,18,MUTED)
-	var back=Rect2(r.end.x-96,r.position.y+23,66,30)
+	var back=Rect2(r.end.x-130,r.position.y+18,100,66) if game.touch_mode else Rect2(r.end.x-96,r.position.y+23,66,30)
 	var hot=register("back",back)
 	panel(back,Color(.5,.6,.53,.12),GOLD if hot else WASH)
-	center("ÉCHAP",back.get_center().x,back.position.y+20,14,PAPER,mono)
+	center("Retour" if game.touch_mode else "ÉCHAP",back.get_center().x,back.get_center().y+5,16,PAPER,mono)
 
 func pause_panel():
 	modal_shade()

@@ -84,6 +84,10 @@ var dawn_fade=0.
 var settings=ConfigFile.new()
 var prompt_toggle=false
 var qa=false
+var touch_mode=false
+var move_finger=-1
+var look_finger=-1
+var touch_move=Vector2.ZERO
 var qa_save_path=""
 var save_timer_msg=0.
 var compass_targets=[]
@@ -107,6 +111,9 @@ var closing=false
 var marsh=preload("res://marais.gd").new()
 
 func _ready():
+	touch_mode=DisplayServer.is_touchscreen_available()
+	if OS.has_feature("web"):
+		touch_mode=touch_mode or bool(JavaScriptBridge.eval("matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0"))
 	qa=OS.get_cmdline_user_args().has("--qa")
 	if qa: qa_save_path="user://essai_"+str(OS.get_process_id())+".json"
 	rng.randomize()
@@ -123,6 +130,9 @@ func _ready():
 	camera.near=.15
 	camera.far=630
 	camera.fov=52
+	if touch_mode:
+		get_viewport().msaa_3d=Viewport.MSAA_DISABLED
+		world.sun.shadow_enabled=false
 	audio=Sound.new()
 	add_child(audio)
 	settings.load("user://preferences.cfg")
@@ -421,6 +431,7 @@ func set_actor_height(snap:bool=false,dt:float=.016):
 	actor.position=Vector3(xy.x,target if snap else lerpf(actor.position.y,target,1-exp(-dt*16.0)),xy.y)
 
 func open_panel(s:String):
+	reset_touch()
 	mouselook=false
 	Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
 	previous_panel=state
@@ -481,6 +492,9 @@ func command(id:String):
 
 func _input(event):
 	if not hud: return
+	if event is InputEventScreenTouch or event is InputEventScreenDrag:
+		handle_touch(event)
+		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		var k=event.keycode
 		if k==KEY_F11: toggle_fullscreen(); return
@@ -561,7 +575,47 @@ func _input(event):
 		if state=="play" and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:
 			zoom=clampf(zoom+(-1.45 if event.button_index==MOUSE_BUTTON_WHEEL_UP else 1.45),6.4,23.)
 
+func reset_touch():
+	move_finger=-1
+	look_finger=-1
+	touch_move=Vector2.ZERO
+
+func handle_touch(event):
+	touch_mode=true
+	if event is InputEventScreenTouch:
+		if not event.pressed or event.canceled:
+			if event.index==move_finger:
+				move_finger=-1
+				touch_move=Vector2.ZERO
+			if event.index==look_finger: look_finger=-1
+			return
+		if state!="play":
+			if state=="cinema": finish_cinematic()
+			else: hud.click_at(event.position)
+			return
+		var key:int=hud.touch_key(event.position)
+		if key!=0:
+			var press=InputEventKey.new()
+			press.keycode=key
+			press.pressed=true
+			_input(press)
+			return
+		if hud.touch_stick_hit(event.position) and move_finger==-1:
+			move_finger=event.index
+			touch_move=hud.touch_stick_value(event.position)
+		elif look_finger==-1:
+			look_finger=event.index
+	elif state=="play":
+		if event.index==move_finger:
+			touch_move=hud.touch_stick_value(event.position)
+		elif event.index==look_finger:
+			heading_free=3.3
+			yaw-=event.relative.x*.006
+			pitch=clampf(pitch+event.relative.y*.004,.12,.92)
+			camp.aim_from_mouse=false
+
 func input_move()->Vector2:
+	if touch_move!=Vector2.ZERO: return touch_move.rotated(-yaw)
 	var x=float(Input.is_physical_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT))-float(Input.is_physical_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT))
 	var z=float(Input.is_physical_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN))-float(Input.is_physical_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP))
 	return Vector2(x,z).normalized().rotated(-yaw)
@@ -579,7 +633,7 @@ func move_player(dt:float):
 	if Input.is_key_pressed(KEY_L): yaw-=dt*1.65
 	if stamina<2.1: exhausted=true
 	elif stamina>17.: exhausted=false
-	var sprint=Input.is_key_pressed(KEY_SHIFT) and not exhausted and dir!=Vector2.ZERO
+	var sprint=(Input.is_key_pressed(KEY_SHIFT) or touch_move.length()>.96) and not exhausted and dir!=Vector2.ZERO
 	var pace=5.0 if not sprint else 7.5
 	if depth>.12: pace=lerpf(pace,2.9 if not sprint else 3.7,clamp(depth,0,1))
 	velocity=velocity.move_toward(dir*pace,(20. if dir!=Vector2.ZERO else 29.)*dt)
@@ -982,10 +1036,10 @@ func disembark():
 	save_run()
 
 func sail(dt:float):
-	var ahead=Input.is_physical_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP)
-	var brake=Input.is_physical_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN)
-	var left=Input.is_physical_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT)
-	var right_key=Input.is_physical_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT)
+	var ahead=touch_move.y<-.25 or Input.is_physical_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP)
+	var brake=touch_move.y>.25 or Input.is_physical_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN)
+	var left=touch_move.x<-.25 or Input.is_physical_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT)
+	var right_key=touch_move.x>.25 or Input.is_physical_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT)
 	var turn=float(left)-float(right_key)
 	sailing.heading+=turn*dt*(1.47 if abs(sail_speed)>1.0 else 1.)
 	var front=Vector2(-sin(sailing.heading),-cos(sailing.heading))
